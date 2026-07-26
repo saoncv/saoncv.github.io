@@ -43,11 +43,11 @@
       </div>
     </div>
 
-    <!-- FLIP Fluid WebGL Simulator Card (Ten Minute Physics by Matthias Müller) -->
+    <!-- FLIP Fluid WebGL Simulator Card -->
     <div class="simulator-card">
       <div class="sim-header">
-        <h2 class="sim-title">FLIP Fluid WebGL Simulator</h2>
-        <p class="sim-subtitle">Simulação física de fluidos de alta fidelidade (Matthias Müller - Ten Minute Physics). Clique e arraste a esfera para mover o fluido!</p>
+        <h2 class="sim-title">Simulador de Fluidos FLIP (Escoamento 2D)</h2>
+        <p class="sim-subtitle">Clique e arraste o obstáculo vermelho para interagir com o fluido em tempo real!</p>
       </div>
 
       <div class="canvas-wrapper">
@@ -57,29 +57,29 @@
       <!-- Control Panel -->
       <div class="controls-panel">
         <label class="control-label-check">
-          <input type="checkbox" checked onclick="scene.showParticles = !scene.showParticles"> Particles
+          <input type="checkbox" checked onclick="window.scene.showParticles = !window.scene.showParticles"> Particles
         </label>
         
         <label class="control-label-check">
-          <input type="checkbox" onclick="scene.showGrid = !scene.showGrid"> Grid
+          <input type="checkbox" onclick="window.scene.showGrid = !window.scene.showGrid"> Grid
         </label>
         
         <label class="control-label-check">
-          <input type="checkbox" checked onclick="scene.compensateDrift = !scene.compensateDrift"> Compensate Drift
+          <input type="checkbox" checked onclick="window.scene.compensateDrift = !window.scene.compensateDrift"> Compensate Drift
         </label>
 
         <label class="control-label-check">
-          <input type="checkbox" checked onclick="scene.separateParticles = !scene.separateParticles"> Separate Particles
+          <input type="checkbox" checked onclick="window.scene.separateParticles = !window.scene.separateParticles"> Separate Particles
         </label>
 
         <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
           <span>PIC</span>
-          <input type="range" min="0" max="10" value="9" class="sim-slider" onchange="scene.flipRatio = 0.1 * this.value">
+          <input type="range" min="0" max="10" value="9" class="sim-slider" onchange="window.scene.flipRatio = 0.1 * this.value">
           <span>FLIP</span>
         </div>
 
-        <button id="startButton" class="sim-btn" onclick="toggleStart()">Stop</button>
-        <button class="sim-btn" style="background-color: #f97316; color: #fff;" onclick="setupScene()">Reset</button>
+        <button id="startButton" class="sim-btn" onclick="window.toggleStart()">Stop</button>
+        <button class="sim-btn" style="background-color: #f97316; color: #fff;" onclick="window.setupScene()">Reset</button>
       </div>
     </div>
 

@@ -1,28 +1,28 @@
 /* ==========================================================================
-   FLIP Fluid WebGL Simulation
-   Copyright 2022 Matthias Müller - Ten Minute Physics
-   www.youtube.com/c/TenMinutePhysics | www.matthiasMueller.info/tenMinutePhysics
-   MIT License
-   Integrated for Prof. Dr. Saon Crispim Vieira - UNICAMP / Petrobras
+   FLIP Fluid WebGL Simulation Engine
    ========================================================================== */
 
 var canvas = document.getElementById("myCanvas");
-var gl = canvas.getContext("webgl");
+var gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
 
-function resizeCanvas() {
-  const container = canvas.parentElement;
-  canvas.width = container.clientWidth;
-  canvas.height = container.clientHeight;
+var simHeight = 3.0;
+var cScale = 150.0;
+var simWidth = 4.0;
+
+function initCanvasSize() {
+  if (!canvas) return;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width > 0 ? rect.width : 700;
+  canvas.height = rect.height > 0 ? rect.height : 450;
+
+  cScale = canvas.height / simHeight;
+  simWidth = canvas.width / cScale;
 }
-resizeCanvas();
 
-var simHeight = 3.0;	
-var cScale = canvas.height / simHeight;
-var simWidth = canvas.width / cScale;
+initCanvasSize();
 
 var U_FIELD = 0;
 var V_FIELD = 1;
-
 var FLUID_CELL = 0;
 var AIR_CELL = 1;
 var SOLID_CELL = 2;
@@ -33,7 +33,7 @@ function clamp(x, min, max) {
   else return x;
 }
 
-// ----------------- start of simulator ------------------------------
+// ----------------- FLIP FLUID ENGINE ------------------------------
 
 class FlipFluid {
   constructor(density, width, height, spacing, particleRadius, maxParticles) {
@@ -59,8 +59,9 @@ class FlipFluid {
     this.maxParticles = maxParticles;
     this.particlePos = new Float32Array(2 * this.maxParticles);
     this.particleColor = new Float32Array(3 * this.maxParticles);
-    for (var i = 0; i < this.maxParticles; i++)
+    for (var i = 0; i < this.maxParticles; i++) {
       this.particleColor[3 * i + 2] = 1.0;
+    }
 
     this.particleVel = new Float32Array(2 * this.maxParticles);
     this.particleDensity = new Float32Array(this.fNumCells);
@@ -192,8 +193,8 @@ class FlipFluid {
       var d2 = dx * dx + dy * dy;
 
       if (d2 < minDist2) {
-        this.particleVel[2 * i] = scene.obstacleVelX;
-        this.particleVel[2 * i + 1] = scene.obstacleVelY;
+        this.particleVel[2 * i] = window.scene.obstacleVelX;
+        this.particleVel[2 * i + 1] = window.scene.obstacleVelY;
       }
 
       if (x < minX) {
@@ -423,33 +424,6 @@ class FlipFluid {
     }
   }
 
-  updateParticleColors() {
-    var h1 = this.fInvSpacing;
-    for (var i = 0; i < this.numParticles; i++) {
-      var s = 0.01;
-      this.particleColor[3 * i] = clamp(this.particleColor[3 * i] - s, 0.0, 1.0);
-      this.particleColor[3 * i + 1] = clamp(this.particleColor[3 * i + 1] - s, 0.0, 1.0);
-      this.particleColor[3 * i + 2] = clamp(this.particleColor[3 * i + 2] + s, 0.0, 1.0);
-
-      var x = this.particlePos[2 * i];
-      var y = this.particlePos[2 * i + 1];
-      var xi = clamp(Math.floor(x * h1), 1, this.fNumX - 1);
-      var yi = clamp(Math.floor(y * h1), 1, this.fNumY - 1);
-      var cellNr = xi * this.fNumY + yi;
-
-      var d0 = this.particleRestDensity;
-      if (d0 > 0.0) {
-        var relDensity = this.particleDensity[cellNr] / d0;
-        if (relDensity < 0.7) {
-          var sVal = 0.8;
-          this.particleColor[3 * i] = sVal;
-          this.particleColor[3 * i + 1] = sVal;
-          this.particleColor[3 * i + 2] = 1.0;
-        }
-      }
-    }
-  }
-
   setSciColor(cellNr, val, minVal, maxVal) {
     val = Math.min(Math.max(val, minVal), maxVal - 0.0001);
     var d = maxVal - minVal;
@@ -486,6 +460,33 @@ class FlipFluid {
     }
   }
 
+  updateParticleColors() {
+    var h1 = this.fInvSpacing;
+    for (var i = 0; i < this.numParticles; i++) {
+      var s = 0.01;
+      this.particleColor[3 * i] = clamp(this.particleColor[3 * i] - s, 0.0, 1.0);
+      this.particleColor[3 * i + 1] = clamp(this.particleColor[3 * i + 1] - s, 0.0, 1.0);
+      this.particleColor[3 * i + 2] = clamp(this.particleColor[3 * i + 2] + s, 0.0, 1.0);
+
+      var x = this.particlePos[2 * i];
+      var y = this.particlePos[2 * i + 1];
+      var xi = clamp(Math.floor(x * h1), 1, this.fNumX - 1);
+      var yi = clamp(Math.floor(y * h1), 1, this.fNumY - 1);
+      var cellNr = xi * this.fNumY + yi;
+
+      var d0 = this.particleRestDensity;
+      if (d0 > 0.0) {
+        var relDensity = this.particleDensity[cellNr] / d0;
+        if (relDensity < 0.7) {
+          var sVal = 0.8;
+          this.particleColor[3 * i] = sVal;
+          this.particleColor[3 * i + 1] = sVal;
+          this.particleColor[3 * i + 2] = 1.0;
+        }
+      }
+    }
+  }
+
   simulate(dt, gravity, flipRatio, numPressureIters, numParticleIters, overRelaxation, compensateDrift, separateParticles, obstacleX, obstacleY, obstacleRadius) {
     var numSubSteps = 1;
     var sdt = dt / numSubSteps;
@@ -505,13 +506,13 @@ class FlipFluid {
   }
 }
 
-// ----------------- end of simulator ------------------------------
+// ----------------- GLOBAL SCENE & CONTROLS ------------------------------
 
-var scene = {
+window.scene = {
   gravity: -9.81,
-  dt: 1.0 / 120.0,
+  dt: 1.0 / 60.0,
   flipRatio: 0.9,
-  numPressureIters: 100,
+  numPressureIters: 50,
   numParticleIters: 2,
   frameNr: 0,
   overRelaxation: 1.9,
@@ -529,14 +530,14 @@ var scene = {
   fluid: null
 };
 
-var f = null;
+window.setupScene = function() {
+  initCanvasSize();
 
-function setupScene() {
-  scene.obstacleRadius = 0.15;
-  scene.overRelaxation = 1.9;
-  scene.dt = 1.0 / 60.0;
-  scene.numPressureIters = 50;
-  scene.numParticleIters = 2;
+  window.scene.obstacleRadius = 0.15;
+  window.scene.overRelaxation = 1.9;
+  window.scene.dt = 1.0 / 60.0;
+  window.scene.numPressureIters = 50;
+  window.scene.numParticleIters = 2;
 
   var res = 100;
   var tankHeight = 1.0 * simHeight;
@@ -555,7 +556,7 @@ function setupScene() {
   var numY = Math.floor((relWaterHeight * tankHeight - 2.0 * h - 2.0 * r) / dy);
   var maxParticles = numX * numY;
 
-  f = scene.fluid = new FlipFluid(density, tankWidth, tankHeight, h, r, maxParticles);
+  var f = window.scene.fluid = new FlipFluid(density, tankWidth, tankHeight, h, r, maxParticles);
   f.numParticles = numX * numY;
 
   var p = 0;
@@ -575,11 +576,10 @@ function setupScene() {
     }
   }
 
-  setObstacle(3.0, 2.0, true);
-}
+  setObstacle(simWidth * 0.5, simHeight * 0.5, true);
+};
 
-// draw -------------------------------------------------------
-
+// Shaders
 const pointVertexShader = `
   attribute vec2 attrPosition;
   attribute vec3 attrColor;
@@ -668,7 +668,9 @@ var diskVertBuffer = null;
 var diskIdBuffer = null;
 
 function draw() {
-  gl.clearColor(0.0, 0.0, 0.0, 1.0);
+  if (!gl || !window.scene.fluid) return;
+
+  gl.clearColor(0.05, 0.08, 0.14, 1.0);
   gl.clear(gl.COLOR_BUFFER_BIT);
   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
@@ -676,7 +678,7 @@ function draw() {
   if (meshShader == null) meshShader = createShader(gl, meshVertexShader, meshFragmentShader);
 
   if (gridVertBuffer == null) {
-    var f = scene.fluid;
+    var f = window.scene.fluid;
     gridVertBuffer = gl.createBuffer();
     var cellCenters = new Float32Array(2 * f.fNumCells);
     var p = 0;
@@ -693,8 +695,8 @@ function draw() {
 
   if (gridColorBuffer == null) gridColorBuffer = gl.createBuffer();
 
-  if (scene.showGrid) {
-    var pointSize = 0.9 * scene.fluid.h / simWidth * canvas.width;
+  if (window.scene.showGrid) {
+    var pointSize = 0.9 * window.scene.fluid.h / simWidth * canvas.width;
     gl.useProgram(pointShader);
     gl.uniform2f(gl.getUniformLocation(pointShader, 'domainSize'), simWidth, simHeight);
     gl.uniform1f(gl.getUniformLocation(pointShader, 'pointSize'), pointSize);
@@ -706,21 +708,21 @@ function draw() {
     gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
 
     gl.bindBuffer(gl.ARRAY_BUFFER, gridColorBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, scene.fluid.cellColor, gl.DYNAMIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, window.scene.fluid.cellColor, gl.DYNAMIC_DRAW);
 
     var colorLoc = gl.getAttribLocation(pointShader, 'attrColor');
     gl.enableVertexAttribArray(colorLoc);
     gl.vertexAttribPointer(colorLoc, 3, gl.FLOAT, false, 0, 0);
 
-    gl.drawArrays(gl.POINTS, 0, scene.fluid.fNumCells);
+    gl.drawArrays(gl.POINTS, 0, window.scene.fluid.fNumCells);
     gl.disableVertexAttribArray(posLoc);
     gl.disableVertexAttribArray(colorLoc);
     gl.bindBuffer(gl.ARRAY_BUFFER, null);
   }
 
-  if (scene.showParticles) {
+  if (window.scene.showParticles) {
     gl.clear(gl.DEPTH_BUFFER_BIT);
-    var pointSize = 2.0 * scene.fluid.particleRadius / simWidth * canvas.width;
+    var pointSize = 2.0 * window.scene.fluid.particleRadius / simWidth * canvas.width;
 
     gl.useProgram(pointShader);
     gl.uniform2f(gl.getUniformLocation(pointShader, 'domainSize'), simWidth, simHeight);
@@ -731,25 +733,26 @@ function draw() {
     if (pointColorBuffer == null) pointColorBuffer = gl.createBuffer();
 
     gl.bindBuffer(gl.ARRAY_BUFFER, pointVertexBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, scene.fluid.particlePos, gl.DYNAMIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, window.scene.fluid.particlePos, gl.DYNAMIC_DRAW);
 
     var posLoc = gl.getAttribLocation(pointShader, 'attrPosition');
     gl.enableVertexAttribArray(posLoc);
     gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
 
     gl.bindBuffer(gl.ARRAY_BUFFER, pointColorBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, scene.fluid.particleColor, gl.DYNAMIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, window.scene.fluid.particleColor, gl.DYNAMIC_DRAW);
 
     var colorLoc = gl.getAttribLocation(pointShader, 'attrColor');
     gl.enableVertexAttribArray(colorLoc);
     gl.vertexAttribPointer(colorLoc, 3, gl.FLOAT, false, 0, 0);
 
-    gl.drawArrays(gl.POINTS, 0, scene.fluid.numParticles);
+    gl.drawArrays(gl.POINTS, 0, window.scene.fluid.numParticles);
     gl.disableVertexAttribArray(posLoc);
     gl.disableVertexAttribArray(colorLoc);
     gl.bindBuffer(gl.ARRAY_BUFFER, null);
   }
 
+  // Draw Disk Obstacle
   var numSegs = 50;
   if (diskVertBuffer == null) {
     diskVertBuffer = gl.createBuffer();
@@ -780,15 +783,15 @@ function draw() {
   }
 
   gl.clear(gl.DEPTH_BUFFER_BIT);
-  var diskColor = [1.0, 0.0, 0.0];
+  var diskColor = [0.95, 0.35, 0.15];
 
   gl.useProgram(meshShader);
   gl.uniform2f(gl.getUniformLocation(meshShader, 'domainSize'), simWidth, simHeight);
   gl.uniform3f(gl.getUniformLocation(meshShader, 'color'), diskColor[0], diskColor[1], diskColor[2]);
-  gl.uniform2f(gl.getUniformLocation(meshShader, 'translation'), scene.obstacleX, scene.obstacleY);
-  gl.uniform1f(gl.getUniformLocation(meshShader, 'scale'), scene.obstacleRadius + scene.fluid.particleRadius);
+  gl.uniform2f(gl.getUniformLocation(meshShader, 'translation'), window.scene.obstacleX, window.scene.obstacleY);
+  gl.uniform1f(gl.getUniformLocation(meshShader, 'scale'), window.scene.obstacleRadius + window.scene.fluid.particleRadius);
 
-  posLoc = gl.getAttribLocation(meshShader, 'attrPosition');
+  var posLoc = gl.getAttribLocation(meshShader, 'attrPosition');
   gl.enableVertexAttribArray(posLoc);
   gl.bindBuffer(gl.ARRAY_BUFFER, diskVertBuffer);
   gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
@@ -803,14 +806,14 @@ function setObstacle(x, y, reset) {
   var vy = 0.0;
 
   if (!reset) {
-    vx = (x - scene.obstacleX) / scene.dt;
-    vy = (y - scene.obstacleY) / scene.dt;
+    vx = (x - window.scene.obstacleX) / window.scene.dt;
+    vy = (y - window.scene.obstacleY) / window.scene.dt;
   }
 
-  scene.obstacleX = x;
-  scene.obstacleY = y;
-  var r = scene.obstacleRadius;
-  var f = scene.fluid;
+  window.scene.obstacleX = x;
+  window.scene.obstacleY = y;
+  var r = window.scene.obstacleRadius;
+  var f = window.scene.fluid;
   if (!f) return;
   var n = f.fNumY;
 
@@ -830,13 +833,12 @@ function setObstacle(x, y, reset) {
     }
   }
 
-  scene.showObstacle = true;
-  scene.obstacleVelX = vx;
-  scene.obstacleVelY = vy;
+  window.scene.showObstacle = true;
+  window.scene.obstacleVelX = vx;
+  window.scene.obstacleVelY = vy;
 }
 
-// interaction -------------------------------------------------------
-
+// Interaction
 var mouseDown = false;
 
 function startDrag(x, y) {
@@ -849,7 +851,7 @@ function startDrag(x, y) {
   y = (canvas.height - my) / cScale;
 
   setObstacle(x, y, true);
-  scene.paused = false;
+  window.scene.paused = false;
 }
 
 function drag(x, y) {
@@ -865,8 +867,8 @@ function drag(x, y) {
 
 function endDrag() {
   mouseDown = false;
-  scene.obstacleVelX = 0.0;
-  scene.obstacleVelY = 0.0;
+  window.scene.obstacleVelX = 0.0;
+  window.scene.obstacleVelY = 0.0;
 }
 
 canvas.addEventListener('mousedown', event => {
@@ -895,33 +897,24 @@ canvas.addEventListener('touchmove', event => {
   drag(event.touches[0].clientX, event.touches[0].clientY);
 }, { passive: false });
 
-document.addEventListener('keydown', event => {
-  switch (event.key) {
-    case 'p': scene.paused = !scene.paused; break;
-    case 'm': scene.paused = false; simulate(); scene.paused = true; break;
-  }
-});
-
-function toggleStart() {
+window.toggleStart = function() {
   var button = document.getElementById('startButton');
-  if (scene.paused) {
+  if (window.scene.paused) {
     if (button) button.innerHTML = "Stop";
   } else {
     if (button) button.innerHTML = "Start";
   }
-  scene.paused = !scene.paused;
-}
-
-// main -------------------------------------------------------
+  window.scene.paused = !window.scene.paused;
+};
 
 function simulate() {
-  if (!scene.paused && scene.fluid) {
-    scene.fluid.simulate(
-      scene.dt, scene.gravity, scene.flipRatio, scene.numPressureIters, scene.numParticleIters,
-      scene.overRelaxation, scene.compensateDrift, scene.separateParticles,
-      scene.obstacleX, scene.obstacleY, scene.obstacleRadius
+  if (!window.scene.paused && window.scene.fluid) {
+    window.scene.fluid.simulate(
+      window.scene.dt, window.scene.gravity, window.scene.flipRatio, window.scene.numPressureIters, window.scene.numParticleIters,
+      window.scene.overRelaxation, window.scene.compensateDrift, window.scene.separateParticles,
+      window.scene.obstacleX, window.scene.obstacleY, window.scene.obstacleRadius
     );
-    scene.frameNr++;
+    window.scene.frameNr++;
   }
 }
 
@@ -931,5 +924,11 @@ function update() {
   requestAnimationFrame(update);
 }
 
-setupScene();
+// Window load trigger
+window.addEventListener('resize', function() {
+  initCanvasSize();
+});
+
+initCanvasSize();
+window.setupScene();
 update();
