@@ -1,5 +1,6 @@
 /* ==========================================================================
-   FLIP Fluid WebGL Simulation Engine (Ultra-Optimized & Cross-Browser)
+   FLIP Fluid WebGL Engine - Pressure Color Mapping, Hybrid Passive/Active FSI,
+   and Complete Non-Inertial Frame Pseudo-Forces (D'Alembert Mechanics)
    ========================================================================== */
 
 var canvas = document.getElementById("myCanvas");
@@ -51,6 +52,94 @@ function clamp(x, min, max) {
   else return x;
 }
 
+// ----------------- NON-INERTIAL FRAME SENSOR ENGINE ------------------------------
+
+var sensorData = {
+  hasOrientation: false,
+  hasMotion: false,
+  beta: 0,        // Pitch angle (-180 to 180 deg)
+  gamma: 0,       // Roll angle (-90 to 90 deg)
+  ax: 0,          // Frame linear acceleration X (m/s^2)
+  ay: 0,          // Frame linear acceleration Y (m/s^2)
+  wz: 0,          // Angular velocity Z (rad/s)
+  prevWz: 0,
+  dotWz: 0,       // Angular acceleration Euler (rad/s^2)
+  lastTime: performance.now()
+};
+
+if (window.DeviceOrientationEvent) {
+  window.addEventListener('deviceorientation', function(e) {
+    if (e.beta !== null && e.gamma !== null) {
+      sensorData.hasOrientation = true;
+      sensorData.beta = e.beta;
+      sensorData.gamma = e.gamma;
+    }
+  }, true);
+}
+
+if (window.DeviceMotionEvent) {
+  window.addEventListener('devicemotion', function(e) {
+    const now = performance.now();
+    const dt = Math.max(0.001, (now - sensorData.lastTime) / 1000.0);
+    sensorData.lastTime = now;
+
+    if (e.acceleration && e.acceleration.x !== null) {
+      sensorData.hasMotion = true;
+      sensorData.ax = e.acceleration.x || 0;
+      sensorData.ay = e.acceleration.y || 0;
+    }
+
+    if (e.rotationRate && e.rotationRate.gamma !== null) {
+      sensorData.hasMotion = true;
+      const currentWz = (e.rotationRate.gamma || 0) * (Math.PI / 180.0);
+      sensorData.dotWz = (currentWz - sensorData.wz) / dt;
+      sensorData.wz = currentWz;
+    }
+  }, true);
+}
+
+// Compute Complete Non-Inertial Pseudo-Forces (D'Alembert Acceleration)
+function getEfectiveAcceleration(px, py, vx, vy) {
+  let gx = 0.0;
+  let gy = window.scene.gravity; // Default inertial gravity (-9.81 m/s^2)
+
+  if (sensorData.hasOrientation) {
+    const radBeta = sensorData.beta * (Math.PI / 180.0);
+    const radGamma = sensorData.gamma * (Math.PI / 180.0);
+    const gMag = 9.81;
+    gx = gMag * Math.sin(radGamma);
+    gy = -gMag * Math.cos(radBeta);
+  }
+
+  // 1. Translation Pseudo-force (-a_frame)
+  if (sensorData.hasMotion) {
+    gx -= sensorData.ax;
+    gy -= sensorData.ay;
+  }
+
+  // Position relative to tank center
+  const rx = px - simWidth * 0.5;
+  const ry = py - simHeight * 0.5;
+  const wz = sensorData.wz;
+
+  // 2. Coriolis Acceleration (-2 * w x v)
+  const aCoriolisX = 2.0 * wz * vy;
+  const aCoriolisY = -2.0 * wz * vx;
+
+  // 3. Centrifugal Acceleration (-w x (w x r) = w^2 * r)
+  const aCentrifugalX = wz * wz * rx;
+  const aCentrifugalY = wz * wz * ry;
+
+  // 4. Euler Acceleration (-dot_w x r)
+  const aEulerX = -sensorData.dotWz * ry;
+  const aEulerY = sensorData.dotWz * rx;
+
+  return {
+    ax: gx + aCoriolisX + aCentrifugalX + aEulerX,
+    ay: gy + aCoriolisY + aCentrifugalY + aEulerY
+  };
+}
+
 // ----------------- FLIP FLUID ENGINE ------------------------------
 
 class FlipFluid {
@@ -98,9 +187,18 @@ class FlipFluid {
     this.numParticles = 0;
   }
 
-  integrateParticles(dt, gravity) {
+  integrateParticles(dt) {
     for (var i = 0; i < this.numParticles; i++) {
-      this.particleVel[2 * i + 1] += dt * gravity;
+      const px = this.particlePos[2 * i];
+      const py = this.particlePos[2 * i + 1];
+      const vx = this.particleVel[2 * i];
+      const vy = this.particleVel[2 * i + 1];
+
+      // Non-Inertial Pseudo-Forces Integration
+      const aEfective = getEfectiveAcceleration(px, py, vx, vy);
+
+      this.particleVel[2 * i] += dt * aEfective.ax;
+      this.particleVel[2 * i + 1] += dt * aEfective.ay;
       this.particlePos[2 * i] += this.particleVel[2 * i] * dt;
       this.particlePos[2 * i + 1] += this.particleVel[2 * i + 1] * dt;
     }
@@ -202,6 +300,9 @@ class FlipFluid {
     var minY = h + r;
     var maxY = (this.fNumY - 1) * h - r;
 
+    let totalForceX = 0.0;
+    let totalForceY = 0.0;
+
     for (var i = 0; i < this.numParticles; i++) {
       var x = this.particlePos[2 * i];
       var y = this.particlePos[2 * i + 1];
@@ -210,11 +311,29 @@ class FlipFluid {
       var dy = y - obstacleY;
       var d2 = dx * dx + dy * dy;
 
-      if (d2 < minDist2) {
-        this.particleVel[2 * i] = window.scene.obstacleVelX;
-        this.particleVel[2 * i + 1] = window.scene.obstacleVelY;
+      if (d2 < minDist2 && d2 > 0.0) {
+        var d = Math.sqrt(d2);
+        var nx = dx / d;
+        var ny = dy / d;
+        var overlap = minDist - d;
+
+        // Kinematic separation
+        this.particlePos[2 * i] += nx * overlap;
+        this.particlePos[2 * i + 1] += ny * overlap;
+
+        if (window.scene.isDraggingObstacle) {
+          // Active Mode: Particle inherits dragged obstacle velocity
+          this.particleVel[2 * i] = window.scene.obstacleVelX;
+          this.particleVel[2 * i + 1] = window.scene.obstacleVelY;
+        } else {
+          // Passive FSI Mode: Reaction force imparted on sphere
+          const impulse = overlap * 18.0;
+          totalForceX -= nx * impulse;
+          totalForceY -= ny * impulse;
+        }
       }
 
+      // Tank Wall Boundaries
       if (x < minX) {
         x = minX;
         this.particleVel[2 * i] = 0.0;
@@ -233,6 +352,12 @@ class FlipFluid {
       }
       this.particlePos[2 * i] = x;
       this.particlePos[2 * i + 1] = y;
+    }
+
+    // Transfer hydrodynamic reaction forces to passive red sphere
+    if (!window.scene.isDraggingObstacle) {
+      window.scene.obstacleVx += totalForceX * 0.005;
+      window.scene.obstacleVy += totalForceY * 0.005;
     }
   }
 
@@ -478,30 +603,32 @@ class FlipFluid {
     }
   }
 
+  // Update Particle Colors Based on Hydrodynamic Pressure Field (p_ij)
   updateParticleColors() {
     var h1 = this.fInvSpacing;
     for (var i = 0; i < this.numParticles; i++) {
-      var s = 0.01;
-      this.particleColor[3 * i] = clamp(this.particleColor[3 * i] - s, 0.0, 1.0);
-      this.particleColor[3 * i + 1] = clamp(this.particleColor[3 * i + 1] - s, 0.0, 1.0);
-      this.particleColor[3 * i + 2] = clamp(this.particleColor[3 * i + 2] + s, 0.0, 1.0);
-
       var x = this.particlePos[2 * i];
       var y = this.particlePos[2 * i + 1];
       var xi = clamp(Math.floor(x * h1), 1, this.fNumX - 1);
       var yi = clamp(Math.floor(y * h1), 1, this.fNumY - 1);
       var cellNr = xi * this.fNumY + yi;
 
+      // Extract pressure p_ij resolved by Poisson Grid Solver
+      var cellPressure = Math.abs(this.p[cellNr]);
       var d0 = this.particleRestDensity;
-      if (d0 > 0.0) {
-        var relDensity = this.particleDensity[cellNr] / d0;
-        if (relDensity < 0.7) {
-          var sVal = 0.8;
-          this.particleColor[3 * i] = sVal;
-          this.particleColor[3 * i + 1] = sVal;
-          this.particleColor[3 * i + 2] = 1.0;
-        }
-      }
+      var relDensity = d0 > 0.0 ? this.particleDensity[cellNr] / d0 : 1.0;
+
+      // Hydrodynamic pressure metric
+      var pNorm = Math.min(1.0, (cellPressure * 0.00015) + Math.max(0, relDensity - 0.9) * 1.2);
+
+      // Color mapping: Low pressure -> Cyan (#38bdf8), Mid -> Blue/Purple, High -> Bright Red (#ef4444)
+      var r = pNorm > 0.4 ? (pNorm - 0.4) * 1.6 : 0.1;
+      var g = pNorm < 0.6 ? 0.75 * (1.0 - pNorm) : 0.1;
+      var b = 0.9 - (pNorm * 0.7);
+
+      this.particleColor[3 * i] = clamp(r, 0.0, 1.0);
+      this.particleColor[3 * i + 1] = clamp(g, 0.0, 1.0);
+      this.particleColor[3 * i + 2] = clamp(b, 0.0, 1.0);
     }
   }
 
@@ -510,7 +637,7 @@ class FlipFluid {
     var sdt = dt / numSubSteps;
 
     for (var step = 0; step < numSubSteps; step++) {
-      this.integrateParticles(sdt, gravity);
+      this.integrateParticles(sdt);
       if (separateParticles) this.pushParticlesApart(numParticleIters);
       this.handleParticleCollisions(obstacleX, obstacleY, obstacleRadius);
       this.transferVelocities(true);
@@ -536,9 +663,15 @@ window.scene = {
   overRelaxation: 1.9,
   compensateDrift: true,
   separateParticles: true,
-  obstacleX: 0.0,
-  obstacleY: 0.0,
+
+  // Hybrid Red Sphere Obstacle Properties
+  obstacleX: 2.0,
+  obstacleY: 1.5,
+  obstacleVx: 0.0,
+  obstacleVy: 0.0,
   obstacleRadius: 0.15,
+  isDraggingObstacle: false,
+
   paused: false,
   showObstacle: true,
   obstacleVelX: 0.0,
@@ -556,6 +689,11 @@ window.setupScene = function() {
   window.scene.dt = 1.0 / 60.0;
   window.scene.numPressureIters = 50;
   window.scene.numParticleIters = 2;
+
+  window.scene.obstacleX = simWidth * 0.5;
+  window.scene.obstacleY = simHeight * 0.5;
+  window.scene.obstacleVx = 0.0;
+  window.scene.obstacleVy = 0.0;
 
   var res = 100;
   var tankHeight = 1.0 * simHeight;
@@ -594,10 +732,10 @@ window.setupScene = function() {
     }
   }
 
-  setObstacle(simWidth * 0.5, simHeight * 0.5, true);
+  setObstacle(window.scene.obstacleX, window.scene.obstacleY, true);
 };
 
-// Shaders with Explicit Precision & Fast Uniform Pre-fetching
+// Shaders with Explicit Precision
 const pointVertexShader = `
   precision mediump float;
   attribute vec2 attrPosition;
@@ -675,7 +813,6 @@ function createShader(gl, vsSource, fsSource) {
   gl.attachShader(shader, fsShader);
   gl.linkProgram(shader);
 
-  // Pre-fetch attribute and uniform locations for zero-overhead per frame
   shader.locs = {};
   shader.locs.domainSize = gl.getUniformLocation(shader, 'domainSize');
   shader.locs.pointSize = gl.getUniformLocation(shader, 'pointSize');
@@ -869,25 +1006,30 @@ function setObstacle(x, y, reset) {
   window.scene.obstacleVelY = vy;
 }
 
-// Interaction
-var mouseDown = false;
-
+// Interactive Mouse Dragging (Hybrid Passive/Active Sphere)
 function startDrag(x, y) {
   if (!canvas) return;
   let bounds = canvas.getBoundingClientRect();
   let mx = x - bounds.left - canvas.clientLeft;
   let my = y - bounds.top - canvas.clientTop;
-  mouseDown = true;
 
   x = mx / cScale;
   y = (canvas.height - my) / cScale;
 
-  setObstacle(x, y, true);
-  window.scene.paused = false;
+  const dx = x - window.scene.obstacleX;
+  const dy = y - window.scene.obstacleY;
+  const dist = Math.sqrt(dx * dx + dy * dy);
+
+  // Grab red sphere if clicked within its radius
+  if (dist < window.scene.obstacleRadius * 1.8) {
+    window.scene.isDraggingObstacle = true;
+    setObstacle(x, y, true);
+    window.scene.paused = false;
+  }
 }
 
 function drag(x, y) {
-  if (mouseDown && canvas) {
+  if (window.scene.isDraggingObstacle && canvas) {
     let bounds = canvas.getBoundingClientRect();
     let mx = x - bounds.left - canvas.clientLeft;
     let my = y - bounds.top - canvas.clientTop;
@@ -898,9 +1040,11 @@ function drag(x, y) {
 }
 
 function endDrag() {
-  mouseDown = false;
-  window.scene.obstacleVelX = 0.0;
-  window.scene.obstacleVelY = 0.0;
+  if (window.scene.isDraggingObstacle) {
+    window.scene.isDraggingObstacle = false;
+    window.scene.obstacleVx = window.scene.obstacleVelX;
+    window.scene.obstacleVy = window.scene.obstacleVelY;
+  }
 }
 
 canvas.addEventListener('mousedown', event => {
@@ -924,9 +1068,11 @@ canvas.addEventListener('touchend', event => {
 });
 
 canvas.addEventListener('touchmove', event => {
-  event.preventDefault();
-  event.stopImmediatePropagation();
-  drag(event.touches[0].clientX, event.touches[0].clientY);
+  if (window.scene.isDraggingObstacle) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    drag(event.touches[0].clientX, event.touches[0].clientY);
+  }
 }, { passive: false });
 
 window.toggleStart = function() {
@@ -939,10 +1085,38 @@ window.toggleStart = function() {
   window.scene.paused = !window.scene.paused;
 };
 
+// Physics Simulation Loop
 function simulate() {
   if (!window.scene.paused && window.scene.fluid) {
+    const dt = window.scene.dt;
+
+    // Passive FSI Integration for Red Sphere (When not dragged)
+    if (!window.scene.isDraggingObstacle) {
+      const aEf = getEfectiveAcceleration(window.scene.obstacleX, window.scene.obstacleY, window.scene.obstacleVx, window.scene.obstacleVy);
+      
+      window.scene.obstacleVx += aEf.ax * dt;
+      window.scene.obstacleVy += aEf.ay * dt;
+
+      // Apply damping
+      window.scene.obstacleVx *= 0.98;
+      window.scene.obstacleVy *= 0.98;
+
+      let newX = window.scene.obstacleX + window.scene.obstacleVx * dt;
+      let newY = window.scene.obstacleY + window.scene.obstacleVy * dt;
+
+      // Tank Wall Bounce Boundaries for Sphere
+      const r = window.scene.obstacleRadius + 0.05;
+      if (newX < r) { newX = r; window.scene.obstacleVx *= -0.5; }
+      if (newX > simWidth - r) { newX = simWidth - r; window.scene.obstacleVx *= -0.5; }
+      if (newY < r) { newY = r; window.scene.obstacleVy *= -0.5; }
+      if (newY > simHeight - r) { newY = simHeight - r; window.scene.obstacleVy *= -0.5; }
+
+      setObstacle(newX, newY, false);
+    }
+
+    // Simulate FLIP fluid
     window.scene.fluid.simulate(
-      window.scene.dt, window.scene.gravity, window.scene.flipRatio, window.scene.numPressureIters, window.scene.numParticleIters,
+      dt, window.scene.gravity, window.scene.flipRatio, window.scene.numPressureIters, window.scene.numParticleIters,
       window.scene.overRelaxation, window.scene.compensateDrift, window.scene.separateParticles,
       window.scene.obstacleX, window.scene.obstacleY, window.scene.obstacleRadius
     );
