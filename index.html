@@ -43,27 +43,42 @@
       </div>
     </div>
 
-    <!-- Interactive Multiphase Lava Lamp Fluid Simulator -->
+    <!-- Interactive CFD Particle Fluid Simulator -->
     <div class="simulator-card">
       <div class="sim-header">
-        <h2 class="sim-title">Simulador de Fluidos Lava Lamp (Escoamento Multifásico 2D)</h2>
-        <p class="sim-subtitle"><strong>💡 Dica:</strong> Clique diretamente sobre as gotas de óleo para quebrá-las! Arraste o mouse para criar correntes.</p>
+        <h2 class="sim-title">Simulador de Fluidos CFD (Mapeamento Dinâmico de Cores)</h2>
+        <p class="sim-subtitle">Mova o mouse para agitar o fluido e criar vórtices. Clique para disparar uma onda de choque de pressão!</p>
       </div>
 
       <div class="canvas-wrapper">
         <canvas id="fluid-canvas"></canvas>
       </div>
 
+      <!-- Color Spectrum Scale -->
+      <div class="legend-bar">
+        <span>Baixa Velocidade / Pressão</span>
+        <div class="color-gradient"></div>
+        <span>Alta Velocidade / Pressão</span>
+      </div>
+
       <!-- Control Panel -->
       <div class="controls-panel">
         <div class="control-group">
-          <span class="control-label">Aquecimento:</span>
-          <input type="range" id="heat-slider" class="sim-slider" min="0.4" max="2.5" step="0.1" value="1.2">
+          <span class="control-label">Mapeamento de Cor:</span>
+          <select id="metric-select" class="sim-select">
+            <option value="speed">Velocidade (|v|)</option>
+            <option value="pressure">Pressão Hidrostática (P)</option>
+            <option value="mixed">Misto (Velocidade + Pressão)</option>
+          </select>
         </div>
 
-        <button id="spawn-blob-btn" class="sim-btn">Gerar Nova Gota</button>
+        <div class="control-group">
+          <span class="control-label">Viscosidade:</span>
+          <input type="range" id="visc-slider" class="sim-slider" min="0.90" max="0.99" step="0.01" value="0.96">
+        </div>
 
-        <button id="stir-fluid-btn" class="sim-btn" style="background-color: #f97316; color: #fff;">Agitar Fluido</button>
+        <button id="blast-btn" class="sim-btn" style="background-color: #ef4444; color: #fff;">Onda de Choque</button>
+        <button id="reset-btn" class="sim-btn">Resetar</button>
       </div>
     </div>
 
