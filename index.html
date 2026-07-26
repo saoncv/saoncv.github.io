@@ -43,28 +43,43 @@
       </div>
     </div>
 
-    <!-- Sebastian Lague / Coding Train Style Gas-Liquid Interface Simulator -->
+    <!-- FLIP Fluid WebGL Simulator Card (Ten Minute Physics by Matthias Müller) -->
     <div class="simulator-card">
       <div class="sim-header">
-        <h2 class="sim-title">Simulador de Interface Gás-Líquido 2D</h2>
-        <p class="sim-subtitle"><strong>💡 Dica:</strong> Mova o mouse sobre a interface para criar ondas e marolas. Clique no líquido para injetar bolhas de gás!</p>
+        <h2 class="sim-title">FLIP Fluid WebGL Simulator</h2>
+        <p class="sim-subtitle">Simulação física de fluidos de alta fidelidade (Matthias Müller - Ten Minute Physics). Clique e arraste a esfera para mover o fluido!</p>
       </div>
 
       <div class="canvas-wrapper">
-        <canvas id="fluid-canvas"></canvas>
+        <canvas id="myCanvas"></canvas>
       </div>
 
       <!-- Control Panel -->
       <div class="controls-panel">
-        <button id="bubble-btn" class="sim-btn">Injetar Bolha de Gás</button>
-        <button id="splash-btn" class="sim-btn" style="background-color: #0284c7; color: #fff;">Gerar Onda (Splash)</button>
+        <label class="control-label-check">
+          <input type="checkbox" checked onclick="scene.showParticles = !scene.showParticles"> Particles
+        </label>
+        
+        <label class="control-label-check">
+          <input type="checkbox" onclick="scene.showGrid = !scene.showGrid"> Grid
+        </label>
+        
+        <label class="control-label-check">
+          <input type="checkbox" checked onclick="scene.compensateDrift = !scene.compensateDrift"> Compensate Drift
+        </label>
 
-        <div class="control-group">
-          <span class="control-label">Tensão Interfacial:</span>
-          <input type="range" id="tension-slider" class="sim-slider" min="0.02" max="0.20" step="0.01" value="0.08">
+        <label class="control-label-check">
+          <input type="checkbox" checked onclick="scene.separateParticles = !scene.separateParticles"> Separate Particles
+        </label>
+
+        <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
+          <span>PIC</span>
+          <input type="range" min="0" max="10" value="9" class="sim-slider" onchange="scene.flipRatio = 0.1 * this.value">
+          <span>FLIP</span>
         </div>
 
-        <button id="reset-btn" class="sim-btn">Resetar Interface</button>
+        <button id="startButton" class="sim-btn" onclick="toggleStart()">Stop</button>
+        <button class="sim-btn" style="background-color: #f97316; color: #fff;" onclick="setupScene()">Reset</button>
       </div>
     </div>
 

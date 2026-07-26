@@ -27,7 +27,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  max-width: 820px;
+  max-width: 860px;
   width: 100%;
 }
 
@@ -121,7 +121,7 @@ body {
   transform: translateY(-2px);
 }
 
-/* Gas-Liquid Simulator Card */
+/* FLIP Fluid Simulator Card */
 .simulator-card {
   background-color: var(--bg-card);
   border: 1px solid var(--border);
@@ -151,18 +151,22 @@ body {
 .canvas-wrapper {
   position: relative;
   width: 100%;
-  max-width: 540px;
-  height: 440px;
+  max-width: 720px;
+  height: 460px;
   margin: 0 auto 1.2rem;
-  background: #090d16;
+  background: #000000;
   border-radius: 16px;
   border: 2px solid var(--border);
   overflow: hidden;
   box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
-  cursor: pointer;
+  cursor: grab;
 }
 
-#fluid-canvas {
+.canvas-wrapper:active {
+  cursor: grabbing;
+}
+
+#myCanvas {
   width: 100%;
   height: 100%;
   display: block;
@@ -179,18 +183,16 @@ body {
   padding: 1rem;
   border-radius: 12px;
   border: 1px solid var(--border);
-}
-
-.control-group {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   color: var(--text-muted);
 }
 
-.control-label {
-  font-weight: 600;
+.control-label-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  user-select: none;
 }
 
 .sim-btn {
@@ -213,4 +215,5 @@ body {
 .sim-slider {
   accent-color: var(--accent);
   cursor: pointer;
+  width: 80px;
 }
