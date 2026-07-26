@@ -3,157 +3,77 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prof. Dr. Saon Crispim Vieira | Em Construção</title>
-  <meta name="description" content="Portal acadêmico e profissional do Prof. Dr. Saon Crispim Vieira - Petrobras / UNICAMP. Site em construção.">
+  <title>Prof. Dr. Saon Crispim Vieira | UNICAMP</title>
+  <meta name="description" content="Portal do Prof. Dr. Saon Crispim Vieira - Professor Doutor na Faculdade de Engenharia Mecânica da UNICAMP (Departamento de Energia). Ex-Engenheiro de Petróleo Sênior e Consultor na Petrobras.">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
 
-  <style>
-    :root {
-      --bg-main: #0b0f19;
-      --bg-card: #151d2a;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --accent: #38bdf8;
-      --accent-hover: #7dd3fc;
-      --border: #1e293b;
-      --font-body: 'Inter', -apple-system, sans-serif;
-      --font-heading: 'Outfit', sans-serif;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: var(--font-body);
-      background-color: var(--bg-main);
-      color: var(--text-main);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem 1rem;
-    }
-
-    .card {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      max-width: 580px;
-      width: 100%;
-      padding: 3rem 2.5rem;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-    }
-
-    .avatar {
-      width: 170px;
-      height: 170px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 4px solid var(--accent);
-      margin: 0 auto 1.5rem;
-      box-shadow: 0 8px 24px rgba(56, 189, 248, 0.25);
-    }
-
-    .name {
-      font-family: var(--font-heading);
-      font-size: 1.8rem;
-      font-weight: 800;
-      color: var(--text-main);
-      margin-bottom: 0.4rem;
-    }
-
-    .title {
-      font-size: 0.95rem;
-      color: var(--accent);
-      font-weight: 600;
-      margin-bottom: 0.3rem;
-    }
-
-    .affiliation {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-bottom: 1.8rem;
-    }
-
-    .badge {
-      display: inline-block;
-      background-color: rgba(56, 189, 248, 0.12);
-      color: var(--accent);
-      border: 1px solid var(--accent);
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 0.4rem 1.2rem;
-      border-radius: 30px;
-      margin-bottom: 1.5rem;
-    }
-
-    .desc {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-      margin-bottom: 2rem;
-    }
-
-    .links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-      justify-content: center;
-    }
-
-    .btn-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--text-main);
-      background-color: #1e293b;
-      border: 1px solid var(--border);
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      text-decoration: none;
-      transition: all 0.2s ease;
-    }
-
-    .btn-link:hover {
-      background-color: var(--accent);
-      color: #0b0f19;
-      transform: translateY(-2px);
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="card">
-    <img src="assets/jack_black_avatar.jpg" alt="Prof. Dr. Saon Crispim Vieira" class="avatar">
-    <h1 class="name">Saon Crispim Vieira</h1>
-    <p class="title">Engenheiro de Petróleo Sênior & Consultor</p>
-    <p class="affiliation">Petrobras | Departamento de Energia (FEM / UNICAMP)</p>
+  <div class="container">
+    
+    <!-- Profile Card -->
+    <div class="card">
+      <img src="assets/jack_black_avatar.jpg" alt="Prof. Dr. Saon Crispim Vieira" class="avatar">
+      <h1 class="name">Saon Crispim Vieira</h1>
+      <p class="title-current">Professor Doutor | Departamento de Energia (FEM / UNICAMP)</p>
+      <p class="title-former">Ex-Engenheiro de Petróleo Sênior & Consultor na Petrobras (2008–2026)</p>
 
-    <div class="badge">Site em Construção</div>
+      <div class="badge">Site em Construção</div>
 
-    <p class="desc">
-      Novo portal acadêmico e profissional em desenvolvimento.<br>
-      Em breve com o acervo completo de artigos, pesquisas, patentes e materiais de disciplinas.
-    </p>
+      <p class="desc">
+        Professor Doutor no Departamento de Energia da Faculdade de Engenharia Mecânica da UNICAMP.<br>
+        Atuou por mais de 15 anos como Engenheiro Sênior e Consultor na Petrobras em Escoamento Multifásico, Elevação Artificial (BCSS/ESP) e Garantia de Escoamento.<br><br>
+        Novo portal acadêmico e profissional em desenvolvimento. Em breve com o acervo completo de artigos, pesquisas, patentes e materiais de disciplinas.
+      </p>
 
-    <div class="links">
-      <a href="mailto:saoncv@gmail.com" class="btn-link">E-mail</a>
-      <a href="http://lattes.cnpq.br/1026695160236823" target="_blank" class="btn-link">Lattes</a>
-      <a href="https://scholar.google.com/citations?user=K18h1jEAAAAJ&hl=en" target="_blank" class="btn-link">Google Scholar</a>
-      <a href="https://www.scopus.com/authid/detail.uri?authorId=57216225746" target="_blank" class="btn-link">Scopus</a>
-      <a href="https://orcid.org/0000-0001-8785-9237" target="_blank" class="btn-link">ORCID</a>
-      <a href="https://www.linkedin.com/in/saoncrispimvieira" target="_blank" class="btn-link">LinkedIn</a>
-      <a href="https://github.com/saoncv" target="_blank" class="btn-link">GitHub</a>
+      <div class="links">
+        <a href="mailto:saoncv@gmail.com" class="btn-link">E-mail</a>
+        <a href="http://lattes.cnpq.br/1026695160236823" target="_blank" class="btn-link">Lattes</a>
+        <a href="https://scholar.google.com/citations?user=K18h1jEAAAAJ&hl=en" target="_blank" class="btn-link">Google Scholar</a>
+        <a href="https://www.scopus.com/authid/detail.uri?authorId=57216225746" target="_blank" class="btn-link">Scopus</a>
+        <a href="https://orcid.org/0000-0001-8785-9237" target="_blank" class="btn-link">ORCID</a>
+        <a href="https://www.linkedin.com/in/saoncrispimvieira" target="_blank" class="btn-link">LinkedIn</a>
+        <a href="https://github.com/saoncv" target="_blank" class="btn-link">GitHub</a>
+      </div>
     </div>
+
+    <!-- Interactive Multiphase Fluid Simulator Card -->
+    <div class="simulator-card">
+      <div class="sim-header">
+        <h2 class="sim-title">Simulador Interativo de Fluidos Multifásicos</h2>
+        <p class="sim-subtitle">Demonstração de dinâmica de escoamento bifásico (Empuxo, Convecção e Restrição). Passe o mouse para interagir!</p>
+      </div>
+
+      <div class="canvas-wrapper">
+        <canvas id="fluid-canvas"></canvas>
+      </div>
+
+      <!-- Control Panel -->
+      <div class="controls-panel">
+        <button id="mode-toggle-btn" class="sim-btn">Modo: Lava Lamp</button>
+
+        <div class="control-group">
+          <span class="control-label">Aquecimento:</span>
+          <input type="range" id="heat-slider" class="sim-slider" min="0.2" max="2.5" step="0.1" value="1.0">
+        </div>
+
+        <div class="control-group">
+          <span class="control-label">Viscosidade:</span>
+          <input type="range" id="visc-slider" class="sim-slider" min="0.90" max="0.99" step="0.01" value="0.96">
+        </div>
+
+        <button id="reset-sim-btn" class="sim-btn" style="background-color: #f97316; color: #fff;">Agitar Fluido</button>
+      </div>
+    </div>
+
   </div>
 
+  <script src="script.js"></script>
 </body>
 </html>
