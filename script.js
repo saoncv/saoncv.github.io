@@ -1,6 +1,6 @@
 /* ==========================================================================
-   FLIP Fluid WebGL Engine - Pressure Color Mapping, Hybrid Passive/Active FSI,
-   and Complete Non-Inertial Frame Pseudo-Forces (D'Alembert Mechanics)
+   FLIP Fluid WebGL Engine - Buoyant Floating Red Sphere (Archimedes FSI)
+   and Transparent Hot/Thermal Scale Palette (Pressure + Velocity Metric)
    ========================================================================== */
 
 var canvas = document.getElementById("myCanvas");
@@ -57,13 +57,13 @@ function clamp(x, min, max) {
 var sensorData = {
   hasOrientation: false,
   hasMotion: false,
-  beta: 0,        // Pitch angle (-180 to 180 deg)
-  gamma: 0,       // Roll angle (-90 to 90 deg)
-  ax: 0,          // Frame linear acceleration X (m/s^2)
-  ay: 0,          // Frame linear acceleration Y (m/s^2)
-  wz: 0,          // Angular velocity Z (rad/s)
+  beta: 0,
+  gamma: 0,
+  ax: 0,
+  ay: 0,
+  wz: 0,
   prevWz: 0,
-  dotWz: 0,       // Angular acceleration Euler (rad/s^2)
+  dotWz: 0,
   lastTime: performance.now()
 };
 
@@ -101,7 +101,7 @@ if (window.DeviceMotionEvent) {
 // Compute Complete Non-Inertial Pseudo-Forces (D'Alembert Acceleration)
 function getEfectiveAcceleration(px, py, vx, vy) {
   let gx = 0.0;
-  let gy = window.scene.gravity; // Default inertial gravity (-9.81 m/s^2)
+  let gy = window.scene.gravity;
 
   if (sensorData.hasOrientation) {
     const radBeta = sensorData.beta * (Math.PI / 180.0);
@@ -111,26 +111,21 @@ function getEfectiveAcceleration(px, py, vx, vy) {
     gy = -gMag * Math.cos(radBeta);
   }
 
-  // 1. Translation Pseudo-force (-a_frame)
   if (sensorData.hasMotion) {
     gx -= sensorData.ax;
     gy -= sensorData.ay;
   }
 
-  // Position relative to tank center
   const rx = px - simWidth * 0.5;
   const ry = py - simHeight * 0.5;
   const wz = sensorData.wz;
 
-  // 2. Coriolis Acceleration (-2 * w x v)
   const aCoriolisX = 2.0 * wz * vy;
   const aCoriolisY = -2.0 * wz * vx;
 
-  // 3. Centrifugal Acceleration (-w x (w x r) = w^2 * r)
   const aCentrifugalX = wz * wz * rx;
   const aCentrifugalY = wz * wz * ry;
 
-  // 4. Euler Acceleration (-dot_w x r)
   const aEulerX = -sensorData.dotWz * ry;
   const aEulerY = sensorData.dotWz * rx;
 
@@ -194,7 +189,6 @@ class FlipFluid {
       const vx = this.particleVel[2 * i];
       const vy = this.particleVel[2 * i + 1];
 
-      // Non-Inertial Pseudo-Forces Integration
       const aEfective = getEfectiveAcceleration(px, py, vx, vy);
 
       this.particleVel[2 * i] += dt * aEfective.ax;
@@ -302,6 +296,7 @@ class FlipFluid {
 
     let totalForceX = 0.0;
     let totalForceY = 0.0;
+    let submersedCount = 0;
 
     for (var i = 0; i < this.numParticles; i++) {
       var x = this.particlePos[2 * i];
@@ -317,23 +312,20 @@ class FlipFluid {
         var ny = dy / d;
         var overlap = minDist - d;
 
-        // Kinematic separation
         this.particlePos[2 * i] += nx * overlap;
         this.particlePos[2 * i + 1] += ny * overlap;
 
         if (window.scene.isDraggingObstacle) {
-          // Active Mode: Particle inherits dragged obstacle velocity
           this.particleVel[2 * i] = window.scene.obstacleVelX;
           this.particleVel[2 * i + 1] = window.scene.obstacleVelY;
         } else {
-          // Passive FSI Mode: Reaction force imparted on sphere
-          const impulse = overlap * 18.0;
+          const impulse = overlap * 22.0;
           totalForceX -= nx * impulse;
           totalForceY -= ny * impulse;
+          submersedCount++;
         }
       }
 
-      // Tank Wall Boundaries
       if (x < minX) {
         x = minX;
         this.particleVel[2 * i] = 0.0;
@@ -354,10 +346,10 @@ class FlipFluid {
       this.particlePos[2 * i + 1] = y;
     }
 
-    // Transfer hydrodynamic reaction forces to passive red sphere
     if (!window.scene.isDraggingObstacle) {
-      window.scene.obstacleVx += totalForceX * 0.005;
-      window.scene.obstacleVy += totalForceY * 0.005;
+      window.scene.obstacleVx += totalForceX * 0.008;
+      window.scene.obstacleVy += totalForceY * 0.008;
+      window.scene.submersedCount = submersedCount;
     }
   }
 
@@ -603,28 +595,47 @@ class FlipFluid {
     }
   }
 
-  // Update Particle Colors Based on Hydrodynamic Pressure Field (p_ij)
+  // Update Particle Colors with Refined Transparent Hot/Thermal Scale Palette
   updateParticleColors() {
     var h1 = this.fInvSpacing;
     for (var i = 0; i < this.numParticles; i++) {
       var x = this.particlePos[2 * i];
       var y = this.particlePos[2 * i + 1];
+      var vx = this.particleVel[2 * i];
+      var vy = this.particleVel[2 * i + 1];
+      var speed = Math.sqrt(vx * vx + vy * vy);
+
       var xi = clamp(Math.floor(x * h1), 1, this.fNumX - 1);
       var yi = clamp(Math.floor(y * h1), 1, this.fNumY - 1);
       var cellNr = xi * this.fNumY + yi;
 
-      // Extract pressure p_ij resolved by Poisson Grid Solver
       var cellPressure = Math.abs(this.p[cellNr]);
       var d0 = this.particleRestDensity;
       var relDensity = d0 > 0.0 ? this.particleDensity[cellNr] / d0 : 1.0;
 
-      // Hydrodynamic pressure metric
-      var pNorm = Math.min(1.0, (cellPressure * 0.00015) + Math.max(0, relDensity - 0.9) * 1.2);
+      // Mixed Energy Metric S: Speed + Hydrodynamic Pressure
+      var sNorm = Math.min(1.0, (speed / 6.0) * 0.55 + (cellPressure * 0.00012 + Math.max(0, relDensity - 0.95)) * 0.45);
 
-      // Color mapping: Low pressure -> Cyan (#38bdf8), Mid -> Blue/Purple, High -> Bright Red (#ef4444)
-      var r = pNorm > 0.4 ? (pNorm - 0.4) * 1.6 : 0.1;
-      var g = pNorm < 0.6 ? 0.75 * (1.0 - pNorm) : 0.1;
-      var b = 0.9 - (pNorm * 0.7);
+      // Hot Thermal Scale (Aquatic Cyan -> Soft Violet -> Glowing Solar Amber)
+      var r, g, b;
+      if (sNorm < 0.35) {
+        // Low Energy: Aquatic Cyan (#38bdf8)
+        r = 0.22 + sNorm * 0.4;
+        g = 0.74 + sNorm * 0.2;
+        b = 0.97;
+      } else if (sNorm < 0.70) {
+        // Mid Energy: Soft Violet/Purple (#a855f7)
+        var t = (sNorm - 0.35) / 0.35;
+        r = 0.36 + t * 0.30;
+        g = 0.81 - t * 0.45;
+        b = 0.97 - t * 0.03;
+      } else {
+        // High Energy: Solar Gold / Amber (#fbbf24)
+        var t = (sNorm - 0.70) / 0.30;
+        r = 0.66 + t * 0.32;
+        g = 0.36 + t * 0.38;
+        b = 0.94 - t * 0.78;
+      }
 
       this.particleColor[3 * i] = clamp(r, 0.0, 1.0);
       this.particleColor[3 * i + 1] = clamp(g, 0.0, 1.0);
@@ -664,12 +675,14 @@ window.scene = {
   compensateDrift: true,
   separateParticles: true,
 
-  // Hybrid Red Sphere Obstacle Properties
+  // Buoyancy Properties for Passive Floating Red Sphere
   obstacleX: 2.0,
   obstacleY: 1.5,
   obstacleVx: 0.0,
   obstacleVy: 0.0,
   obstacleRadius: 0.15,
+  sphereDensityRatio: 0.35, // Less dense than fluid -> Archimedes Buoyancy!
+  submersedCount: 0,
   isDraggingObstacle: false,
 
   paused: false,
@@ -768,7 +781,7 @@ const pointFragmentShader = `
       float r2 = rx * rx + ry * ry;
       if (r2 > 0.25) discard;
     }
-    gl_FragColor = vec4(fragColor, 1.0);
+    gl_FragColor = vec4(fragColor, 0.85);
   }
 `;
 
@@ -795,7 +808,7 @@ const meshFragmentShader = `
   varying vec3 fragColor;
 
   void main() {
-    gl_FragColor = vec4(fragColor, 1.0);
+    gl_FragColor = vec4(fragColor, 0.90);
   }
 `;
 
@@ -920,7 +933,7 @@ function draw() {
     gl.bindBuffer(gl.ARRAY_BUFFER, null);
   }
 
-  // Draw Disk Obstacle
+  // Draw Floating Red Sphere Obstacle
   var numSegs = 50;
   if (diskVertBuffer == null) {
     diskVertBuffer = gl.createBuffer();
@@ -951,7 +964,7 @@ function draw() {
   }
 
   gl.clear(gl.DEPTH_BUFFER_BIT);
-  var diskColor = [0.95, 0.35, 0.15];
+  var diskColor = [0.94, 0.27, 0.27];
 
   gl.useProgram(meshShader);
   gl.uniform2f(meshShader.locs.domainSize, simWidth, simHeight);
@@ -1006,7 +1019,7 @@ function setObstacle(x, y, reset) {
   window.scene.obstacleVelY = vy;
 }
 
-// Interactive Mouse Dragging (Hybrid Passive/Active Sphere)
+// Interactive Mouse Dragging
 function startDrag(x, y) {
   if (!canvas) return;
   let bounds = canvas.getBoundingClientRect();
@@ -1020,7 +1033,6 @@ function startDrag(x, y) {
   const dy = y - window.scene.obstacleY;
   const dist = Math.sqrt(dx * dx + dy * dy);
 
-  // Grab red sphere if clicked within its radius
   if (dist < window.scene.obstacleRadius * 1.8) {
     window.scene.isDraggingObstacle = true;
     setObstacle(x, y, true);
@@ -1090,21 +1102,26 @@ function simulate() {
   if (!window.scene.paused && window.scene.fluid) {
     const dt = window.scene.dt;
 
-    // Passive FSI Integration for Red Sphere (When not dragged)
+    // Archimedes Buoyancy FSI Integration for Floating Red Sphere (When not dragged)
     if (!window.scene.isDraggingObstacle) {
       const aEf = getEfectiveAcceleration(window.scene.obstacleX, window.scene.obstacleY, window.scene.obstacleVx, window.scene.obstacleVy);
       
-      window.scene.obstacleVx += aEf.ax * dt;
-      window.scene.obstacleVy += aEf.ay * dt;
+      // Archimedes Upward Buoyancy Acceleration: (rho_fluid - rho_sphere) * g
+      const buoyancyFactor = (1.0 - window.scene.sphereDensityRatio);
+      const buoyancyAx = -aEf.ax * buoyancyFactor * (window.scene.submersedCount > 0 ? 0.8 : 0.0);
+      const buoyancyAy = -aEf.ay * buoyancyFactor * (window.scene.submersedCount > 0 ? 0.8 : 0.0);
+
+      window.scene.obstacleVx += (aEf.ax + buoyancyAx) * dt;
+      window.scene.obstacleVy += (aEf.ay + buoyancyAy) * dt;
 
       // Apply damping
-      window.scene.obstacleVx *= 0.98;
-      window.scene.obstacleVy *= 0.98;
+      window.scene.obstacleVx *= 0.97;
+      window.scene.obstacleVy *= 0.97;
 
       let newX = window.scene.obstacleX + window.scene.obstacleVx * dt;
       let newY = window.scene.obstacleY + window.scene.obstacleVy * dt;
 
-      // Tank Wall Bounce Boundaries for Sphere
+      // Tank Wall Boundaries
       const r = window.scene.obstacleRadius + 0.05;
       if (newX < r) { newX = r; window.scene.obstacleVx *= -0.5; }
       if (newX > simWidth - r) { newX = simWidth - r; window.scene.obstacleVx *= -0.5; }
