@@ -1,9 +1,23 @@
 /* ==========================================================================
-   FLIP Fluid WebGL Simulation Engine
+   FLIP Fluid WebGL Simulation Engine (Ultra-Optimized & Cross-Browser)
    ========================================================================== */
 
 var canvas = document.getElementById("myCanvas");
-var gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+
+function getWebGLContext(c) {
+  if (!c) return null;
+  const opts = {
+    preserveDrawingBuffer: true,
+    alpha: true,
+    antialias: true,
+    powerPreference: "high-performance"
+  };
+  return c.getContext("webgl2", opts) || 
+         c.getContext("webgl", opts) || 
+         c.getContext("experimental-webgl", opts);
+}
+
+var gl = getWebGLContext(canvas);
 
 var simHeight = 3.0;
 var cScale = 150.0;
@@ -12,11 +26,15 @@ var simWidth = 4.0;
 function initCanvasSize() {
   if (!canvas) return;
   const rect = canvas.getBoundingClientRect();
-  canvas.width = rect.width > 0 ? rect.width : 700;
-  canvas.height = rect.height > 0 ? rect.height : 450;
+  const w = Math.max(300, Math.floor(rect.width || (canvas.parentElement ? canvas.parentElement.clientWidth : 700)));
+  const h = Math.max(300, Math.floor(rect.height || 450));
 
-  cScale = canvas.height / simHeight;
-  simWidth = canvas.width / cScale;
+  if (canvas.width !== w || canvas.height !== h) {
+    canvas.width = w;
+    canvas.height = h;
+    cScale = canvas.height / simHeight;
+    simWidth = canvas.width / cScale;
+  }
 }
 
 initCanvasSize();
@@ -579,8 +597,9 @@ window.setupScene = function() {
   setObstacle(simWidth * 0.5, simHeight * 0.5, true);
 };
 
-// Shaders
+// Shaders with Explicit Precision & Fast Uniform Pre-fetching
 const pointVertexShader = `
+  precision mediump float;
   attribute vec2 attrPosition;
   attribute vec3 attrColor;
   uniform vec2 domainSize;
@@ -616,6 +635,7 @@ const pointFragmentShader = `
 `;
 
 const meshVertexShader = `
+  precision mediump float;
   attribute vec2 attrPosition;
   uniform vec2 domainSize;
   uniform vec3 color;
@@ -650,10 +670,21 @@ function createShader(gl, vsSource, fsSource) {
   gl.shaderSource(fsShader, fsSource);
   gl.compileShader(fsShader);
 
-  var shader = gl.createProgram();
+  const shader = gl.createProgram();
   gl.attachShader(shader, vsShader);
   gl.attachShader(shader, fsShader);
   gl.linkProgram(shader);
+
+  // Pre-fetch attribute and uniform locations for zero-overhead per frame
+  shader.locs = {};
+  shader.locs.domainSize = gl.getUniformLocation(shader, 'domainSize');
+  shader.locs.pointSize = gl.getUniformLocation(shader, 'pointSize');
+  shader.locs.drawDisk = gl.getUniformLocation(shader, 'drawDisk');
+  shader.locs.color = gl.getUniformLocation(shader, 'color');
+  shader.locs.translation = gl.getUniformLocation(shader, 'translation');
+  shader.locs.scale = gl.getUniformLocation(shader, 'scale');
+  shader.locs.attrPosition = gl.getAttribLocation(shader, 'attrPosition');
+  shader.locs.attrColor = gl.getAttribLocation(shader, 'attrColor');
 
   return shader;
 }
@@ -698,19 +729,19 @@ function draw() {
   if (window.scene.showGrid) {
     var pointSize = 0.9 * window.scene.fluid.h / simWidth * canvas.width;
     gl.useProgram(pointShader);
-    gl.uniform2f(gl.getUniformLocation(pointShader, 'domainSize'), simWidth, simHeight);
-    gl.uniform1f(gl.getUniformLocation(pointShader, 'pointSize'), pointSize);
-    gl.uniform1f(gl.getUniformLocation(pointShader, 'drawDisk'), 0.0);
+    gl.uniform2f(pointShader.locs.domainSize, simWidth, simHeight);
+    gl.uniform1f(pointShader.locs.pointSize, pointSize);
+    gl.uniform1f(pointShader.locs.drawDisk, 0.0);
 
     gl.bindBuffer(gl.ARRAY_BUFFER, gridVertBuffer);
-    var posLoc = gl.getAttribLocation(pointShader, 'attrPosition');
+    var posLoc = pointShader.locs.attrPosition;
     gl.enableVertexAttribArray(posLoc);
     gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
 
     gl.bindBuffer(gl.ARRAY_BUFFER, gridColorBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, window.scene.fluid.cellColor, gl.DYNAMIC_DRAW);
 
-    var colorLoc = gl.getAttribLocation(pointShader, 'attrColor');
+    var colorLoc = pointShader.locs.attrColor;
     gl.enableVertexAttribArray(colorLoc);
     gl.vertexAttribPointer(colorLoc, 3, gl.FLOAT, false, 0, 0);
 
@@ -725,9 +756,9 @@ function draw() {
     var pointSize = 2.0 * window.scene.fluid.particleRadius / simWidth * canvas.width;
 
     gl.useProgram(pointShader);
-    gl.uniform2f(gl.getUniformLocation(pointShader, 'domainSize'), simWidth, simHeight);
-    gl.uniform1f(gl.getUniformLocation(pointShader, 'pointSize'), pointSize);
-    gl.uniform1f(gl.getUniformLocation(pointShader, 'drawDisk'), 1.0);
+    gl.uniform2f(pointShader.locs.domainSize, simWidth, simHeight);
+    gl.uniform1f(pointShader.locs.pointSize, pointSize);
+    gl.uniform1f(pointShader.locs.drawDisk, 1.0);
 
     if (pointVertexBuffer == null) pointVertexBuffer = gl.createBuffer();
     if (pointColorBuffer == null) pointColorBuffer = gl.createBuffer();
@@ -735,14 +766,14 @@ function draw() {
     gl.bindBuffer(gl.ARRAY_BUFFER, pointVertexBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, window.scene.fluid.particlePos, gl.DYNAMIC_DRAW);
 
-    var posLoc = gl.getAttribLocation(pointShader, 'attrPosition');
+    var posLoc = pointShader.locs.attrPosition;
     gl.enableVertexAttribArray(posLoc);
     gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
 
     gl.bindBuffer(gl.ARRAY_BUFFER, pointColorBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, window.scene.fluid.particleColor, gl.DYNAMIC_DRAW);
 
-    var colorLoc = gl.getAttribLocation(pointShader, 'attrColor');
+    var colorLoc = pointShader.locs.attrColor;
     gl.enableVertexAttribArray(colorLoc);
     gl.vertexAttribPointer(colorLoc, 3, gl.FLOAT, false, 0, 0);
 
@@ -786,12 +817,12 @@ function draw() {
   var diskColor = [0.95, 0.35, 0.15];
 
   gl.useProgram(meshShader);
-  gl.uniform2f(gl.getUniformLocation(meshShader, 'domainSize'), simWidth, simHeight);
-  gl.uniform3f(gl.getUniformLocation(meshShader, 'color'), diskColor[0], diskColor[1], diskColor[2]);
-  gl.uniform2f(gl.getUniformLocation(meshShader, 'translation'), window.scene.obstacleX, window.scene.obstacleY);
-  gl.uniform1f(gl.getUniformLocation(meshShader, 'scale'), window.scene.obstacleRadius + window.scene.fluid.particleRadius);
+  gl.uniform2f(meshShader.locs.domainSize, simWidth, simHeight);
+  gl.uniform3f(meshShader.locs.color, diskColor[0], diskColor[1], diskColor[2]);
+  gl.uniform2f(meshShader.locs.translation, window.scene.obstacleX, window.scene.obstacleY);
+  gl.uniform1f(meshShader.locs.scale, window.scene.obstacleRadius + window.scene.fluid.particleRadius);
 
-  var posLoc = gl.getAttribLocation(meshShader, 'attrPosition');
+  var posLoc = meshShader.locs.attrPosition;
   gl.enableVertexAttribArray(posLoc);
   gl.bindBuffer(gl.ARRAY_BUFFER, diskVertBuffer);
   gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
@@ -842,6 +873,7 @@ function setObstacle(x, y, reset) {
 var mouseDown = false;
 
 function startDrag(x, y) {
+  if (!canvas) return;
   let bounds = canvas.getBoundingClientRect();
   let mx = x - bounds.left - canvas.clientLeft;
   let my = y - bounds.top - canvas.clientTop;
@@ -855,7 +887,7 @@ function startDrag(x, y) {
 }
 
 function drag(x, y) {
-  if (mouseDown) {
+  if (mouseDown && canvas) {
     let bounds = canvas.getBoundingClientRect();
     let mx = x - bounds.left - canvas.clientLeft;
     let my = y - bounds.top - canvas.clientTop;
@@ -885,7 +917,7 @@ canvas.addEventListener('mousemove', event => {
 
 canvas.addEventListener('touchstart', event => {
   startDrag(event.touches[0].clientX, event.touches[0].clientY);
-});
+}, { passive: true });
 
 canvas.addEventListener('touchend', event => {
   endDrag();
@@ -924,11 +956,18 @@ function update() {
   requestAnimationFrame(update);
 }
 
-// Window load trigger
+// Window resize & load handlers
 window.addEventListener('resize', function() {
   initCanvasSize();
 });
 
+window.addEventListener('DOMContentLoaded', function() {
+  initCanvasSize();
+  window.setupScene();
+  update();
+});
+
+// Immediate execution fallback
 initCanvasSize();
 window.setupScene();
 update();
