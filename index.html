@@ -43,11 +43,11 @@
       </div>
     </div>
 
-    <!-- Interactive Multiphase Fluid Simulator Card -->
+    <!-- Interactive Multiphase Lava Lamp Fluid Simulator -->
     <div class="simulator-card">
       <div class="sim-header">
-        <h2 class="sim-title">Simulador Interativo de Fluidos Multifásicos</h2>
-        <p class="sim-subtitle">Demonstração de dinâmica de escoamento bifásico (Empuxo, Convecção e Restrição). Passe o mouse para interagir!</p>
+        <h2 class="sim-title">Simulador de Fluidos Lava Lamp (Escoamento Multifásico 2D)</h2>
+        <p class="sim-subtitle"><strong>💡 Dica:</strong> Clique diretamente sobre as gotas de óleo para quebrá-las! Arraste o mouse para criar correntes.</p>
       </div>
 
       <div class="canvas-wrapper">
@@ -56,19 +56,14 @@
 
       <!-- Control Panel -->
       <div class="controls-panel">
-        <button id="mode-toggle-btn" class="sim-btn">Modo: Lava Lamp</button>
-
         <div class="control-group">
           <span class="control-label">Aquecimento:</span>
-          <input type="range" id="heat-slider" class="sim-slider" min="0.2" max="2.5" step="0.1" value="1.0">
+          <input type="range" id="heat-slider" class="sim-slider" min="0.4" max="2.5" step="0.1" value="1.2">
         </div>
 
-        <div class="control-group">
-          <span class="control-label">Viscosidade:</span>
-          <input type="range" id="visc-slider" class="sim-slider" min="0.90" max="0.99" step="0.01" value="0.96">
-        </div>
+        <button id="spawn-blob-btn" class="sim-btn">Gerar Nova Gota</button>
 
-        <button id="reset-sim-btn" class="sim-btn" style="background-color: #f97316; color: #fff;">Agitar Fluido</button>
+        <button id="stir-fluid-btn" class="sim-btn" style="background-color: #f97316; color: #fff;">Agitar Fluido</button>
       </div>
     </div>
 
