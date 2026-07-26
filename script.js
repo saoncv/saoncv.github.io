@@ -1,6 +1,6 @@
 /* ==========================================================================
-   FLIP Fluid WebGL Engine - White Air-Entrainment/Foam Effect on Vortices & Interface
-   and Archimedes Floating Red Sphere Mechanics
+   FLIP Fluid WebGL Engine - White Air-Entrainment/Foam Effect on Vortices & Interface,
+   Hybrid Passive Sinking/Active Red Sphere (Gravity & Fluid Collision FSI)
    ========================================================================== */
 
 var canvas = document.getElementById("myCanvas");
@@ -594,7 +594,7 @@ class FlipFluid {
     }
   }
 
-  // Restore White Foam/Air-Entrainment Effect on Vortices & Free Surfaces (relDensity < 0.7)
+  // White Foam/Air-Entrainment Effect on Vortices & Free Surfaces (relDensity < 0.75)
   updateParticleColors() {
     var h1 = this.fInvSpacing;
     var sDecay = 0.015;
@@ -658,7 +658,7 @@ window.scene = {
   compensateDrift: true,
   separateParticles: true,
 
-  // Floating Red Sphere (Archimedes Buoyancy FSI)
+  // Sinking Red Sphere (Passive FSI Under Gravity & Fluid Collisions)
   obstacleX: 2.0,
   obstacleY: 2.2,
   obstacleVx: 0.0,
@@ -914,7 +914,7 @@ function draw() {
     gl.bindBuffer(gl.ARRAY_BUFFER, null);
   }
 
-  // Draw Floating Red Sphere Obstacle
+  // Draw Red Sphere Obstacle
   var numSegs = 50;
   if (diskVertBuffer == null) {
     diskVertBuffer = gl.createBuffer();
@@ -1083,16 +1083,12 @@ function simulate() {
   if (!window.scene.paused && window.scene.fluid) {
     const dt = window.scene.dt;
 
-    // Passive Archimedes Buoyancy FSI Integration for Floating Red Sphere (When not dragged)
+    // Passive Integration for Red Sphere (Sinks under gravity & non-inertial pseudo-forces)
     if (!window.scene.isDraggingObstacle) {
       const aEf = getEfectiveAcceleration(window.scene.obstacleX, window.scene.obstacleY, window.scene.obstacleVx, window.scene.obstacleVy);
-      
-      // Upward Buoyancy force (opposite to gravity vector)
-      const netBuoyancyY = -aEf.ay * 1.6;
-      const netBuoyancyX = -aEf.ax * 1.6;
 
-      window.scene.obstacleVx += (aEf.ax + netBuoyancyX) * dt;
-      window.scene.obstacleVy += (aEf.ay + netBuoyancyY) * dt;
+      window.scene.obstacleVx += aEf.ax * dt;
+      window.scene.obstacleVy += aEf.ay * dt; // Gravity pulls sphere down to sink!
 
       // Apply air/fluid resistance damping
       window.scene.obstacleVx *= 0.95;
@@ -1101,7 +1097,7 @@ function simulate() {
       let newX = window.scene.obstacleX + window.scene.obstacleVx * dt;
       let newY = window.scene.obstacleY + window.scene.obstacleVy * dt;
 
-      // Tank Wall Boundaries
+      // Tank Wall Boundaries for Sphere
       const r = window.scene.obstacleRadius + 0.05;
       if (newX < r) { newX = r; window.scene.obstacleVx *= -0.4; }
       if (newX > simWidth - r) { newX = simWidth - r; window.scene.obstacleVx *= -0.4; }
