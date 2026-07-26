@@ -121,7 +121,7 @@ body {
   transform: translateY(-2px);
 }
 
-/* CFD Simulator Card */
+/* Gas-Liquid Simulator Card */
 .simulator-card {
   background-color: var(--bg-card);
   border: 1px solid var(--border);
@@ -159,37 +159,13 @@ body {
   border: 2px solid var(--border);
   overflow: hidden;
   box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
-  cursor: crosshair;
+  cursor: pointer;
 }
 
 #fluid-canvas {
   width: 100%;
   height: 100%;
   display: block;
-}
-
-/* Color Legend Bar */
-.legend-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 540px;
-  margin: 0 auto 1.2rem;
-  padding: 0.5rem 1rem;
-  background-color: #0f172a;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  font-weight: 600;
-}
-
-.color-gradient {
-  height: 10px;
-  flex-grow: 1;
-  margin: 0 1rem;
-  border-radius: 5px;
-  background: linear-gradient(to right, #2563eb, #06b6d4, #10b981, #eab308, #ef4444);
 }
 
 /* Control Panel */
@@ -215,16 +191,6 @@ body {
 
 .control-label {
   font-weight: 600;
-}
-
-.sim-select {
-  background-color: #1e293b;
-  color: var(--text-main);
-  border: 1px solid var(--border);
-  padding: 0.4rem 0.6rem;
-  border-radius: 6px;
-  font-size: 0.8rem;
-  cursor: pointer;
 }
 
 .sim-btn {

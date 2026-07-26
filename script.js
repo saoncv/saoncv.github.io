@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Interactive CFD Particle Fluid Simulator (Velocity & Pressure Color Mapping)
+   Sebastian Lague / The Coding Train Inspired Gas-Liquid Interface Simulator
    Designed for Prof. Dr. Saon Crispim Vieira - UNICAMP (Fluid Dynamics)
    ========================================================================== */
 
@@ -16,19 +16,12 @@ document.addEventListener('DOMContentLoaded', () => {
   canvas.height = height;
 
   // Simulation Constants
-  const PARTICLE_COUNT = 420;
-  let colorMetric = 'speed'; // 'speed', 'pressure', or 'mixed'
-  let viscosity = 0.96;
-  const gravity = 0.08;
+  const interfaceHeight = 220; // Equilibrium free surface level
+  let surfaceTension = 0.08;
+  const damping = 0.95;
 
-  // Spatial Grid Partitioning (Fast 60 FPS Collisions)
-  const cellSize = 24;
-  const cols = Math.ceil(width / cellSize);
-  const rows = Math.ceil(height / cellSize);
-  let grid = [];
-
-  // Mouse / Touch Pointer
-  const pointer = {
+  // Mouse / Touch Tracking
+  const mouse = {
     x: -1000,
     y: -1000,
     vx: 0,
@@ -36,50 +29,61 @@ document.addEventListener('DOMContentLoaded', () => {
     prevX: -1000,
     prevY: -1000,
     isDown: false,
-    radius: 70
+    radius: 65
   };
 
-  // CFD Particle Class
-  class CFDParticle {
-    constructor(x, y) {
+  // Particle Classes
+  class InterfaceParticle {
+    constructor(x, y, isLiquid = true) {
       this.x = x;
       this.y = y;
-      this.vx = (Math.random() - 0.5) * 1.5;
-      this.vy = (Math.random() - 0.5) * 1.5;
-      this.radius = 5.5;
-      this.density = 0;  // Local fluid pressure/density
-      this.speed = 0;    // Velocity magnitude
+      this.vx = (Math.random() - 0.5) * 1.0;
+      this.vy = (Math.random() - 0.5) * 1.0;
+      this.radius = isLiquid ? 6.5 : 4.5;
+      this.isLiquid = isLiquid; // true = Liquid (Blue), false = Gas (Sky Blue/White)
     }
 
     update() {
-      // 1. Base Downward Gravity
-      this.vy += gravity;
+      // 1. Phase-specific Forces
+      if (this.isLiquid) {
+        // Downward Liquid Gravity towards liquid bed
+        this.vy += 0.12;
 
-      // 2. Mouse Impeller / Stirring Force
-      if (pointer.isDown || pointer.active) {
-        const dx = this.x - pointer.x;
-        const dy = this.y - pointer.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
+        // Restore toward equilibrium interface height if pushed up
+        if (this.y < interfaceHeight - 40) {
+          this.vy += 0.25;
+        }
+      } else {
+        // Upward Gas Buoyancy towards gas layer
+        this.vy -= 0.10;
 
-        if (dist < pointer.radius && dist > 0) {
-          const factor = (1 - dist / pointer.radius);
-          // Transfer mouse velocity to fluid particles
-          this.vx += pointer.vx * factor * 0.45 + (dx / dist) * factor * 1.8;
-          this.vy += pointer.vy * factor * 0.45 + (dy / dist) * factor * 1.8;
+        // Restore toward gas layer if forced down into liquid
+        if (this.y > interfaceHeight + 20) {
+          this.vy -= 0.22;
         }
       }
 
-      // 3. Velocity damping & position update
-      this.vx *= viscosity;
-      this.vy *= viscosity;
+      // 2. Mouse Wave & Ripple Interaction
+      if (mouse.active || mouse.isDown) {
+        const dx = this.x - mouse.x;
+        const dy = this.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < mouse.radius && dist > 0) {
+          const factor = (1 - dist / mouse.radius);
+          this.vx += mouse.vx * factor * 0.4 + (dx / dist) * factor * 1.6;
+          this.vy += mouse.vy * factor * 0.4 + (dy / dist) * factor * 1.6;
+        }
+      }
+
+      // 3. Apply Damping & Velocity Update
+      this.vx *= damping;
+      this.vy *= damping;
       this.x += this.vx;
       this.y += this.vy;
 
-      // Speed magnitude
-      this.speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
-
-      // 4. Chamber Wall Collisions
-      const margin = 12;
+      // 4. Chamber Boundary Collisions
+      const margin = 15;
       if (this.x < margin + this.radius) {
         this.x = margin + this.radius;
         this.vx *= -0.5;
@@ -99,275 +103,276 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Initialize Particles
+  // Generate Initial Liquid & Gas Particle Layers
   let particles = [];
-  function initParticles() {
+  function initSimulation() {
     particles = [];
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
+
+    // Liquid Phase (Bottom) - 240 particles
+    for (let i = 0; i < 240; i++) {
       const x = 30 + Math.random() * (width - 60);
-      const y = 30 + Math.random() * (height - 60);
-      particles.push(new CFDParticle(x, y));
+      const y = interfaceHeight + Math.random() * (height - interfaceHeight - 40);
+      particles.push(new InterfaceParticle(x, y, true));
+    }
+
+    // Gas Phase (Top) - 120 particles
+    for (let i = 0; i < 120; i++) {
+      const x = 30 + Math.random() * (width - 60);
+      const y = 30 + Math.random() * (interfaceHeight - 50);
+      particles.push(new InterfaceParticle(x, y, false));
     }
   }
 
-  // Spatial Grid Update
-  function updateGrid() {
-    grid = Array.from({ length: cols * rows }, () => []);
+  // Inter-particle Cohesion & Interfacial Wave Physics
+  function applyParticlePhysics() {
     for (let i = 0; i < particles.length; i++) {
-      const p = particles[i];
-      const c = Math.floor(p.x / cellSize);
-      const r = Math.floor(p.y / cellSize);
-      if (c >= 0 && c < cols && r >= 0 && r < rows) {
-        grid[r * cols + c].push(p);
-      }
-    }
-  }
+      for (let j = i + 1; j < particles.length; j++) {
+        const p1 = particles[i];
+        const p2 = particles[j];
 
-  // Fluid Particle Collisions & Pressure Field Calculation
-  function applyCFDPhysics() {
-    updateGrid();
+        const dx = p2.x - p1.x;
+        const dy = p2.y - p1.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const minDist = p1.radius + p2.radius;
 
-    // Reset local density/pressure
-    particles.forEach(p => p.density = 0);
+        if (dist < minDist * 2.2 && dist > 0) {
+          // Same phase cohesion (Liquid-Liquid or Gas-Gas)
+          if (p1.isLiquid === p2.isLiquid) {
+            const attract = (minDist * 2.2 - dist) * surfaceTension;
+            p1.vx += (dx / dist) * attract;
+            p1.vy += (dy / dist) * attract;
+            p2.vx -= (dx / dist) * attract;
+            p2.vy -= (dy / dist) * attract;
+          }
 
-    for (let i = 0; i < particles.length; i++) {
-      const p1 = particles[i];
-      const c = Math.floor(p1.x / cellSize);
-      const r = Math.floor(p1.y / cellSize);
-
-      for (let dr = -1; dr <= 1; dr++) {
-        for (let dc = -1; dc <= 1; dc++) {
-          const nr = r + dr;
-          const nc = c + dc;
-          if (nc >= 0 && nc < cols && nr >= 0 && nr < rows) {
-            const cellParticles = grid[nr * cols + nc];
-            for (let j = 0; j < cellParticles.length; j++) {
-              const p2 = cellParticles[j];
-              if (p1 === p2) continue;
-
-              const dx = p2.x - p1.x;
-              const dy = p2.y - p1.y;
-              const dist = Math.sqrt(dx * dx + dy * dy);
-              const targetDist = p1.radius + p2.radius;
-
-              if (dist < targetDist * 2.0 && dist > 0) {
-                // Compute density / hydrostatic pressure contribution
-                p1.density += (1 - dist / (targetDist * 2.0));
-
-                // Short-range elastic repulsion (Incompressible fluid force)
-                if (dist < targetDist) {
-                  const overlap = (targetDist - dist) * 0.45;
-                  const nx = dx / dist;
-                  const ny = dy / dist;
-
-                  p1.x -= nx * overlap;
-                  p1.y -= ny * overlap;
-                  p1.vx -= nx * overlap * 0.3;
-                  p1.vy -= ny * overlap * 0.3;
-                }
-              }
-            }
+          // Elastic repulsion when overlapping
+          if (dist < minDist) {
+            const overlap = (minDist - dist) * 0.4;
+            p1.x -= (dx / dist) * overlap;
+            p1.y -= (dy / dist) * overlap;
+            p2.x += (dx / dist) * overlap;
+            p2.y += (dy / dist) * overlap;
           }
         }
       }
     }
   }
 
-  // Compute Dynamic Color (HSL Hue Mapping: Blue -> Green -> Red)
-  function getCFDColor(particle) {
-    let normMetric = 0;
-
-    if (colorMetric === 'speed') {
-      // Speed 0 to 12 m/s mapped to 0 to 1
-      normMetric = Math.min(1.0, particle.speed / 7.5);
-    } else if (colorMetric === 'pressure') {
-      // Pressure/Density 0 to 10 mapped to 0 to 1
-      normMetric = Math.min(1.0, particle.density / 8.0);
-    } else {
-      // Mixed Metric (Speed + Pressure)
-      normMetric = Math.min(1.0, (particle.speed / 6.0 + particle.density / 9.0) * 0.5);
+  // Inject Gas Bubble into Liquid Bed (Click Action)
+  function injectBubble(clickX, clickY) {
+    const bubbleY = Math.max(interfaceHeight + 60, clickY);
+    for (let i = 0; i < 15; i++) {
+      const p = new InterfaceParticle(
+        clickX + (Math.random() - 0.5) * 25,
+        bubbleY + (Math.random() - 0.5) * 25,
+        false // Gas particle
+      );
+      p.vy = -3.5 - Math.random() * 2.0; // High upward buoyancy blast
+      particles.push(p);
     }
-
-    // Hue Spectrum: 230 (Deep Blue) -> 160 (Cyan) -> 100 (Green) -> 45 (Yellow) -> 0 (Red)
-    const hue = Math.floor(230 * (1 - normMetric));
-    const saturation = 85 + Math.floor(15 * normMetric);
-    const lightness = 45 + Math.floor(15 * normMetric);
-
-    return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
   }
 
-  // Draw Chamber Boundary
-  function drawChamber() {
+  // Generate Wave Splash on Free Surface
+  function createSplash(splashX) {
+    particles.forEach(p => {
+      if (p.isLiquid) {
+        const dx = p.x - splashX;
+        const dist = Math.abs(dx);
+        if (dist < 80) {
+          const waveForce = (1 - dist / 80) * 8.0;
+          p.vy -= waveForce;
+          p.vx += (dx > 0 ? 1 : -1) * waveForce * 0.5;
+        }
+      }
+    });
+  }
+
+  // Render Gas-Liquid Interface Surface Line
+  function drawInterfaceLine() {
+    // Sort liquid particles by X near the free surface to draw a smooth wavy line
+    const surfaceParticles = particles
+      .filter(p => p.isLiquid && Math.abs(p.y - interfaceHeight) < 60)
+      .sort((a, b) => a.x - b.x);
+
+    if (surfaceParticles.length > 2) {
+      ctx.beginPath();
+      ctx.moveTo(surfaceParticles[0].x, surfaceParticles[0].y);
+      for (let i = 1; i < surfaceParticles.length - 1; i++) {
+        const xc = (surfaceParticles[i].x + surfaceParticles[i + 1].x) / 2;
+        const yc = (surfaceParticles[i].y + surfaceParticles[i + 1].y) / 2;
+        ctx.quadraticCurveTo(surfaceParticles[i].x, surfaceParticles[i].y, xc, yc);
+      }
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.7)';
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+    }
+  }
+
+  // Render Chamber & Particles
+  function render() {
+    ctx.clearRect(0, 0, width, height);
+
+    // Chamber outline
     ctx.strokeStyle = '#1e293b';
     ctx.lineWidth = 4;
     ctx.beginPath();
-    ctx.roundRect(8, 8, width - 16, height - 16, 14);
+    ctx.roundRect(10, 10, width - 20, height - 20, 16);
     ctx.stroke();
-  }
 
-  // Render CFD Particles with Motion Trails & Dynamic Colors
-  function renderCFDFluid() {
-    // Semi-transparent background for smooth motion velocity trails
-    ctx.fillStyle = 'rgba(9, 13, 22, 0.4)';
-    ctx.fillRect(0, 0, width, height);
+    // Gas Phase Ambient Tint (Top)
+    ctx.fillStyle = 'rgba(224, 242, 254, 0.03)';
+    ctx.fillRect(12, 12, width - 24, interfaceHeight - 12);
 
-    drawChamber();
+    // Liquid Phase Ambient Tint (Bottom)
+    ctx.fillStyle = 'rgba(2, 132, 199, 0.08)';
+    ctx.fillRect(12, interfaceHeight, width - 24, height - interfaceHeight - 12);
 
-    // Enable glowing additive blend mode for fluid particles
+    // Render Particles
     ctx.globalCompositeOperation = 'screen';
-
     particles.forEach(p => {
-      const color = getCFDColor(p);
-
       ctx.beginPath();
-      ctx.arc(p.x, p.y, p.radius * 1.3, 0, Math.PI * 2);
-      ctx.fillStyle = color;
+      ctx.arc(p.x, p.y, p.radius * 1.4, 0, Math.PI * 2);
+
+      if (p.isLiquid) {
+        // Deep Liquid Cyan/Blue (#0284c7)
+        ctx.fillStyle = 'rgba(2, 132, 199, 0.75)';
+      } else {
+        // Translucent Sky-Blue Gas (#e0f2fe)
+        ctx.fillStyle = 'rgba(224, 242, 254, 0.85)';
+      }
       ctx.fill();
     });
 
     ctx.globalCompositeOperation = 'source-over';
 
-    // Particle cores for crisp visualization
+    // Particle cores for crisp Sebastian Lague visual feel
     particles.forEach(p => {
       ctx.beginPath();
-      ctx.arc(p.x, p.y, p.radius * 0.4, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+      ctx.arc(p.x, p.y, p.radius * 0.5, 0, Math.PI * 2);
+      ctx.fillStyle = p.isLiquid ? '#38bdf8' : '#ffffff';
       ctx.fill();
     });
 
-    // Draw Mouse Pointer Field Circle
-    if (pointer.active || pointer.isDown) {
+    // Draw Interface Wave Line
+    drawInterfaceLine();
+
+    // Draw Mouse Ripple Circle
+    if (mouse.active || mouse.isDown) {
       ctx.beginPath();
-      ctx.arc(pointer.x, pointer.y, pointer.radius, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(56, 189, 248, 0.35)';
-      ctx.lineWidth = 2;
+      ctx.arc(mouse.x, mouse.y, mouse.radius, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
+      ctx.lineWidth = 1.8;
       ctx.stroke();
     }
   }
 
-  // Main 60 FPS Animation Loop
+  // 60 FPS Loop
   function animate() {
-    applyCFDPhysics();
+    applyParticlePhysics();
 
     particles.forEach(p => {
       p.update();
     });
 
-    renderCFDFluid();
+    render();
 
     requestAnimationFrame(animate);
   }
 
-  // Pointer Interaction Coordinates
-  function updatePointerPos(e) {
+  // Mouse & Touch Coordinates
+  function updateMouseCoords(e) {
     const rect = canvas.getBoundingClientRect();
     const scaleX = width / rect.width;
     const scaleY = height / rect.height;
-
     const clientX = e.touches ? e.touches[0].clientX : e.clientX;
     const clientY = e.touches ? e.touches[0].clientY : e.clientY;
 
-    const currentX = (clientX - rect.left) * scaleX;
-    const currentY = (clientY - rect.top) * scaleY;
+    const currX = (clientX - rect.left) * scaleX;
+    const currY = (clientY - rect.top) * scaleY;
 
-    if (pointer.prevX !== -1000) {
-      pointer.vx = currentX - pointer.prevX;
-      pointer.vy = currentY - pointer.prevY;
+    if (mouse.prevX !== -1000) {
+      mouse.vx = currX - mouse.prevX;
+      mouse.vy = currY - mouse.prevY;
     }
 
-    pointer.x = currentX;
-    pointer.y = currentY;
-    pointer.prevX = currentX;
-    pointer.prevY = currentY;
-    pointer.active = true;
+    mouse.x = currX;
+    mouse.y = currY;
+    mouse.prevX = currX;
+    mouse.prevY = currY;
+    mouse.active = true;
   }
 
-  // Pressure Shockwave Blast (Click Event)
-  function triggerShockwave(x, y) {
-    particles.forEach(p => {
-      const dx = p.x - x;
-      const dy = p.y - y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 120 && dist > 0) {
-        const blastForce = (1 - dist / 120) * 12.0;
-        p.vx += (dx / dist) * blastForce;
-        p.vy += (dy / dist) * blastForce;
-        p.speed = 15; // High speed spike (turns RED)
-      }
-    });
-  }
-
-  // Mouse & Touch Event Listeners
+  // Event Listeners
   canvas.addEventListener('mousemove', e => {
-    updatePointerPos(e);
+    updateMouseCoords(e);
   });
 
   canvas.addEventListener('mousedown', e => {
-    pointer.isDown = true;
-    updatePointerPos(e);
-    triggerShockwave(pointer.x, pointer.y);
+    mouse.isDown = true;
+    updateMouseCoords(e);
+    // Inject Gas Bubble on Click
+    injectBubble(mouse.x, mouse.y);
   });
 
   window.addEventListener('mouseup', () => {
-    pointer.isDown = false;
-    pointer.vx = 0;
-    pointer.vy = 0;
+    mouse.isDown = false;
+    mouse.vx = 0;
+    mouse.vy = 0;
   });
 
   canvas.addEventListener('mouseleave', () => {
-    pointer.active = false;
-    pointer.isDown = false;
-    pointer.prevX = -1000;
+    mouse.active = false;
+    mouse.isDown = false;
+    mouse.prevX = -1000;
   });
 
   // Touch Support
   canvas.addEventListener('touchstart', e => {
-    pointer.isDown = true;
-    updatePointerPos(e);
-    triggerShockwave(pointer.x, pointer.y);
+    mouse.isDown = true;
+    updateMouseCoords(e);
+    injectBubble(mouse.x, mouse.y);
   }, { passive: true });
 
   canvas.addEventListener('touchmove', e => {
-    updatePointerPos(e);
+    updateMouseCoords(e);
   }, { passive: true });
 
   canvas.addEventListener('touchend', () => {
-    pointer.isDown = false;
-    pointer.active = false;
-    pointer.prevX = -1000;
+    mouse.isDown = false;
+    mouse.active = false;
   });
 
-  // UI Controls
-  const metricSelect = document.getElementById('metric-select');
-  const viscSlider = document.getElementById('visc-slider');
-  const blastBtn = document.getElementById('blast-btn');
+  // UI Control Panel Event Listeners
+  const bubbleBtn = document.getElementById('bubble-btn');
+  const splashBtn = document.getElementById('splash-btn');
+  const tensionSlider = document.getElementById('tension-slider');
   const resetBtn = document.getElementById('reset-btn');
 
-  if (metricSelect) {
-    metricSelect.addEventListener('change', e => {
-      colorMetric = e.target.value;
+  if (bubbleBtn) {
+    bubbleBtn.addEventListener('click', () => {
+      injectBubble(width / 2, height - 60);
     });
   }
 
-  if (viscSlider) {
-    viscSlider.addEventListener('input', e => {
-      viscosity = parseFloat(e.target.value);
+  if (splashBtn) {
+    splashBtn.addEventListener('click', () => {
+      createSplash(width / 2);
     });
   }
 
-  if (blastBtn) {
-    blastBtn.addEventListener('click', () => {
-      triggerShockwave(width / 2, height / 2);
+  if (tensionSlider) {
+    tensionSlider.addEventListener('input', e => {
+      surfaceTension = parseFloat(e.target.value);
     });
   }
 
   if (resetBtn) {
     resetBtn.addEventListener('click', () => {
-      initParticles();
+      initSimulation();
     });
   }
 
   // Start Simulation
-  initParticles();
+  initSimulation();
   animate();
 });

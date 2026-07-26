@@ -43,42 +43,28 @@
       </div>
     </div>
 
-    <!-- Interactive CFD Particle Fluid Simulator -->
+    <!-- Sebastian Lague / Coding Train Style Gas-Liquid Interface Simulator -->
     <div class="simulator-card">
       <div class="sim-header">
-        <h2 class="sim-title">Simulador de Fluidos CFD (Mapeamento Dinâmico de Cores)</h2>
-        <p class="sim-subtitle">Mova o mouse para agitar o fluido e criar vórtices. Clique para disparar uma onda de choque de pressão!</p>
+        <h2 class="sim-title">Simulador de Interface Gás-Líquido 2D</h2>
+        <p class="sim-subtitle"><strong>💡 Dica:</strong> Mova o mouse sobre a interface para criar ondas e marolas. Clique no líquido para injetar bolhas de gás!</p>
       </div>
 
       <div class="canvas-wrapper">
         <canvas id="fluid-canvas"></canvas>
       </div>
 
-      <!-- Color Spectrum Scale -->
-      <div class="legend-bar">
-        <span>Baixa Velocidade / Pressão</span>
-        <div class="color-gradient"></div>
-        <span>Alta Velocidade / Pressão</span>
-      </div>
-
       <!-- Control Panel -->
       <div class="controls-panel">
-        <div class="control-group">
-          <span class="control-label">Mapeamento de Cor:</span>
-          <select id="metric-select" class="sim-select">
-            <option value="speed">Velocidade (|v|)</option>
-            <option value="pressure">Pressão Hidrostática (P)</option>
-            <option value="mixed">Misto (Velocidade + Pressão)</option>
-          </select>
-        </div>
+        <button id="bubble-btn" class="sim-btn">Injetar Bolha de Gás</button>
+        <button id="splash-btn" class="sim-btn" style="background-color: #0284c7; color: #fff;">Gerar Onda (Splash)</button>
 
         <div class="control-group">
-          <span class="control-label">Viscosidade:</span>
-          <input type="range" id="visc-slider" class="sim-slider" min="0.90" max="0.99" step="0.01" value="0.96">
+          <span class="control-label">Tensão Interfacial:</span>
+          <input type="range" id="tension-slider" class="sim-slider" min="0.02" max="0.20" step="0.01" value="0.08">
         </div>
 
-        <button id="blast-btn" class="sim-btn" style="background-color: #ef4444; color: #fff;">Onda de Choque</button>
-        <button id="reset-btn" class="sim-btn">Resetar</button>
+        <button id="reset-btn" class="sim-btn">Resetar Interface</button>
       </div>
     </div>
 
