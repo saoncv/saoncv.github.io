@@ -1,6 +1,6 @@
 /* ==========================================================================
-   FLIP Fluid WebGL Engine - Buoyant Floating Red Sphere (Archimedes FSI)
-   and Transparent Hot/Thermal Scale Palette (Pressure + Velocity Metric)
+   FLIP Fluid WebGL Engine - White Air-Entrainment/Foam Effect on Vortices & Interface
+   and Archimedes Floating Red Sphere Mechanics
    ========================================================================== */
 
 var canvas = document.getElementById("myCanvas");
@@ -162,6 +162,8 @@ class FlipFluid {
     this.particlePos = new Float32Array(2 * this.maxParticles);
     this.particleColor = new Float32Array(3 * this.maxParticles);
     for (var i = 0; i < this.maxParticles; i++) {
+      this.particleColor[3 * i] = 0.1;
+      this.particleColor[3 * i + 1] = 0.5;
       this.particleColor[3 * i + 2] = 1.0;
     }
 
@@ -296,7 +298,6 @@ class FlipFluid {
 
     let totalForceX = 0.0;
     let totalForceY = 0.0;
-    let submersedCount = 0;
 
     for (var i = 0; i < this.numParticles; i++) {
       var x = this.particlePos[2 * i];
@@ -319,10 +320,9 @@ class FlipFluid {
           this.particleVel[2 * i] = window.scene.obstacleVelX;
           this.particleVel[2 * i + 1] = window.scene.obstacleVelY;
         } else {
-          const impulse = overlap * 22.0;
+          const impulse = overlap * 25.0;
           totalForceX -= nx * impulse;
           totalForceY -= ny * impulse;
-          submersedCount++;
         }
       }
 
@@ -347,9 +347,8 @@ class FlipFluid {
     }
 
     if (!window.scene.isDraggingObstacle) {
-      window.scene.obstacleVx += totalForceX * 0.008;
-      window.scene.obstacleVy += totalForceY * 0.008;
-      window.scene.submersedCount = submersedCount;
+      window.scene.obstacleVx += totalForceX * 0.01;
+      window.scene.obstacleVy += totalForceY * 0.01;
     }
   }
 
@@ -595,51 +594,35 @@ class FlipFluid {
     }
   }
 
-  // Update Particle Colors with Refined Transparent Hot/Thermal Scale Palette
+  // Restore White Foam/Air-Entrainment Effect on Vortices & Free Surfaces (relDensity < 0.7)
   updateParticleColors() {
     var h1 = this.fInvSpacing;
+    var sDecay = 0.015;
+
     for (var i = 0; i < this.numParticles; i++) {
+      // Decay red & green channels back towards clear blue
+      this.particleColor[3 * i] = clamp(this.particleColor[3 * i] - sDecay, 0.1, 1.0);
+      this.particleColor[3 * i + 1] = clamp(this.particleColor[3 * i + 1] - sDecay, 0.45, 1.0);
+      this.particleColor[3 * i + 2] = clamp(this.particleColor[3 * i + 2] + sDecay, 0.7, 1.0);
+
       var x = this.particlePos[2 * i];
       var y = this.particlePos[2 * i + 1];
-      var vx = this.particleVel[2 * i];
-      var vy = this.particleVel[2 * i + 1];
-      var speed = Math.sqrt(vx * vx + vy * vy);
-
       var xi = clamp(Math.floor(x * h1), 1, this.fNumX - 1);
       var yi = clamp(Math.floor(y * h1), 1, this.fNumY - 1);
       var cellNr = xi * this.fNumY + yi;
 
-      var cellPressure = Math.abs(this.p[cellNr]);
       var d0 = this.particleRestDensity;
-      var relDensity = d0 > 0.0 ? this.particleDensity[cellNr] / d0 : 1.0;
+      if (d0 > 0.0) {
+        var relDensity = this.particleDensity[cellNr] / d0;
 
-      // Mixed Energy Metric S: Speed + Hydrodynamic Pressure
-      var sNorm = Math.min(1.0, (speed / 6.0) * 0.55 + (cellPressure * 0.00012 + Math.max(0, relDensity - 0.95)) * 0.45);
-
-      // Hot Thermal Scale (Aquatic Cyan -> Soft Violet -> Glowing Solar Amber)
-      var r, g, b;
-      if (sNorm < 0.35) {
-        // Low Energy: Aquatic Cyan (#38bdf8)
-        r = 0.22 + sNorm * 0.4;
-        g = 0.74 + sNorm * 0.2;
-        b = 0.97;
-      } else if (sNorm < 0.70) {
-        // Mid Energy: Soft Violet/Purple (#a855f7)
-        var t = (sNorm - 0.35) / 0.35;
-        r = 0.36 + t * 0.30;
-        g = 0.81 - t * 0.45;
-        b = 0.97 - t * 0.03;
-      } else {
-        // High Energy: Solar Gold / Amber (#fbbf24)
-        var t = (sNorm - 0.70) / 0.30;
-        r = 0.66 + t * 0.32;
-        g = 0.36 + t * 0.38;
-        b = 0.94 - t * 0.78;
+        // AIR-ENTRAINED VORTEX OR FREE SURFACE INTERFACE (rho/rho0 < 0.75) -> WHITE FOAM EFFECT!
+        if (relDensity < 0.75) {
+          var sFoam = 0.88;
+          this.particleColor[3 * i] = sFoam;      // Red = 0.88
+          this.particleColor[3 * i + 1] = sFoam;  // Green = 0.88
+          this.particleColor[3 * i + 2] = 1.0;    // Blue = 1.0 -> WHITE FOAM GLOW!
+        }
       }
-
-      this.particleColor[3 * i] = clamp(r, 0.0, 1.0);
-      this.particleColor[3 * i + 1] = clamp(g, 0.0, 1.0);
-      this.particleColor[3 * i + 2] = clamp(b, 0.0, 1.0);
     }
   }
 
@@ -675,14 +658,12 @@ window.scene = {
   compensateDrift: true,
   separateParticles: true,
 
-  // Buoyancy Properties for Passive Floating Red Sphere
+  // Floating Red Sphere (Archimedes Buoyancy FSI)
   obstacleX: 2.0,
-  obstacleY: 1.5,
+  obstacleY: 2.2,
   obstacleVx: 0.0,
   obstacleVy: 0.0,
   obstacleRadius: 0.15,
-  sphereDensityRatio: 0.35, // Less dense than fluid -> Archimedes Buoyancy!
-  submersedCount: 0,
   isDraggingObstacle: false,
 
   paused: false,
@@ -704,7 +685,7 @@ window.setupScene = function() {
   window.scene.numParticleIters = 2;
 
   window.scene.obstacleX = simWidth * 0.5;
-  window.scene.obstacleY = simHeight * 0.5;
+  window.scene.obstacleY = simHeight * 0.7;
   window.scene.obstacleVx = 0.0;
   window.scene.obstacleVy = 0.0;
 
@@ -714,7 +695,7 @@ window.setupScene = function() {
   var h = tankHeight / res;
   var density = 1000.0;
 
-  var relWaterHeight = 0.8;
+  var relWaterHeight = 0.75;
   var relWaterWidth = 0.6;
 
   var r = 0.3 * h;
@@ -781,7 +762,7 @@ const pointFragmentShader = `
       float r2 = rx * rx + ry * ry;
       if (r2 > 0.25) discard;
     }
-    gl_FragColor = vec4(fragColor, 0.85);
+    gl_FragColor = vec4(fragColor, 1.0);
   }
 `;
 
@@ -808,7 +789,7 @@ const meshFragmentShader = `
   varying vec3 fragColor;
 
   void main() {
-    gl_FragColor = vec4(fragColor, 0.90);
+    gl_FragColor = vec4(fragColor, 0.95);
   }
 `;
 
@@ -1102,31 +1083,30 @@ function simulate() {
   if (!window.scene.paused && window.scene.fluid) {
     const dt = window.scene.dt;
 
-    // Archimedes Buoyancy FSI Integration for Floating Red Sphere (When not dragged)
+    // Passive Archimedes Buoyancy FSI Integration for Floating Red Sphere (When not dragged)
     if (!window.scene.isDraggingObstacle) {
       const aEf = getEfectiveAcceleration(window.scene.obstacleX, window.scene.obstacleY, window.scene.obstacleVx, window.scene.obstacleVy);
       
-      // Archimedes Upward Buoyancy Acceleration: (rho_fluid - rho_sphere) * g
-      const buoyancyFactor = (1.0 - window.scene.sphereDensityRatio);
-      const buoyancyAx = -aEf.ax * buoyancyFactor * (window.scene.submersedCount > 0 ? 0.8 : 0.0);
-      const buoyancyAy = -aEf.ay * buoyancyFactor * (window.scene.submersedCount > 0 ? 0.8 : 0.0);
+      // Upward Buoyancy force (opposite to gravity vector)
+      const netBuoyancyY = -aEf.ay * 1.6;
+      const netBuoyancyX = -aEf.ax * 1.6;
 
-      window.scene.obstacleVx += (aEf.ax + buoyancyAx) * dt;
-      window.scene.obstacleVy += (aEf.ay + buoyancyAy) * dt;
+      window.scene.obstacleVx += (aEf.ax + netBuoyancyX) * dt;
+      window.scene.obstacleVy += (aEf.ay + netBuoyancyY) * dt;
 
-      // Apply damping
-      window.scene.obstacleVx *= 0.97;
-      window.scene.obstacleVy *= 0.97;
+      // Apply air/fluid resistance damping
+      window.scene.obstacleVx *= 0.95;
+      window.scene.obstacleVy *= 0.95;
 
       let newX = window.scene.obstacleX + window.scene.obstacleVx * dt;
       let newY = window.scene.obstacleY + window.scene.obstacleVy * dt;
 
       // Tank Wall Boundaries
       const r = window.scene.obstacleRadius + 0.05;
-      if (newX < r) { newX = r; window.scene.obstacleVx *= -0.5; }
-      if (newX > simWidth - r) { newX = simWidth - r; window.scene.obstacleVx *= -0.5; }
-      if (newY < r) { newY = r; window.scene.obstacleVy *= -0.5; }
-      if (newY > simHeight - r) { newY = simHeight - r; window.scene.obstacleVy *= -0.5; }
+      if (newX < r) { newX = r; window.scene.obstacleVx *= -0.4; }
+      if (newX > simWidth - r) { newX = simWidth - r; window.scene.obstacleVx *= -0.4; }
+      if (newY < r) { newY = r; window.scene.obstacleVy *= -0.4; }
+      if (newY > simHeight - r) { newY = simHeight - r; window.scene.obstacleVy *= -0.4; }
 
       setObstacle(newX, newY, false);
     }
