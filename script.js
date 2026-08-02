@@ -973,7 +973,7 @@ function draw() {
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, mascotImg);
       gl.bindTexture(gl.TEXTURE_2D, null);
     };
-    mascotImg.src = 'assets/phi_lab_mascot.png';
+    mascotImg.src = 'assets/phi_lab_logo.png';
   }
 
   gl.clear(gl.DEPTH_BUFFER_BIT);
