@@ -1174,15 +1174,23 @@ window.addEventListener('DOMContentLoaded', function() {
   window.setupScene();
   update();
 
-  var mailButtons = document.querySelectorAll('#email-btn, #email-btn-rd, #email-btn-student, #email-btn-rd-en, #email-btn-student-en');
-  mailButtons.forEach(function(btn) {
-    btn.addEventListener('click', function(e) {
-      e.preventDefault();
-      var u = 'saon';
-      var d = 'unicamp.br';
-      window.location.href = 'mailto:' + u + '@' + d;
+  // Universal Obfuscated Email Handler for saon@unicamp.br
+  function bindEmailButtons() {
+    var mailButtons = document.querySelectorAll('a[href="#email"], [id^="email-btn"]');
+    mailButtons.forEach(function(btn) {
+      if (!btn.dataset.emailBound) {
+        btn.dataset.emailBound = "true";
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          var u = 'saon';
+          var d = 'unicamp.br';
+          window.location.href = 'mailto:' + u + '@' + d;
+        });
+      }
     });
-  });
+  }
+
+  bindEmailButtons();
 });
 
 // Immediate execution fallback
