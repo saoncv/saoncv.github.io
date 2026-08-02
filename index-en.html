@@ -120,17 +120,56 @@
     <!-- Main Content -->
     <main role="main">
       
-      <!-- Section: Latest News -->
+      <!-- Section: Interactive FLIP Simulator (Item 2 Diretrizes - Vanilla WebGL) -->
+      <section class="simulator-card" id="simulator">
+        <div class="sim-header">
+          <h2 class="sim-title">Interactive FLIP Fluid Simulator (2D Flow)</h2>
+          <p class="sim-subtitle">Click and drag the red obstacle to interact with the fluid flow in real time! (Powered by Vanilla WebGL)</p>
+        </div>
+
+        <div class="canvas-wrapper">
+          <canvas id="myCanvas"></canvas>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="controls-panel" role="region" aria-label="Fluid Simulator Controls">
+          <label class="control-label-check">
+            <input type="checkbox" checked onclick="window.scene.showParticles = !window.scene.showParticles" aria-label="Show Particles"> Particles
+          </label>
+          
+          <label class="control-label-check">
+            <input type="checkbox" onclick="window.scene.showGrid = !window.scene.showGrid" aria-label="Show Grid"> Grid
+          </label>
+          
+          <label class="control-label-check">
+            <input type="checkbox" checked onclick="window.scene.compensateDrift = !window.scene.compensateDrift" aria-label="Compensate Drift"> Compensate Drift
+          </label>
+
+          <label class="control-label-check">
+            <input type="checkbox" checked onclick="window.scene.separateParticles = !window.scene.separateParticles" aria-label="Separate Particles"> Separate Particles
+          </label>
+
+          <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
+            <span id="label-pic-flip">PIC / FLIP Ratio</span>
+            <input type="range" min="0" max="10" value="9" class="sim-slider" aria-labelledby="label-pic-flip" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0.9" onchange="window.scene.flipRatio = 0.1 * this.value; this.setAttribute('aria-valuenow', (0.1 * this.value).toFixed(1));">
+          </div>
+
+          <button id="startButton" class="sim-btn" onclick="window.toggleStart()" aria-label="Pause or Start Simulation">Stop</button>
+          <button class="sim-btn" style="background-color: #f97316; color: #fff;" onclick="window.setupScene()" aria-label="Reset Simulation">Reset</button>
+        </div>
+      </section>
+
+      <!-- Section: Latest News / Update Timeline -->
       <section class="section-block" id="news">
-        <h2 class="section-title">Latest News & Recognition</h2>
+        <h2 class="section-title">Latest News & Honors</h2>
         <ul class="news-list">
           <li class="news-item">
             <span class="news-date">Aug 2026</span>
-            <span class="news-content">Honored at the upcoming <a href="https://www.inova.unicamp.br/premioinventores/edicoes/edicao-2026/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">Unicamp Inventors Award 2026</a> ceremony and recognized for mentorship in the <a href="https://www.inova.unicamp.br/desafio/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">Unicamp Technological Entrepreneurship Challenge (Desafio Unicamp)</a>.</span>
+            <span class="news-content">Honoree at the <a href="https://www.inova.unicamp.br/premioinventores/edicoes/edicao-2026/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">Unicamp Inventors Award 2026</a> ceremony and mentor at the <a href="https://www.inova.unicamp.br/desafio/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">Unicamp Technological Entrepreneurship Challenge</a>.</span>
           </li>
           <li class="news-item">
             <span class="news-date">Jul 2026</span>
-            <span class="news-content">Awarded <strong>2 Petrobras Inventor Awards</strong> for patented multiphase flow measurement technology developed with CEPETRO/UNICAMP and UnB. <a href="https://www.cepetro.unicamp.br/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">[CEPETRO UNICAMP]</a></span>
+            <span class="news-content">Awarded <strong>2 Petrobras Inventor Awards</strong> in partnership with the CEPETRO/UNICAMP and UnB R&D teams. <a href="https://www.cepetro.unicamp.br/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">[CEPETRO UNICAMP]</a></span>
           </li>
         </ul>
       </section>
@@ -148,52 +187,13 @@
           </p>
         </div>
         <p class="desc" style="text-align: left; margin-bottom: 1.2rem; font-size: 0.9rem;">
-          Computational Intelligence and Advanced Modeling research unit associated with <strong>ALFA Lab (CEPETRO / FEM / UNICAMP)</strong>. Dedicated to differentiable computational models, scientific machine learning, and physical world models.
+          Computational Intelligence and Advanced Modeling research unit associated with <strong>ALFA Lab (CEPETRO / FEM / UNICAMP)</strong>. Dedicated to differentiable physical models, scientific machine learning, and world models for complex physical systems.
         </p>
         <div style="text-align: left;">
           <a href="phi-lab-en.html" class="sim-btn" style="display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.2rem; text-decoration: none;">
             <span>Explore PHI Lab (Manifesto & Programs)</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
-        </div>
-      </section>
-
-      <!-- Section: Interactive FLIP Simulator -->
-      <section class="simulator-card" id="simulator">
-        <div class="sim-header">
-          <h2 class="sim-title">FLIP 2D Educational Fluid Simulator</h2>
-          <p class="sim-subtitle">Click and drag the red obstacle to interact with the fluid in real-time! (Built in Vanilla WebGL)</p>
-        </div>
-
-        <div class="canvas-wrapper">
-          <canvas id="myCanvas"></canvas>
-        </div>
-
-        <!-- Control Panel -->
-        <div class="controls-panel" role="region" aria-label="Fluid Simulator Controls">
-          <label class="control-label-check">
-            <input type="checkbox" checked onclick="window.scene.showParticles = !window.scene.showParticles" aria-label="Show Particles"> Particles
-          </label>
-          
-          <label class="control-label-check">
-            <input type="checkbox" onclick="window.scene.showGrid = !window.scene.showGrid" aria-label="Show Simulation Grid"> Grid
-          </label>
-          
-          <label class="control-label-check">
-            <input type="checkbox" checked onclick="window.scene.compensateDrift = !window.scene.compensateDrift" aria-label="Compensate Drift"> Compensate Drift
-          </label>
-
-          <label class="control-label-check">
-            <input type="checkbox" checked onclick="window.scene.separateParticles = !window.scene.separateParticles" aria-label="Separate Interleaved Particles"> Separate Particles
-          </label>
-
-          <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
-            <span id="label-pic-flip">PIC / FLIP Ratio</span>
-            <input type="range" min="0" max="10" value="9" class="sim-slider" aria-labelledby="label-pic-flip" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0.9" onchange="window.scene.flipRatio = 0.1 * this.value; this.setAttribute('aria-valuenow', (0.1 * this.value).toFixed(1));">
-          </div>
-
-          <button id="startButton" class="sim-btn" onclick="window.toggleStart()" aria-label="Pause or Start Simulation">Stop</button>
-          <button class="sim-btn" style="background-color: #f97316; color: #fff;" onclick="window.setupScene()" aria-label="Reset Simulation">Reset</button>
         </div>
       </section>
 
@@ -380,7 +380,6 @@
             <li><strong>Thermal Engineering I & II</strong> (Undergraduate in Control and Automation Engineering)</li>
             <li><strong>Data-Driven Engineering</strong> (Graduate Program in Petroleum Science & Engineering)</li>
             <li><strong>Multiphase Flows — CFD</strong> (Graduate Program in Petroleum Science & Engineering)</li>
-            <li><strong>Petroleum Production & Artificial Lift Engineering</strong> (Graduate Program in Petroleum Science & Engineering)</li>
           </ul>
         </div>
       </section>
