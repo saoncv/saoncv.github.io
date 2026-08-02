@@ -62,3 +62,5 @@ Este repositório contém o código-fonte do site acadêmico pessoal hospedado v
   - **Software & Automação:** Ferramentas open-source, pacotes estruturados e scripts de terminal desenvolvidos e mantidos no GitHub (ex: `gerar_projeto_python`).
   - **Material Didático:** Slides, ementas, materiais de aula para a faculdade de Engenharia Mecânica e notebooks educacionais interativos.
 - **Escaneabilidade Técnica:** Ao linkar projetos de código, utilize tags textuais curtas ao lado do link para indicar a tecnologia base (ex: `[Python]`, `[Graph RAG]`).
+- **Internacionalização Bilíngue (PT / EN):** Todo conteúdo e atualização em `index.html` (Português) deve ter paridade completa mantida de forma síncrona em `index-en.html` (Inglês), incluindo os atributos `<html lang="...">` e o seletor de idiomas no cabeçalho.
+- **Manifesto de Ciência Aberta (Open Science & Open Access):** Toda seção de publicações deve conter o aviso explícito de compromisso com a ciência aberta e acesso livre, fornecendo links diretos para os DOIs, e-prints e código-fonte dos artigos.
