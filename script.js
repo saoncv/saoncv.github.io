@@ -20,6 +20,7 @@ function getWebGLContext(c) {
 
 var gl = getWebGLContext(canvas);
 var mascotImg = null;
+var mascotTex = null;
 
 var simHeight = 3.0;
 var cScale = 150.0;
@@ -776,21 +777,31 @@ const meshVertexShader = `
   uniform float scale;
 
   varying vec3 fragColor;
+  varying vec2 vTexCoord;
 
   void main() {
     vec2 v = translation + attrPosition * scale;
     vec4 screenTransform = vec4(2.0 / domainSize.x, 2.0 / domainSize.y, -1.0, -1.0);
     gl_Position = vec4(v * screenTransform.xy + screenTransform.zw, 0.0, 1.0);
     fragColor = color;
+    vTexCoord = vec2(0.5 + attrPosition.x * 0.5, 0.5 - attrPosition.y * 0.5);
   }
 `;
 
 const meshFragmentShader = `
   precision mediump float;
   varying vec3 fragColor;
+  varying vec2 vTexCoord;
+  uniform sampler2D uTexture;
+  uniform float uUseTexture;
 
   void main() {
-    gl_FragColor = vec4(fragColor, 0.95);
+    if (uUseTexture > 0.5) {
+      vec4 texColor = texture2D(uTexture, vTexCoord);
+      gl_FragColor = texColor;
+    } else {
+      gl_FragColor = vec4(fragColor, 0.95);
+    }
   }
 `;
 
@@ -817,6 +828,8 @@ function createShader(gl, vsSource, fsSource) {
   shader.locs.scale = gl.getUniformLocation(shader, 'scale');
   shader.locs.attrPosition = gl.getAttribLocation(shader, 'attrPosition');
   shader.locs.attrColor = gl.getAttribLocation(shader, 'attrColor');
+  shader.locs.uTexture = gl.getUniformLocation(shader, 'uTexture');
+  shader.locs.uUseTexture = gl.getUniformLocation(shader, 'uUseTexture');
 
   return shader;
 }
@@ -945,9 +958,21 @@ function draw() {
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
   }
 
-  // Draw Obstacle (PHI Lab Mascot Texture / Image overlay)
+  // Draw Red Sphere / Mascot Obstacle with WebGL Texture
   if (mascotImg == null) {
     mascotImg = new Image();
+    mascotImg.crossOrigin = "anonymous";
+    mascotImg.onload = function() {
+      if (!gl) return;
+      mascotTex = gl.createTexture();
+      gl.bindTexture(gl.TEXTURE_2D, mascotTex);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, mascotImg);
+      gl.bindTexture(gl.TEXTURE_2D, null);
+    };
     mascotImg.src = 'assets/phi_lab_mascot.png';
   }
 
@@ -960,6 +985,15 @@ function draw() {
   gl.uniform2f(meshShader.locs.translation, window.scene.obstacleX, window.scene.obstacleY);
   gl.uniform1f(meshShader.locs.scale, window.scene.obstacleRadius + window.scene.fluid.particleRadius);
 
+  if (mascotTex) {
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, mascotTex);
+    gl.uniform1i(meshShader.locs.uTexture, 0);
+    gl.uniform1f(meshShader.locs.uUseTexture, 1.0);
+  } else {
+    gl.uniform1f(meshShader.locs.uUseTexture, 0.0);
+  }
+
   var posLoc = meshShader.locs.attrPosition;
   gl.enableVertexAttribArray(posLoc);
   gl.bindBuffer(gl.ARRAY_BUFFER, diskVertBuffer);
@@ -968,23 +1002,6 @@ function draw() {
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, diskIdBuffer);
   gl.drawElements(gl.TRIANGLES, 3 * numSegs, gl.UNSIGNED_SHORT, 0);
   gl.disableVertexAttribArray(posLoc);
-
-  // Overlay Mascot Image with 2D Canvas Context overlay / WebGL blend
-  if (mascotImg && mascotImg.complete && mascotImg.naturalWidth !== 0) {
-    let ctx2d = canvas.getContext('2d');
-    if (ctx2d) {
-      let r = (window.scene.obstacleRadius + window.scene.fluid.particleRadius) * cScale;
-      let cx = window.scene.obstacleX * cScale;
-      let cy = canvas.height - window.scene.obstacleY * cScale;
-
-      ctx2d.save();
-      ctx2d.beginPath();
-      ctx2d.arc(cx, cy, r, 0, Math.PI * 2);
-      ctx2d.clip();
-      ctx2d.drawImage(mascotImg, cx - r, cy - r, r * 2, r * 2);
-      ctx2d.restore();
-    }
-  }
 }
 
 function setObstacle(x, y, reset) {
