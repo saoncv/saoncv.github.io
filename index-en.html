@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Prof. Dr. Saon Crispim Vieira | UNICAMP</title>
-  <meta name="description" content="Portal Acadêmico do Prof. Dr. Saon Crispim Vieira - Professor Doutor na Faculdade de Engenharia Mecânica da UNICAMP (Departamento de Energia). Ex-Engenheiro de Petróleo Sênior e Consultor na Petrobras.">
+  <meta name="description" content="Academic Portal of Prof. Dr. Saon Crispim Vieira - Assistant Professor at the School of Mechanical Engineering at UNICAMP (Energy Department). Former Senior Petroleum Engineer & Consultant at Petrobras.">
 
-  <!-- Indexação Acadêmica (Highwire Press / Google Scholar) -->
+  <!-- Academic Indexing (Highwire Press / Google Scholar) -->
   <meta name="citation_author" content="Vieira, Saon Crispim">
   <meta name="citation_author_institution" content="University of Campinas (UNICAMP)">
   <meta name="citation_language" content="en">
@@ -25,19 +25,19 @@
     <!-- Profile Card -->
     <header class="card" role="banner">
       <div class="lang-switch">
-        <span class="lang-btn active">PT</span>
+        <a href="index.html" class="lang-btn">PT</a>
         <span class="lang-sep">|</span>
-        <a href="index-en.html" class="lang-btn">EN</a>
+        <span class="lang-btn active">EN</span>
       </div>
 
       <img src="assets/jack_black_avatar.jpg" alt="Prof. Dr. Saon Crispim Vieira" class="avatar">
       <h1 class="name">Saon Crispim Vieira</h1>
-      <p class="title-current">Professor Doutor | Departamento de Energia (FEM / UNICAMP)</p>
-      <p class="title-former">Ex-Engenheiro de Petróleo Sênior & Consultor na Petrobras (2008–2026)</p>
+      <p class="title-current">Assistant Professor | Energy Department (FEM / UNICAMP)</p>
+      <p class="title-former">Former Senior Petroleum Engineer & Consultant at Petrobras (2008–2026)</p>
 
       <p class="desc">
-        Docente e pesquisador na Faculdade de Engenharia Mecânica da UNICAMP. Atuou por 18 anos na Petrobras em Escoamento Multifásico, Elevação Artificial (BCSS/ESP) e Garantia de Escoamento.<br>
-        Pesquisa voltada a dinamismo de golfadas, instrumentação não-invasiva, fluidodinâmica computacional (CFD) e IA informada pela física (Physics-Informed ML).
+        Faculty member and researcher at the School of Mechanical Engineering, UNICAMP. Worked for 18 years at Petrobras specializing in Multiphase Flow, Artificial Lift (ESP/BCSS), and Flow Assurance.<br>
+        Research focuses on slug flow dynamics, non-intrusive instrumentation, Computational Fluid Dynamics (CFD), and Physics-Informed Machine Learning.
       </p>
 
       <div class="links">
@@ -61,30 +61,30 @@
     <!-- Main Content -->
     <main role="main">
       
-      <!-- Section: Latest News / Timeline de Atualizações (Item 1 Diretrizes) -->
+      <!-- Section: Latest News -->
       <section class="section-block" id="news">
-        <h2 class="section-title">Últimas Notícias</h2>
+        <h2 class="section-title">Latest News</h2>
         <ul class="news-list">
           <li class="news-item">
             <span class="news-date">Jul 2026</span>
-            <span class="news-content">Publicação do artigo sobre caracterização de escoamento em golfadas com medições piezoelétricas não-invasivas.</span>
+            <span class="news-content">Publication of research paper on horizontal slug flow characterization using non-intrusive piezoelectric pressure measurements.</span>
           </li>
           <li class="news-item">
             <span class="news-date">Jun 2026</span>
-            <span class="news-content">Concessão do <strong>Prêmio Inventor Unicamp 2026</strong> pela Agência de Inovação Inova Unicamp.</span>
+            <span class="news-content">Awarded the <strong>Unicamp Inventor Award 2026</strong> by the Inova Unicamp Innovation Agency.</span>
           </li>
           <li class="news-item">
             <span class="news-date">Mar 2026</span>
-            <span class="news-content">Transição profissional concluída da Petrobras para docência exclusiva no Departamento de Energia da FEM/UNICAMP.</span>
+            <span class="news-content">Completed professional transition from Petrobras to full-time academia at the Energy Department (FEM/UNICAMP).</span>
           </li>
         </ul>
       </section>
 
-      <!-- Section: Interactive FLIP Simulator (Item 2 Diretrizes - Vanilla WebGL) -->
+      <!-- Section: Interactive FLIP Simulator -->
       <section class="simulator-card" id="simulator">
         <div class="sim-header">
-          <h2 class="sim-title">Simulador Didático de Fluidos FLIP (Escoamento 2D)</h2>
-          <p class="sim-subtitle">Clique e arraste o obstáculo vermelho para interagir com o fluido em tempo real! (Desenvolvido em WebGL Vanilla)</p>
+          <h2 class="sim-title">FLIP 2D Educational Fluid Simulator</h2>
+          <p class="sim-subtitle">Click and drag the red obstacle to interact with the fluid in real-time! (Built in Vanilla WebGL)</p>
         </div>
 
         <div class="canvas-wrapper">
@@ -92,62 +92,62 @@
         </div>
 
         <!-- Control Panel -->
-        <div class="controls-panel" role="region" aria-label="Controles do Simulador de Fluidos">
+        <div class="controls-panel" role="region" aria-label="Fluid Simulator Controls">
           <label class="control-label-check">
-            <input type="checkbox" checked onclick="window.scene.showParticles = !window.scene.showParticles" aria-label="Exibir Partículas"> Particles
+            <input type="checkbox" checked onclick="window.scene.showParticles = !window.scene.showParticles" aria-label="Show Particles"> Particles
           </label>
           
           <label class="control-label-check">
-            <input type="checkbox" onclick="window.scene.showGrid = !window.scene.showGrid" aria-label="Exibir Grade da Simulação"> Grid
+            <input type="checkbox" onclick="window.scene.showGrid = !window.scene.showGrid" aria-label="Show Simulation Grid"> Grid
           </label>
           
           <label class="control-label-check">
-            <input type="checkbox" checked onclick="window.scene.compensateDrift = !window.scene.compensateDrift" aria-label="Compensar Deriva"> Compensate Drift
+            <input type="checkbox" checked onclick="window.scene.compensateDrift = !window.scene.compensateDrift" aria-label="Compensate Drift"> Compensate Drift
           </label>
 
           <label class="control-label-check">
-            <input type="checkbox" checked onclick="window.scene.separateParticles = !window.scene.separateParticles" aria-label="Separar Partículas Intercaladas"> Separate Particles
+            <input type="checkbox" checked onclick="window.scene.separateParticles = !window.scene.separateParticles" aria-label="Separate Interleaved Particles"> Separate Particles
           </label>
 
           <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
-            <span id="label-pic-flip">Proporção PIC / FLIP</span>
+            <span id="label-pic-flip">PIC / FLIP Ratio</span>
             <input type="range" min="0" max="10" value="9" class="sim-slider" aria-labelledby="label-pic-flip" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0.9" onchange="window.scene.flipRatio = 0.1 * this.value; this.setAttribute('aria-valuenow', (0.1 * this.value).toFixed(1));">
           </div>
 
-          <button id="startButton" class="sim-btn" onclick="window.toggleStart()" aria-label="Pausar ou Iniciar Simulação">Stop</button>
-          <button class="sim-btn" style="background-color: #f97316; color: #fff;" onclick="window.setupScene()" aria-label="Reiniciar Simulação">Reset</button>
+          <button id="startButton" class="sim-btn" onclick="window.toggleStart()" aria-label="Pause or Start Simulation">Stop</button>
+          <button class="sim-btn" style="background-color: #f97316; color: #fff;" onclick="window.setupScene()" aria-label="Reset Simulation">Reset</button>
         </div>
       </section>
 
-      <!-- Section: Research Axes (Item 7 Diretrizes) -->
+      <!-- Section: Research Axes -->
       <section class="section-block" id="research">
-        <h2 class="section-title">Eixos de Pesquisa</h2>
+        <h2 class="section-title">Research Axes</h2>
         <div class="research-grid">
           <article class="research-card">
-            <h3 class="research-card-title">Dinâmica de Escoamento em Golfadas (Slug Flow)</h3>
-            <p class="research-card-desc">Caracterização experimental e modelagem matemática de escoamentos bifásicos intermitentes em tubulações horizontais e inclinadas. Modelagem por cadeias de Markov para assinaturas de flutuação de pressão.</p>
+            <h3 class="research-card-title">Slug Flow Dynamics & Intermittent Flow</h3>
+            <p class="research-card-desc">Experimental characterization and mathematical modeling of gas-liquid intermittent slug flow in horizontal and inclined pipes. Two-state Markov chain modeling for hydrodynamic pressure fluctuation signatures.</p>
           </article>
 
           <article class="research-card">
-            <h3 class="research-card-title">Elevação Artificial & Separação Gás-Líquido</h3>
-            <p class="research-card-desc">Modelagem hidrodinâmica de campos de fluxo em separadores centrífugos e skids de bombeio centrífugo submerso (BCSS/ESP) para garantia de escoamento e elevação de óleos pesados.</p>
+            <h3 class="research-card-title">Artificial Lift & Gas-Liquid Separation</h3>
+            <p class="research-card-desc">Hydrodynamic flow field modeling inside centrifugal gas-liquid separators and Electrical Submersible Pump (ESP/BCSS) skids for subsea boosting and flow assurance.</p>
           </article>
 
           <article class="research-card">
-            <h3 class="research-card-title">Instrumentação Não-Invasiva & FSI</h3>
-            <p class="research-card-desc">Desenvolvimento de sensores de capacitância e sensores piezoelétricos de parede para identificação de padrões de escoamento e medição de fração de vazio sem intrusividade no duto.</p>
+            <h3 class="research-card-title">Non-Intrusive Instrumentation & FSI</h3>
+            <p class="research-card-desc">Development of wall-integrated multi-capacitance arrays and piezoelectric sensors for non-intrusive flow pattern identification, void fraction estimation, and flow-induced vibration monitoring.</p>
           </article>
 
           <article class="research-card">
-            <h3 class="research-card-title">IA Informada pela Física (Physics-Informed ML)</h3>
-            <p class="research-card-desc">Combinação de primeiros princípios de dinâmica dos fluidos com algoritmos de deep learning para criação de sensores virtuais, gêmeos digitais e monitoramento em tempo real de poços de petróleo.</p>
+            <h3 class="research-card-title">Physics-Informed Machine Learning</h3>
+            <p class="research-card-desc">Integrating first-principles fluid dynamics with deep learning for real-time virtual sensing, digital twins of oil wells, and intelligent production monitoring.</p>
           </article>
         </div>
       </section>
 
-      <!-- Section: Academic Publications (Item 7 Diretrizes - Tríade de Publicação) -->
+      <!-- Section: Academic Publications -->
       <section class="section-block" id="publications">
-        <h2 class="section-title">Publicações Selecionadas</h2>
+        <h2 class="section-title">Selected Publications</h2>
         <div class="pub-list">
           <article class="pub-item">
             <h3 class="pub-title">Horizontal slug flow characterization from non-intrusive piezoelectric pressure measurements</h3>
@@ -181,29 +181,29 @@
         </div>
       </section>
 
-      <!-- Section: Software & Automation (Item 7 Diretrizes - Escaneabilidade Técnica) -->
+      <!-- Section: Software & Open Source -->
       <section class="section-block" id="software">
-        <h2 class="section-title">Software & Automação Open-Source</h2>
+        <h2 class="section-title">Open-Source Software & Automation</h2>
         <div class="research-grid">
           <article class="research-card">
-            <h3 class="research-card-title">FLIP 2D Fluid WebGL Simulator <span class="tag-tech">[WebGL Vanilla]</span></h3>
-            <p class="research-card-desc">Simulador interativo em tempo real de escoamento de fluidos usando método PIC/FLIP implementado sem frameworks externos.</p>
+            <h3 class="research-card-title">FLIP 2D Fluid WebGL Simulator <span class="tag-tech">[Vanilla WebGL]</span></h3>
+            <p class="research-card-desc">Interactive real-time fluid dynamics simulation using the PIC/FLIP method built without external frameworks.</p>
             <div style="margin-top: 0.8rem;">
-              <a href="https://github.com/saoncv/saoncv.github.io" target="_blank" rel="noopener noreferrer" class="btn-link">Ver Código [GitHub]</a>
+              <a href="https://github.com/saoncv/saoncv.github.io" target="_blank" rel="noopener noreferrer" class="btn-link">View Source Code [GitHub]</a>
             </div>
           </article>
         </div>
       </section>
 
-      <!-- Section: Teaching (Item 7 Diretrizes - Material Didático) -->
+      <!-- Section: Teaching -->
       <section class="section-block" id="teaching">
-        <h2 class="section-title">Ensino & Atividades Acadêmicas</h2>
+        <h2 class="section-title">Teaching & Academic Service</h2>
         <div class="news-item" style="padding: 1.2rem; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border);">
-          <p><strong>Disciplinas no Departamento de Energia (FEM / UNICAMP):</strong></p>
+          <p><strong>Courses at Energy Department (FEM / UNICAMP):</strong></p>
           <ul style="margin: 0.8rem 0 0.8rem 1.5rem; color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">
-            <li><strong>Mecânica dos Fluidos II</strong> (Graduação em Engenharia Mecânica)</li>
-            <li><strong>Engenharia Térmica II</strong> (Graduação em Engenharia Mecânica)</li>
-            <li><strong>Engenharia de Produção e Elevação de Petróleo</strong> (Pós-Graduação em Ciências e Engenharia de Petróleo)</li>
+            <li><strong>EM561 - Fluid Mechanics II</strong> (B.Sc. in Mechanical Engineering)</li>
+            <li><strong>ES560 - Thermal Engineering II</strong> (B.Sc. in Mechanical Engineering)</li>
+            <li><strong>PP222 - Petroleum Production & Artificial Lift Engineering</strong> (Graduate Program)</li>
           </ul>
         </div>
       </section>
@@ -211,7 +211,7 @@
     </main>
 
     <footer style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border); font-size: 0.82rem; color: var(--text-muted); text-align: center;">
-      <p>&copy; 2026 Prof. Dr. Saon Crispim Vieira. Faculdade de Engenharia Mecânica — UNICAMP.</p>
+      <p>&copy; 2026 Prof. Dr. Saon Crispim Vieira. School of Mechanical Engineering — UNICAMP.</p>
     </footer>
 
   </div>

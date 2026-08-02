@@ -1132,6 +1132,16 @@ window.addEventListener('DOMContentLoaded', function() {
   initCanvasSize();
   window.setupScene();
   update();
+
+  var emailBtn = document.getElementById('email-btn');
+  if (emailBtn) {
+    emailBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      var u = 'saon';
+      var d = 'unicamp.br';
+      window.location.href = 'mailto:' + u + '@' + d;
+    });
+  }
 });
 
 // Immediate execution fallback
