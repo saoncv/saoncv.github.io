@@ -66,6 +66,40 @@ body {
   color: var(--border);
 }
 
+.brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accent);
+  background-color: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  margin-bottom: 1.2rem;
+}
+
+.open-science-notice {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  padding: 0.85rem 1.1rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.2rem;
+  line-height: 1.5;
+}
+
+.open-science-notice svg {
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
 .avatar {
   width: 150px;
   height: 150px;
