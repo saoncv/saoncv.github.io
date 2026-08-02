@@ -19,15 +19,42 @@
     
     <!-- Profile / Header Card -->
     <header class="card" role="banner">
-      <div class="lang-switch">
-        <a href="phi-lab.html" class="lang-btn">PT</a>
-        <span class="lang-sep">|</span>
-        <span class="lang-btn active">EN</span>
+      <div class="top-nav-controls">
+        <div class="page-switch">
+          <a href="index-en.html" class="nav-switch-btn" title="Back to Personal Profile">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            <span>Personal Profile</span>
+          </a>
+          <span class="lang-sep">|</span>
+          <span class="nav-switch-btn active" title="PHI Lab — Laboratory for Physics-informed Hybrid Intelligence">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20M2 12h20"/></svg>
+            <span>PHI Lab — Physics-informed Hybrid Intelligence</span>
+          </span>
+        </div>
+
+        <div class="lang-switch">
+          <a href="phi-lab.html" class="nav-switch-btn">
+            <img src="https://flagcdn.com/w20/br.png" alt="Brasil" class="flag-icon">
+            <span>PT</span>
+          </a>
+          <span class="lang-sep">|</span>
+          <span class="nav-switch-btn active">
+            <img src="https://flagcdn.com/w20/us.png" alt="English" class="flag-icon">
+            <span>EN</span>
+          </span>
+        </div>
       </div>
 
-      <div class="brand-badge">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20M2 12h20"/></svg>
-        <span>FEM / UNICAMP — CEPETRO</span>
+      <div style="margin-top: 1.5rem; margin-bottom: 0.8rem; display: flex; justify-content: center; align-items: center; gap: 0.6rem;">
+        <a href="https://www.unicamp.br/" target="_blank" rel="noopener noreferrer" title="University of Campinas — UNICAMP">
+          <svg width="42" height="42" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="45" stroke="#38bdf8" stroke-width="4" fill="none"/>
+            <path d="M50 15 L50 85 M15 50 L85 50 M25 25 L75 75 M25 75 L75 25" stroke="#38bdf8" stroke-width="2.5" opacity="0.6"/>
+            <circle cx="50" cy="50" r="18" fill="#38bdf8"/>
+            <circle cx="50" cy="50" r="8" fill="#0b0f19"/>
+          </svg>
+        </a>
+        <span style="font-family: var(--font-heading); font-size: 1.1rem; font-weight: 700; letter-spacing: 0.05em; color: var(--text-main);">UNICAMP</span>
       </div>
 
       <div style="text-align: center; margin: 1rem 0;">
@@ -48,8 +75,11 @@
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
           <span>Back to Personal Profile</span>
         </a>
-        <a href="https://www.fem.unicamp.br/departamentos/de/" target="_blank" rel="noopener noreferrer" class="btn-link">FEM / UNICAMP</a>
-        <a href="https://cepetro.unicamp.br/" target="_blank" rel="noopener noreferrer" class="btn-link">CEPETRO</a>
+        <a href="https://www.fem.unicamp.br/departamento-de-energia/" target="_blank" rel="noopener noreferrer" class="btn-link">FEM / UNICAMP</a>
+        <a href="https://cepetro.unicamp.br/" target="_blank" rel="noopener noreferrer" class="btn-link">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+          <span>CEPETRO</span>
+        </a>
         <a href="https://www.alfa.cepetro.unicamp.br/" target="_blank" rel="noopener noreferrer" class="btn-link">ALFA Lab</a>
         <a href="https://github.com/saoncv" target="_blank" rel="noopener noreferrer" class="btn-link">GitHub PHI Lab</a>
       </div>
