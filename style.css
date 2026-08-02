@@ -41,21 +41,50 @@ body {
   position: relative;
 }
 
-.lang-switch {
+.top-nav-controls {
   position: absolute;
   top: 1.2rem;
+  left: 1.5rem;
   right: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-switch, .lang-switch {
   display: flex;
   align-items: center;
   gap: 0.4rem;
   font-size: 0.8rem;
   font-weight: 700;
+  background: rgba(15, 23, 42, 0.6);
+  padding: 0.3rem 0.6rem;
+  border-radius: 20px;
+  border: 1px solid var(--border);
 }
 
-.lang-btn {
+.nav-switch-btn {
   color: var(--text-muted);
   text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
   transition: color 0.2s ease;
+}
+
+.nav-switch-btn:hover, .nav-switch-btn.active {
+  color: var(--accent);
+}
+
+.flag-icon {
+  width: 16px;
+  height: 12px;
+  border-radius: 2px;
+  object-fit: cover;
+}
+
+.lang-sep {
+  color: var(--border);
 }
 
 .lang-btn:hover, .lang-btn.active {
