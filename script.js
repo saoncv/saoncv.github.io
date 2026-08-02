@@ -1174,15 +1174,15 @@ window.addEventListener('DOMContentLoaded', function() {
   window.setupScene();
   update();
 
-  var emailBtn = document.getElementById('email-btn');
-  if (emailBtn) {
-    emailBtn.addEventListener('click', function(e) {
+  var mailButtons = document.querySelectorAll('#email-btn, #email-btn-rd, #email-btn-student, #email-btn-rd-en, #email-btn-student-en');
+  mailButtons.forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
       e.preventDefault();
       var u = 'saon';
       var d = 'unicamp.br';
       window.location.href = 'mailto:' + u + '@' + d;
     });
-  }
+  });
 });
 
 // Immediate execution fallback
