@@ -1081,33 +1081,35 @@ function endDrag() {
   }
 }
 
-canvas.addEventListener('mousedown', event => {
-  startDrag(event.clientX, event.clientY);
-});
+if (canvas) {
+  canvas.addEventListener('mousedown', event => {
+    startDrag(event.clientX, event.clientY);
+  });
 
-canvas.addEventListener('mouseup', event => {
-  endDrag();
-});
+  canvas.addEventListener('mouseup', event => {
+    endDrag();
+  });
 
-canvas.addEventListener('mousemove', event => {
-  drag(event.clientX, event.clientY);
-});
+  canvas.addEventListener('mousemove', event => {
+    drag(event.clientX, event.clientY);
+  });
 
-canvas.addEventListener('touchstart', event => {
-  startDrag(event.touches[0].clientX, event.touches[0].clientY);
-}, { passive: true });
+  canvas.addEventListener('touchstart', event => {
+    startDrag(event.touches[0].clientX, event.touches[0].clientY);
+  }, { passive: true });
 
-canvas.addEventListener('touchend', event => {
-  endDrag();
-});
+  canvas.addEventListener('touchend', event => {
+    endDrag();
+  });
 
-canvas.addEventListener('touchmove', event => {
-  if (window.scene.isDraggingObstacle) {
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    drag(event.touches[0].clientX, event.touches[0].clientY);
-  }
-}, { passive: false });
+  canvas.addEventListener('touchmove', event => {
+    if (window.scene.isDraggingObstacle) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      drag(event.touches[0].clientX, event.touches[0].clientY);
+    }
+  }, { passive: false });
+}
 
 window.toggleStart = function() {
   var button = document.getElementById('startButton');
@@ -1121,6 +1123,7 @@ window.toggleStart = function() {
 
 // Physics Simulation Loop
 function simulate() {
+  if (!canvas || !gl) return;
   if (!window.scene.paused && window.scene.fluid) {
     const dt = window.scene.dt;
 
@@ -1159,6 +1162,7 @@ function simulate() {
 }
 
 function update() {
+  if (!canvas || !gl) return;
   simulate();
   draw();
   requestAnimationFrame(update);
@@ -1166,39 +1170,47 @@ function update() {
 
 // Window resize & load handlers
 window.addEventListener('resize', function() {
-  initCanvasSize();
+  if (canvas) {
+    initCanvasSize();
+  }
 });
 
+// Universal Obfuscated Email Handler for saon@unicamp.br with Dynamic Subjects
+function bindEmailButtons() {
+  var mailButtons = document.querySelectorAll('a[href="#email"], [id^="email-btn"]');
+  mailButtons.forEach(function(btn) {
+    if (!btn.dataset.emailBound) {
+      btn.dataset.emailBound = "true";
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        var u = 'saon';
+        var d = 'unicamp.br';
+        var mailtoUrl = 'mailto:' + u + '@' + d;
+        var subject = btn.getAttribute('data-subject');
+        if (subject) {
+          mailtoUrl += '?subject=' + encodeURIComponent(subject);
+        }
+        window.location.href = mailtoUrl;
+      });
+    }
+  });
+}
+
+// Bind email handlers immediately on script load AND on DOMContentLoaded
+bindEmailButtons();
+
 window.addEventListener('DOMContentLoaded', function() {
+  bindEmailButtons();
+  if (canvas && gl) {
+    initCanvasSize();
+    window.setupScene();
+    update();
+  }
+});
+
+// Immediate execution fallback for WebGL canvas
+if (canvas && gl) {
   initCanvasSize();
   window.setupScene();
   update();
-
-  // Universal Obfuscated Email Handler for saon@unicamp.br with Dynamic Subjects
-  function bindEmailButtons() {
-    var mailButtons = document.querySelectorAll('a[href="#email"], [id^="email-btn"]');
-    mailButtons.forEach(function(btn) {
-      if (!btn.dataset.emailBound) {
-        btn.dataset.emailBound = "true";
-        btn.addEventListener('click', function(e) {
-          e.preventDefault();
-          var u = 'saon';
-          var d = 'unicamp.br';
-          var mailtoUrl = 'mailto:' + u + '@' + d;
-          var subject = btn.getAttribute('data-subject');
-          if (subject) {
-            mailtoUrl += '?subject=' + encodeURIComponent(subject);
-          }
-          window.location.href = mailtoUrl;
-        });
-      }
-    });
-  }
-
-  bindEmailButtons();
-});
-
-// Immediate execution fallback
-initCanvasSize();
-window.setupScene();
-update();
+}
