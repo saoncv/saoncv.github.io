@@ -65,3 +65,15 @@ Este repositório contém o código-fonte do site acadêmico pessoal hospedado v
 - **Internacionalização Bilíngue (PT / EN):** Todo conteúdo e atualização em `index.html` (Português) deve ter paridade completa mantida de forma síncrona em `index-en.html` (Inglês), incluindo os atributos `<html lang="...">` e o seletor de idiomas no cabeçalho. O mesmo se aplica estritamente a subpáginas dedicadas de laboratório (`phi-lab.html` e `phi-lab-en.html`).
 - **Manifesto de Ciência Aberta (Open Science & Open Access):** Toda seção de publicações deve conter o aviso explícito de compromisso com a ciência aberta e acesso livre, fornecendo links diretos para os DOIs, e-prints e código-fonte dos artigos.
 - **Subpáginas de Laboratórios & Ecossistemas de Pesquisa (PHI Lab):** As subpáginas do PHI Lab (`phi-lab.html` e `phi-lab-en.html`) contêm o manifesto científico, missão, visão, os cinco princípios e os seis programas permanentes de pesquisa do laboratório associado ao ALFA Lab / CEPETRO / FEM / UNICAMP. Toda nova iniciativa ou alteração nesses programas deve ser refletida síncronamente em ambas as línguas.
+
+---
+
+## 8. Protocolo de Prospecção & Ingestão de Dados (Pesquisa Web, Patentes & Notícias)
+- **Fontes Primárias & Crawling Direcionado:** Ao coletar ou atualizar informações sobre o perfil do autor, projetos, prêmios ou publicações, consulte obrigatoriamente as seguintes bases primárias:
+  - **Currículo Lattes (CNPq):** Base soberana para biografia oficial, cronologia de carreira, lista completa de artigos em periódicos, capítulos, patentes depositadas/concedidas e bancas.
+  - **Google Scholar & Scopus:** Verificação de DOIs, contagem de citações e títulos oficiais de artigos.
+  - **Agência de Inovação Inova Unicamp & Revista CEPETRO:** Coleta de notícias sobre o Prêmio Inventores Unicamp, Desafio Unicamp de Empreendedorismo e parcerias tecnológicas.
+  - **Portais Oficiais da Petrobras & INPI/USPTO:** Confirmação de patentes registradas e Prêmio Inventor Petrobras.
+- **Validação Cruzada de Colaboradores:** Ao realizar buscas web por novidades ou premiações do grupo de pesquisa, utilize os nomes de colaboradores e coautores frequentes (ex: Marcelo Souza de Castro, Juliana Cenzi, Daniely Amorim, Adriano Fabro, Bernardo Foresti) para localizar matérias de imprensa, projetos conjuntos e patentes correlatas.
+- **Triagem & Inclusão de Links Oficiais:** Notícias de prêmios ou patentes adicionadas à seção "Últimas Notícias" devem obrigatoriamente conter links externos diretos para as matérias oficiais ou portais institucionais (com `target="_blank" rel="noopener noreferrer"`).
+- **Paridade Bilíngue Automatizada:** Qualquer dado ou prêmio ingerido a partir do Lattes ou pesquisas web deve ser traduzido e adicionado síncronamente tanto na versão em Português quanto na versão em Inglês.
