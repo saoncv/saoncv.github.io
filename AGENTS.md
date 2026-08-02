@@ -77,3 +77,14 @@ Este repositório contém o código-fonte do site acadêmico pessoal hospedado v
 - **Validação Cruzada de Colaboradores:** Ao realizar buscas web por novidades ou premiações do grupo de pesquisa, utilize os nomes de colaboradores e coautores frequentes (ex: Marcelo Souza de Castro, Juliana Cenzi, Daniely Amorim, Adriano Fabro, Bernardo Foresti) para localizar matérias de imprensa, projetos conjuntos e patentes correlatas.
 - **Triagem & Inclusão de Links Oficiais:** Notícias de prêmios ou patentes adicionadas à seção "Últimas Notícias" devem obrigatoriamente conter links externos diretos para as matérias oficiais ou portais institucionais (com `target="_blank" rel="noopener noreferrer"`).
 - **Paridade Bilíngue Automatizada:** Qualquer dado ou prêmio ingerido a partir do Lattes ou pesquisas web deve ser traduzido e adicionado síncronamente tanto na versão em Português quanto na versão em Inglês.
+
+---
+
+## 9. Governança de Mídia, Branding & Navegação Espelhada
+- **Rastreamento Estrito de Assets de Imagem (`.gitignore`):** Imagens oficiais de branding, logos institucionais, fotos de perfil ou mascotes de laboratórios adicionados ao diretório `assets/` devem obrigatoriamente ser versionados no Git. Regras genéricas de exclusão de mídias (ex: `*.png`, `*.jpg`) no `.gitignore` são proibidas no diretório de distribuição pública `assets/`.
+- **Simbologia Emblemática Nativa (SVG First):** Marcas e logos de instituições acadêmicas (ex: UNICAMP) e centros de pesquisa (ex: CEPETRO) devem priorizar renderizações vetoriais SVG nativas e ícones representativos temáticos (ex: gota de óleo para CEPETRO), evitando o uso de links de imagens externas sujeitos a quebras ou falhas de CORS/servidor.
+- **Hierarquia Visual da Página Inicial:** O simulador didático interativo (ex: FLIP 2D em WebGL) deve figurar imediatamente abaixo do cartão de cabeçalho com a identificação pessoal e links oficiais, garantindo engajamento e destaque pedagógico prioritário no topo da página.
+- **Navegabilidade e Controles Espelhados (Sistemas Pessoal & PHI Lab):** Toda página do ecossistema (`index.html`, `index-en.html`, `phi-lab.html`, `phi-lab-en.html`) deve conter exatamente a mesma estrutura de controles superiores (`.top-nav-controls`):
+  - **Canto Esquerdo (Alternador de Página):** Pílula com seleção ativa/inativa entre *Perfil Pessoal* e *PHI Lab — Physics-informed Hybrid Intelligence*.
+  - **Canto Direito (Alternador de Idioma):** Pílula com seleção ativa/inativa de idioma utilizando bandeiras vetorizadas (`PT 🇧🇷 | EN 🇺🇸`).
+- **Validação de Oferta Didática:** Atualizações na lista de disciplinas ministradas devem respeitar a rigorosa vinculação de curso/curso de origem (ex: *Engenharia Térmica I & II* vinculada à Graduação em Engenharia de Controle e Automação; *Mecânica dos Fluidos I & II* à Graduação em Engenharia Mecânica). Disciplinas inativas ou canceladas devem ser removidas sem deixar resíduos.
