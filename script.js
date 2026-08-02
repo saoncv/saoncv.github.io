@@ -19,6 +19,7 @@ function getWebGLContext(c) {
 }
 
 var gl = getWebGLContext(canvas);
+var mascotImg = null;
 
 var simHeight = 3.0;
 var cScale = 150.0;
@@ -944,6 +945,12 @@ function draw() {
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
   }
 
+  // Draw Obstacle (PHI Lab Mascot Texture / Image overlay)
+  if (mascotImg == null) {
+    mascotImg = new Image();
+    mascotImg.src = 'assets/phi_lab_mascot.png';
+  }
+
   gl.clear(gl.DEPTH_BUFFER_BIT);
   var diskColor = [0.94, 0.27, 0.27];
 
@@ -961,6 +968,23 @@ function draw() {
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, diskIdBuffer);
   gl.drawElements(gl.TRIANGLES, 3 * numSegs, gl.UNSIGNED_SHORT, 0);
   gl.disableVertexAttribArray(posLoc);
+
+  // Overlay Mascot Image with 2D Canvas Context overlay / WebGL blend
+  if (mascotImg && mascotImg.complete && mascotImg.naturalWidth !== 0) {
+    let ctx2d = canvas.getContext('2d');
+    if (ctx2d) {
+      let r = (window.scene.obstacleRadius + window.scene.fluid.particleRadius) * cScale;
+      let cx = window.scene.obstacleX * cScale;
+      let cy = canvas.height - window.scene.obstacleY * cScale;
+
+      ctx2d.save();
+      ctx2d.beginPath();
+      ctx2d.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx2d.clip();
+      ctx2d.drawImage(mascotImg, cx - r, cy - r, r * 2, r * 2);
+      ctx2d.restore();
+    }
+  }
 }
 
 function setObstacle(x, y, reset) {
