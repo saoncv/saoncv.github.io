@@ -1174,7 +1174,7 @@ window.addEventListener('DOMContentLoaded', function() {
   window.setupScene();
   update();
 
-  // Universal Obfuscated Email Handler for saon@unicamp.br
+  // Universal Obfuscated Email Handler for saon@unicamp.br with Dynamic Subjects
   function bindEmailButtons() {
     var mailButtons = document.querySelectorAll('a[href="#email"], [id^="email-btn"]');
     mailButtons.forEach(function(btn) {
@@ -1184,7 +1184,12 @@ window.addEventListener('DOMContentLoaded', function() {
           e.preventDefault();
           var u = 'saon';
           var d = 'unicamp.br';
-          window.location.href = 'mailto:' + u + '@' + d;
+          var mailtoUrl = 'mailto:' + u + '@' + d;
+          var subject = btn.getAttribute('data-subject');
+          if (subject) {
+            mailtoUrl += '?subject=' + encodeURIComponent(subject);
+          }
+          window.location.href = mailtoUrl;
         });
       }
     });
