@@ -1,6 +1,20 @@
 /* ==========================================================================
-   FLIP Fluid WebGL Engine - White Air-Entrainment/Foam Effect on Vortices & Interface,
-   Hybrid Passive Sinking/Active Red Sphere (Gravity & Fluid Collision FSI)
+   🎓 GUIA DIDÁTICO SOCRÁTICO — MOTOR FÍSICO-COMPUTACIONAL FLIP 2D EM WEBGL
+   ==========================================================================
+   
+   PERGUNTA SOCRÁTICA PARA REFLEXÃO DO ALUNO DE ENGENHARIA / COMPUTAÇÃO:
+   "Por que os simuladores numéricos modernos de escoamento multifásico combinam uma
+    grade espacial fixa (Visão Euleriana) com partículas de fluido móveis (Visão Lagrangeana)?"
+
+   RESPOSTA DIDÁTICA & CONCEITUAL (Método FLIP - Fluid-Implicit-Particle):
+   1. Descrição Euleriana (Grade Grid): As equações de conservação de massa (∇·u = 0)
+      e quantidade de movimento (Navier-Stokes) são resolvidas eficientemente na grade
+      espacial fixa por meio da Solução da Equação de Poisson de Pressão.
+   2. Descrição Lagrangeana (Partículas): As partículas transportam massa e características
+      do fluido sem a difusão numérica excessiva associada a métodos de grade pura.
+   3. Interação Fluido-Estrutura (FSI): A esfera obstáculo interage com o fluido calculando
+      forças de empuxo, sustentação e arrasto em tempo real.
+
    ========================================================================== */
 
 var canvas = document.getElementById("myCanvas");

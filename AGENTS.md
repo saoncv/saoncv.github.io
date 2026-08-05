@@ -95,3 +95,12 @@ Este repositório contém o código-fonte do site acadêmico pessoal hospedado v
 - **Estruturação de Chamadas Estratégicas (P&D Industrial & Orientação Acadêmica):** As seções destinadas à atração de financiamento de P&D (cláusula ANP/FINEP com operadoras de energia) e orientação de alunos (IC/TCC/Mestrado/Doutorado) devem ser mantidas espelhadas em ambas as línguas na página principal, fornecendo pontos diretos de contato por e-mail com manipulação ofuscada de endereço via JavaScript e assuntos dinâmicos pré-formatados (`data-subject`) para mitigar spambots.
 - **Homogeneidade Estrutural & Linkagem Orgânica na Bio:** As menções e links para iniciativas estratégicas (ex: PHI Lab) no cabeçalho bio principal devem ser integrados organicamente ao texto da biografia acadêmica, evitando blocos ou cartões adicionais redundantes no topo. A estrutura de classes CSS e seções (`.section-title`, `.card`) deve ser 100% idêntica entre as versões PT e EN.
 
+---
+
+## 10. Documentação Didático-Socrática do Código-Fonte & Mentoria Acadêmica
+- **Comentários Didáticos e Socráticos:** Todo o código-fonte (`script.js`, `style.css`, `index.html`, `index-en.html`, `phi-lab.html`, `phi-lab-en.html`) deve ser ativamente comentado sob uma perspectiva pedagógica e socrática, pensado para ser lido por alunos de graduação e pós-graduação em engenharia e computação. Os blocos de comentário devem detalhar:
+  - *O Princípio Físico/Computacional* envolvido (ex: incompressibilidade $\nabla \cdot \mathbf{u} = 0$, métodos híbridos Euler-Lagrange no FLIP WebGL, Design Tokens em CSS, Highwire Press Meta-tags).
+  - *Perguntas Socráticas Orientadoras* que instiguem o aluno a refletir sobre o porquê de cada decisão técnica.
+  - *Respostas Auto-contidas e Claras* que sirvam como fonte direta de estudo.
+- **Resiliência de URLs Acadêmicas Perenes:** Links para plataformas acadêmicas cujos IDs de autor variam com reindexações dinâmicas (ex: Semantic Scholar) devem utilizar rotas de busca de autor diretas e perenes (`https://www.semanticscholar.org/search?q=Saon%20Crispim%20Vieira`), garantindo 100% de operacionalidade perene nos botões de cabeçalho e microdados JSON-LD.
+

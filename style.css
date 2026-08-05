@@ -1,3 +1,19 @@
+/**
+ * 🎓 GUIA DIDÁTICO SOCRÁTICO — ARQUITETURA CSS & DESIGN SYSTEM ACADÊMICO
+ * ==========================================================================
+ * 
+ * PERGUNTA SOCRÁTICA PARA REFLEXÃO DO ALUNO DE ENGENHARIA / COMPUTAÇÃO:
+ * "Como estruturar o CSS para suportar alteração de tema em tempo real (Dark/Light)
+ *  sem duplicar código nem utilizar seletores rígidos pesados?"
+ * 
+ * RESPOSTA DIDÁTICA:
+ * Utilizando "Design Tokens" via Variáveis CSS Nativas no pseudo-seletor :root.
+ * O alternador altera apenas o atributo [data-theme="light"] no elemento <html>,
+ * redefinindo dinamicamente as variáveis de cores (--bg-main, --accent, --text-main)
+ * e atualizando automaticamente a interface inteira em 100% dos componentes.
+ * ==========================================================================
+ */
+
 :root {
   --bg-main: #0b0f19;
   --bg-card: #151d2a;
