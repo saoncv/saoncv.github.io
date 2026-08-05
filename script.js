@@ -1346,11 +1346,43 @@ function initKaTeX() {
   }
 }
 
+/*
+ * 🎓 CONCEITO DE ENGENHARIA DE SOFTWARE: Resiliência GPU & Tratamento de Context Loss em WebGL
+ *
+ * PERGUNTA SOCRÁTICA PARA O ALUNO:
+ * "O que acontece com uma aplicação WebGL se o sistema operacional reiniciar o driver de vídeo
+ *  ou se a memória de vídeo (VRAM) esgotar?"
+ *
+ * RESPOSTA DIDÁTICA:
+ * O navegador dispara o evento 'webglcontextlost'. Sem um ouvinte para interceptar esse evento e
+ * chamar e.preventDefault(), o contexto WebGL é destruído e o script lança exceções fatais não tratadas.
+ * Ao ouvir 'webglcontextlost' e 'webglcontextrestored', garantimos a recuperação graciosa do motor gráfico.
+ */
+function initWebGLContextResilience() {
+  if (canvas) {
+    canvas.addEventListener('webglcontextlost', function(e) {
+      e.preventDefault();
+      console.warn("WebGL Context Lost! Pausando a simulação para recuperação graciosa.");
+      if (window.animId) {
+        cancelAnimationFrame(window.animId);
+        window.animId = null;
+      }
+    }, false);
+
+    canvas.addEventListener('webglcontextrestored', function() {
+      console.info("WebGL Context Restored! Reinicializando buffers de física do simulador.");
+      gl = getWebGLContext(canvas);
+      window.setupScene();
+    }, false);
+  }
+}
+
 var isInitialized = false;
 function initApp() {
   bindEmailButtons();
   initTheme();
   initKaTeX();
+  initWebGLContextResilience();
   if (canvas && gl && !isInitialized) {
     isInitialized = true;
     initCanvasSize();
