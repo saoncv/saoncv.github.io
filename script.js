@@ -1161,11 +1161,47 @@ function simulate() {
   }
 }
 
+var isSimulating = false;
+var animFrameId = null;
+
 function update() {
-  if (!canvas || !gl) return;
+  if (!canvas || !gl || !isSimulating) return;
   simulate();
   draw();
-  requestAnimationFrame(update);
+  animFrameId = requestAnimationFrame(update);
+}
+
+function startSimulation() {
+  if (!isSimulating && canvas && gl) {
+    isSimulating = true;
+    update();
+  }
+}
+
+function stopSimulation() {
+  isSimulating = false;
+  if (animFrameId) {
+    cancelAnimationFrame(animFrameId);
+    animFrameId = null;
+  }
+}
+
+function initIntersectionObserver() {
+  if (!canvas) return;
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          startSimulation();
+        } else {
+          stopSimulation();
+        }
+      });
+    }, { threshold: 0.05 });
+    observer.observe(canvas);
+  } else {
+    startSimulation();
+  }
 }
 
 // Window resize & load handlers
@@ -1196,21 +1232,70 @@ function bindEmailButtons() {
   });
 }
 
+// Theme Toggle Engine (Light / Dark Mode)
+function updateThemeIcon(theme) {
+  var toggleBtns = document.querySelectorAll('.theme-toggle-btn');
+  toggleBtns.forEach(function(btn) {
+    var iconSpan = btn.querySelector('.theme-icon');
+    var textSpan = btn.querySelector('.theme-text');
+    var isEn = document.documentElement.lang === 'en';
+    if (theme === 'light') {
+      if (iconSpan) iconSpan.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+      if (textSpan) textSpan.textContent = isEn ? 'Light' : 'Claro';
+    } else {
+      if (iconSpan) iconSpan.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+      if (textSpan) textSpan.textContent = isEn ? 'Dark' : 'Escuro';
+    }
+  });
+}
+
+function initTheme() {
+  var savedTheme = localStorage.getItem('theme');
+  var theme = savedTheme || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  document.documentElement.dataset.theme = theme;
+  updateThemeIcon(theme);
+
+  var toggleBtns = document.querySelectorAll('.theme-toggle-btn');
+  toggleBtns.forEach(function(btn) {
+    if (!btn.dataset.themeBound) {
+      btn.dataset.themeBound = "true";
+      btn.addEventListener('click', function() {
+        var current = document.documentElement.dataset.theme || 'dark';
+        var next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.dataset.theme = next;
+        localStorage.setItem('theme', next);
+        updateThemeIcon(next);
+      });
+    }
+  });
+}
+
+// Immediate theme initialization
+(function() {
+  var savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+    document.documentElement.dataset.theme = savedTheme;
+  }
+})();
+
 // Bind email handlers immediately on script load AND on DOMContentLoaded
 bindEmailButtons();
+initTheme();
 
-window.addEventListener('DOMContentLoaded', function() {
+var isInitialized = false;
+function initApp() {
   bindEmailButtons();
-  if (canvas && gl) {
+  initTheme();
+  if (canvas && gl && !isInitialized) {
+    isInitialized = true;
     initCanvasSize();
     window.setupScene();
-    update();
+    initIntersectionObserver();
   }
-});
+}
 
-// Immediate execution fallback for WebGL canvas
-if (canvas && gl) {
-  initCanvasSize();
-  window.setupScene();
-  update();
+if (document.readyState === 'loading') {
+  window.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
 }

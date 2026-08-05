@@ -5,8 +5,19 @@
   --text-muted: #94a3b8;
   --accent: #38bdf8;
   --border: #1e293b;
+  --bg-controls: rgba(15, 23, 42, 0.6);
   --font-body: 'Inter', -apple-system, sans-serif;
   --font-heading: 'Outfit', sans-serif;
+}
+
+[data-theme="light"] {
+  --bg-main: #f1f5f9;
+  --bg-card: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --accent: #0284c7;
+  --border: #cbd5e1;
+  --bg-controls: rgba(241, 245, 249, 0.85);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -42,13 +53,44 @@ body {
 }
 
 .top-nav-controls {
-  position: absolute;
-  top: 1.2rem;
-  left: 1.5rem;
-  right: 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.academic-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  list-style: none;
+  flex-wrap: wrap;
+}
+
+.academic-nav-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.academic-nav-link:hover {
+  color: var(--accent);
+}
+
+.math-formula {
+  background: var(--bg-main);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.5rem 0.8rem;
+  margin: 0.6rem 0;
+  font-size: 0.9rem;
+  overflow-x: auto;
+  color: var(--text-main);
 }
 
 .page-switch, .lang-switch {
@@ -57,10 +99,86 @@ body {
   gap: 0.4rem;
   font-size: 0.8rem;
   font-weight: 700;
-  background: rgba(15, 23, 42, 0.6);
+  background: var(--bg-controls);
   padding: 0.3rem 0.6rem;
   border-radius: 20px;
   border: 1px solid var(--border);
+}
+
+.right-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.theme-toggle-btn {
+  background: var(--bg-controls);
+  border: 1px solid var(--border);
+  color: var(--text-main);
+  padding: 0.3rem 0.6rem;
+  border-radius: 20px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.theme-toggle-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.open-science-card {
+  background: var(--bg-card);
+  border: 1px solid var(--accent);
+  border-radius: 14px;
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
+  box-shadow: 0 4px 15px rgba(56, 189, 248, 0.08);
+}
+
+.open-science-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+  color: var(--accent);
+}
+
+.open-science-title {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.open-science-desc {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.open-science-triad {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.8rem;
+}
+
+.triad-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  background-color: rgba(56, 189, 248, 0.1);
+  color: var(--accent);
+  border: 1px solid var(--accent);
 }
 
 .nav-switch-btn {

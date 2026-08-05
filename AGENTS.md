@@ -19,7 +19,7 @@ Este repositório contém o código-fonte do site acadêmico pessoal hospedado v
 - **Respeito ao GitHub Pages:** Mantenha a compatibilidade com o GitHub Pages (preservação do `.nojekyll` e links relativos).
 - **Indexação Acadêmica (SEO & Scholar):** Estruture páginas de publicações com meta-tags acadêmicas padrão (Highwire Press tags, ex: `citation_author`, `citation_title`) para garantir o correto *parsing* automático pelo Google Scholar e outros indexadores de pesquisa.
 - **Visualizações e Performance Computacional:**
-  - **Simuladores Interativos & Laboratórios Didáticos (JS/WebGL):** Simuladores com propósitos didáticos, educacionais ou de recrutamento que exijam interação do usuário em tempo real (ex: FLIP 2D, escoamento multifásico) devem ser desenvolvidos estritamente em JavaScript/Canvas/WebGL Vanilla, sem dependências de frameworks pesados.
+  - **Simuladores Interativos & Laboratórios Didáticos (JS/WebGL):** Simuladores com propósitos didáticos, educacionais ou de recrutamento que exijam interação do usuário em tempo real (ex: FLIP 2D, escoamento multifásico) devem ser desenvolvidos estritamente em JavaScript/Canvas/WebGL Vanilla, sem dependências de frameworks pesados. Devem obrigatoriamente incorporar `IntersectionObserver` para pausar o loop `requestAnimationFrame` quando fora da viewport, otimizando o consumo de CPU/GPU e bateria.
   - **Demonstração Passiva de Resultados:** A demonstração apenas visual/passiva de resultados de pesquisa ou simulações pesadas não-interativas deve utilizar tags `<video>` nativas com formatos compactados (MP4/WebM) contendo obrigatoriamente os atributos `muted autoplay loop playsinline`. Ao importar embeds externos, a tag `<iframe>` exige o atributo `loading="lazy"`. GIFs pesados são proibidos.
 
 ---
@@ -34,7 +34,7 @@ Este repositório contém o código-fonte do site acadêmico pessoal hospedado v
 ## 4. Execução Verificável
 - **Regra da Evidência:** Não declare uma alteração pronta apenas com palavras. Valide a renderização e o comportamento no console/DevTools antes de concluir.
 - **Checkpoints Git:** Exija a inspeção do `git diff` local antes de alterações destrutivas.
-- **Filtro de Artefatos:** Antes de qualquer `git push`, garanta que o `.gitignore` esteja bloqueando a subida de arquivos de ambiente (`.env`), arquivos temporários do SO (como `.DS_Store`) ou logs locais. O diretório raiz deve conter estritamente o código de distribuição e configuração do Pages.
+- **Filtro de Artefatos:** Antes de qualquer `git push`, garanta que o `.gitignore` esteja blocking a subida de arquivos de ambiente (`.env`), arquivos temporários do SO (como `.DS_Store`) ou logs locais. O diretório raiz deve conter estritamente o código de distribuição e configuração do Pages.
 
 ---
 
@@ -72,7 +72,7 @@ Este repositório contém o código-fonte do site acadêmico pessoal hospedado v
 ## 8. Protocolo de Prospecção & Ingestão de Dados (Pesquisa Web, Patentes & Notícias)
 - **Fontes Primárias & Crawling Direcionado:** Ao coletar ou atualizar informações sobre o perfil do autor, projetos, prêmios ou publicações, consulte obrigatoriamente as seguintes bases primárias:
   - **Currículo Lattes (CNPq):** Base soberana para biografia oficial, cronologia de carreira, lista completa de artigos em periódicos, capítulos, patentes depositadas/concedidas e bancas.
-  - **Google Scholar & Scopus:** Verificação de DOIs, contagem de citações e títulos oficiais de artigos.
+  - **Google Scholar, Scopus, ORCID & Semantic Scholar:** Verificação de DOIs, contagem de citações, autor IDs e títulos oficiais de artigos.
   - **Agência de Inovação Inova Unicamp & Revista CEPETRO:** Coleta de notícias sobre o Prêmio Inventores Unicamp, Desafio Unicamp de Empreendedorismo e parcerias tecnológicas.
   - **Portais Oficiais da Petrobras & INPI/USPTO:** Confirmação de patentes registradas e Prêmio Inventor Petrobras.
 - **Validação Cruzada de Colaboradores:** Ao realizar buscas web por novidades ou premiações do grupo de pesquisa, utilize os nomes de colaboradores e coautores frequentes (ex: Marcelo Souza de Castro, Juliana Cenzi, Daniely Amorim, Adriano Fabro, Bernardo Foresti) para localizar matérias de imprensa, projetos conjuntos e patentes correlatas.
@@ -87,8 +87,10 @@ Este repositório contém o código-fonte do site acadêmico pessoal hospedado v
 - **Hierarquia Visual da Página Inicial:** O simulador didático interativo (ex: FLIP 2D em WebGL) deve figurar imediatamente abaixo do cartão de cabeçalho com a identificação pessoal e links oficiais, garantindo engajamento e destaque pedagógico prioritário no topo da página.
 - **Orientações de Interatividade em Simuladores Canvas/WebGL:** Qualquer elemento gráfico ou simulador didático interativo (ex: esfera obstáculo com máscara do mascote) deve possuir instrução textual explicativa nos subtítulos (ex: orientação para arrastar a esfera), garantindo usabilidade e acessibilidade em ambas as línguas (PT/EN).
 - **Navegabilidade e Controles Espelhados (Sistemas Pessoal & PHI Lab):** Toda página do ecossistema (`index.html`, `index-en.html`, `phi-lab.html`, `phi-lab-en.html`) deve conter exatamente a mesma estrutura de controles superiores (`.top-nav-controls`):
+  - **Barra de Navegação Acadêmica Superior (`academic-nav`):** Atalhos diretos de seção (`#news`, `#research`, `#patents`, `#publications`, `#software`, `#partnerships`) com suporte a *smooth scrolling*.
   - **Canto Esquerdo (Alternador de Página):** Pílula com seleção ativa/inativa entre *Perfil Pessoal* e *PHI Lab — Physics-informed Hybrid Intelligence*.
-  - **Canto Direito (Alternador de Idioma):** Pílula com seleção ativa/inativa de idioma utilizando bandeiras vetorizadas (`PT 🇧🇷 | EN 🇺🇸`).
+  - **Canto Direito (Alternador de Idioma & Tema):** Pílula de seleção de idioma (`PT 🇧🇷 | EN 🇺🇸`) e botão alternador de Tema Claro/Escuro (`Light / Dark Mode`) com persistência em `localStorage`.
+- **Renderização de Fórmulas Matemáticas em LaTeX (KaTeX SRI):** Fórmulas e equações científicas nos eixos de pesquisa devem ser renderizadas via KaTeX com importação de scripts obrigatoriamente protegida por hashes criptográficos **SRI** (`integrity` e `crossorigin="anonymous"`).
 - **Validação de Oferta Didática:** Atualizações na lista de disciplinas ministradas devem respeitar a rigorosa vinculação de curso/curso de origem (ex: *Engenharia Térmica I & II* vinculada à Graduação em Engenharia de Controle e Automação; *Mecânica dos Fluidos I & II* à Graduação em Engenharia Mecânica). Disciplinas inativas ou canceladas devem ser removidas sem deixar resíduos.
 - **Estruturação de Chamadas Estratégicas (P&D Industrial & Orientação Acadêmica):** As seções destinadas à atração de financiamento de P&D (cláusula ANP/FINEP com operadoras de energia) e orientação de alunos (IC/TCC/Mestrado/Doutorado) devem ser mantidas espelhadas em ambas as línguas na página principal, fornecendo pontos diretos de contato por e-mail com manipulação ofuscada de endereço via JavaScript e assuntos dinâmicos pré-formatados (`data-subject`) para mitigar spambots.
 - **Homogeneidade Estrutural & Linkagem Orgânica na Bio:** As menções e links para iniciativas estratégicas (ex: PHI Lab) no cabeçalho bio principal devem ser integrados organicamente ao texto da biografia acadêmica, evitando blocos ou cartões adicionais redundantes no topo. A estrutura de classes CSS e seções (`.section-title`, `.card`) deve ser 100% idêntica entre as versões PT e EN.
