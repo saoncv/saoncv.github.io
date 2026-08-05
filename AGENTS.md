@@ -81,11 +81,13 @@ Este repositório contém o código-fonte do site acadêmico pessoal hospedado v
 - **Fontes Primárias & Crawling Direcionado:** Ao coletar ou atualizar informações sobre o perfil do autor, projetos, prêmios ou publicações, consulte obrigatoriamente as seguintes bases primárias:
   - **Currículo Lattes (CNPq):** Base soberana para biografia oficial, cronologia de carreira, lista completa de artigos em periódicos, capítulos, patentes depositadas/concedidas e bancas.
   - **Google Scholar, Scopus, ORCID & Semantic Scholar:** Verificação de DOIs, contagem de citações, autor IDs e títulos oficiais de artigos.
+  - **Crossref REST API (api.crossref.org):** Validação empírica de DOIs recém-gerados e checagem de metadados exatos de publicações (ano/volume/PII).
   - **Agência de Inovação Inova Unicamp & Revista CEPETRO:** Coleta de notícias sobre o Prêmio Inventores Unicamp, Desafio Unicamp de Empreendedorismo e parcerias tecnológicas.
   - **Portais Oficiais da Petrobras & INPI/USPTO:** Confirmação de patentes registradas e Prêmio Inventor Petrobras.
 - **Validação Cruzada de Colaboradores:** Ao realizar buscas web por novidades ou premiações do grupo de pesquisa, utilize os nomes de colaboradores e coautores frequentes (ex: Marcelo Souza de Castro, Juliana Cenzi, Daniely Amorim, Adriano Fabro, Bernardo Foresti) para localizar matérias de imprensa, projetos conjuntos e patentes correlatas.
 - **Triagem & Inclusão de Links Oficiais:** Notícias de prêmios ou patentes adicionadas à seção "Últimas Notícias" devem obrigatoriamente conter links externos diretos para as matérias oficiais ou portais institucionais (com `target="_blank" rel="noopener noreferrer"`).
 - **Paridade Bilíngue Automatizada:** Qualquer dado ou prêmio ingerido a partir do Lattes ou pesquisas web deve ser traduzido e adicionado síncronamente tanto na versão em Português quanto na versão em Inglês.
+- **Auditoria Criptográfica & Empírica de DOIs:** Nenhum DOI de publicação deve ser adicionado sem verificação empírica via Crossref API (`api.crossref.org`) ou web search para garantir que o prefixo e o ano (ex: atribuição `dib.2025`) estejam 100% ativos e funcionais.
 
 ---
 
