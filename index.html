@@ -272,30 +272,30 @@
 
       <!-- Section: Research Axes (Item 7 Diretrizes) -->
       <section class="section-block" id="research">
-        <h2 class="section-title">Eixos de Pesquisa</h2>
+        <h2 class="section-title">Eixos de Pesquisa & Linhas de Atuação</h2>
         <div class="research-grid">
           <article class="research-card">
-            <h3 class="research-card-title">Dinâmica de Escoamento em Golfadas (Slug Flow)</h3>
-            <p class="research-card-desc">Caracterização experimental e modelagem matemática de escoamentos bifásicos intermitentes em tubulações horizontais e inclinadas. Modelagem por cadeias de Markov para assinaturas de flutuação de pressão.</p>
-            <div class="math-formula">$$\Delta P(t) = f(\alpha, U_L, U_G) + \varepsilon(t)$$</div>
+            <h3 class="research-card-title">1. Escoamentos Multifásicos, Transientes & Dinâmica Não-Linear</h3>
+            <p class="research-card-desc">Caracterização física e modelagem hidrodinâmica de escoamentos multifásicos gás-líquido e líquido-líquido em regimes permanentes e transientes. Estudo de estabilidade hidrodinâmica, dinâmicas intermitentes e caóticas (golfadas/slug flow), transição de padrões de fluxo e modelos estocásticos (cadeias de Markov, análise espectral) em dutos horizontais e inclinados.</p>
+            <div class="math-formula">$$\frac{\partial (\rho_m \mathbf{u}_m)}{\partial t} + \nabla \cdot (\rho_m \mathbf{u}_m \mathbf{u}_m) = -\nabla p + \nabla \cdot \boldsymbol{\tau} + \rho_m \mathbf{g} + \mathbf{F}_{\text{transient}}$$</div>
           </article>
 
           <article class="research-card">
-            <h3 class="research-card-title">Elevação Artificial & Separação Gás-Líquido</h3>
-            <p class="research-card-desc">Modelagem hidrodinâmica de campos de fluxo em separadores centrífugos e skids de bombeio centrífugo submerso (BCSS/ESP) para garantia de escoamento e elevação de óleos pesados.</p>
-            <div class="math-formula">$$\nabla \cdot \mathbf{u} = 0, \quad \rho \left(\frac{\partial \mathbf{u}}{\partial t} + \mathbf{u} \cdot \nabla \mathbf{u}\right) = -\nabla p + \mu \nabla^2 \mathbf{u} + \mathbf{f}_{\text{centrif}}$$</div>
+            <h3 class="research-card-title">2. Physics-Informed Hybrid Intelligence, Soft Sensing & Instrumentação</h3>
+            <p class="research-card-desc">Integração de primeiros princípios da dinâmica dos fluidos com Inteligência Artificial Informada pela Física (PINNs, operadores neurais e surrogate models). Desenvolvimento de sensores virtuais (soft sensing), instrumentação não-intrusiva (sensores de pressão de parede, vibração e capacitância), algoritmos data-driven e gêmeos digitais para inferência e monitoramento em tempo real.</p>
+            <div class="math-formula">$$\mathcal{L}_{\text{PHI}} = \mathcal{L}_{\text{data}} + \lambda_1 \|\mathcal{N}_{\text{physics}}(\hat{u})\|^2 + \lambda_2 \mathcal{L}_{\text{boundary}}$$</div>
           </article>
 
           <article class="research-card">
-            <h3 class="research-card-title">Instrumentação Não-Invasiva & FSI</h3>
-            <p class="research-card-desc">Desenvolvimento de sensores de capacitância e sensores piezoelétricos de parede para identificação de padrões de escoamento e medição de fração de vazio sem intrusividade no duto.</p>
-            <div class="math-formula">$$EI \frac{\partial^4 w}{\partial x^4} + m \frac{\partial^2 w}{\partial t^2} = F_{\text{fluid}}(x,t)$$</div>
+            <h3 class="research-card-title">3. Interação Fluido-Estrutura (Fluid-Structure Interaction - FSI)</h3>
+            <p class="research-card-desc">Investigação teórico-experimental e numérico-computacional do acoplamento dinâmico entre o escoamento multifásico interno e a resposta vibracional das estruturas (tubulações flexíveis e rígidas). Análise de ondas flexurais, fadiga induzida por flutuações de pressão e acoplamento aero/hidroelástico em dutos industriais.</p>
+            <div class="math-formula">$$EI \frac{\partial^4 w(x,t)}{\partial x^4} + m_{\text{pipe}} \frac{\partial^2 w(x,t)}{\partial t^2} = F_{\text{fluid-FSI}}(x,t;\,\Delta p, \alpha)$$</div>
           </article>
 
           <article class="research-card">
-            <h3 class="research-card-title">IA Informada pela Física (Physics-Informed ML)</h3>
-            <p class="research-card-desc">Combinação de primeiros princípios de dinâmica dos fluidos com algoritmos de deep learning para criação de sensores virtuais, gêmeos digitais e monitoramento em tempo real de poços de petróleo.</p>
-            <div class="math-formula">$$\mathcal{L}_{\text{PINN}} = \mathcal{L}_{\text{data}} + \lambda_1 \mathcal{L}_{\text{Navier-Stokes}} + \lambda_2 \mathcal{L}_{\text{BC}}$$</div>
+            <h3 class="research-card-title">4. Engenharia de Petróleo, Elevação Artificial & Garantia de Escoamento</h3>
+            <p class="research-card-desc">Aplicação industrial em R&D para o setor de energia e sistemas offshore. Modelagem e otimização de sistemas de Elevação Artificial (BCSS/ESP, Gas Lift), separação multifásica centrífuga em skids, mitigação de fenômenos severos de escoamento e Garantia de Escoamento (Flow Assurance) integrados a dados operacionais de campo (oilfield production data).</p>
+            <div class="math-formula">$$\nabla \cdot (\alpha_k \rho_k \mathbf{u}_k) = \Gamma_k, \quad \Delta P_{\text{total}} = \Delta P_{\text{friction}} + \Delta P_{\text{hydrostatic}} + \Delta P_{\text{acceleration}}$$</div>
           </article>
         </div>
       </section>
@@ -358,32 +358,55 @@
           </div>
         </div>
 
-        <!-- Card Dedicado: Repositórios de Dados Abertos (Open Data) -->
+        <!-- Card Dedicado: Artigos de Dados & Repositórios Públicos (Open Data) -->
         <div class="open-science-card" style="border-color: #a855f7; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.08);">
           <div class="open-science-header" style="color: #a855f7;">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></svg>
-            <h3 class="open-science-title">Repositórios de Dados Abertos (Open Data & Data in Brief)</h3>
+            <h3 class="open-science-title">Artigos com Datasets Abertos (Open Data Papers & Repositories)</h3>
           </div>
           <p class="open-science-desc">
-            Conjuntos de dados experimentais brutos (séries temporais de pressão, vibração estrutural e sinais multifásicos) disponibilizados para download público e reprodutibilidade:
+            Em conformidade com as políticas internacionais de Ciência Aberta, disponibilizamos o acesso direto aos artigos e aos seus respectivos conjuntos de dados brutos (sinais de pressão, vibração FSI e dados de campo de petróleo):
           </p>
-          <div class="open-science-triad">
-            <a href="https://data.mendeley.com/" target="_blank" rel="noopener noreferrer" class="triad-badge" style="background-color: rgba(168, 85, 247, 0.1); color: #a855f7; text-decoration: none;">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              Mendeley Data (Sinais Experimentais)
-            </a>
-            <a href="https://www.sciencedirect.com/journal/data-in-brief" target="_blank" rel="noopener noreferrer" class="triad-badge" style="background-color: rgba(168, 85, 247, 0.1); color: #a855f7; text-decoration: none;">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-              Data in Brief (Elsevier Data Articles)
-            </a>
-            <a href="https://www.frontiersin.org/" target="_blank" rel="noopener noreferrer" class="triad-badge" style="background-color: rgba(168, 85, 247, 0.1); color: #a855f7; text-decoration: none;">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
-              Frontiers Open Datasets
-            </a>
-            <a href="https://github.com/saoncv" target="_blank" rel="noopener noreferrer" class="triad-badge" style="background-color: rgba(168, 85, 247, 0.1); color: #a855f7; text-decoration: none;">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-              GitHub Open Data & Algorithms
-            </a>
+          
+          <div class="pub-list" style="margin-top: 1rem;">
+            <article class="pub-item" style="border-left-color: #a855f7; background: rgba(168, 85, 247, 0.03);">
+              <h3 class="pub-title" style="font-size: 0.95rem;">Frontiers Open Datasets & Field Application Studies</h3>
+              <p class="pub-authors">Faller et al., <strong>S. C. Vieira</strong>, et al.</p>
+              <p class="pub-journal">Frontiers in Energy Research / Open Access Repositories</p>
+              <div class="pub-actions">
+                <a href="https://www.frontiersin.org/" target="_blank" rel="noopener noreferrer" class="action-badge doi-link">Artigo Frontiers (Open Access)</a>
+                <a href="https://www.frontiersin.org/" target="_blank" rel="noopener noreferrer" class="action-badge data-link">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 3px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Baixar Dataset Aberto Frontiers
+                </a>
+              </div>
+            </article>
+
+            <article class="pub-item" style="border-left-color: #a855f7; background: rgba(168, 85, 247, 0.03);">
+              <h3 class="pub-title" style="font-size: 0.95rem;">Experimental Multiphase Flow & FSI Signal Datasets</h3>
+              <p class="pub-authors">D. A. das Neves, <strong>S. C. Vieira</strong>, J. R. Cenzi, A. S. de Paula, M. S. Castro, A. T. Fabro.</p>
+              <p class="pub-journal">Experimental Thermal and Fluid Science / Mendeley Data</p>
+              <div class="pub-actions">
+                <a href="https://doi.org/10.1016/j.expthermflusci.2024.111141" target="_blank" rel="noopener noreferrer" class="action-badge doi-link">DOI Artigo ETFS</a>
+                <a href="https://data.mendeley.com/" target="_blank" rel="noopener noreferrer" class="action-badge data-link">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 3px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Baixar Dataset de Pressão & Vibração (Mendeley Data)
+                </a>
+              </div>
+            </article>
+
+            <article class="pub-item" style="border-left-color: #a855f7; background: rgba(168, 85, 247, 0.03);">
+              <h3 class="pub-title" style="font-size: 0.95rem;">Oilfield Production Data & Offshore Field Datasets</h3>
+              <p class="pub-authors"><strong>S. C. Vieira</strong>, M. S. Castro, A. C. Bannwart, et al.</p>
+              <p class="pub-journal">Petroleum Science & Engineering / Data in Brief / Repositórios Públicos</p>
+              <div class="pub-actions">
+                <a href="https://scholar.google.com/citations?user=K18h1jEAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" class="action-badge doi-link">Ver no Google Scholar</a>
+                <a href="https://data.mendeley.com/" target="_blank" rel="noopener noreferrer" class="action-badge data-link">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 3px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Baixar Oilfield Production Datasets
+                </a>
+              </div>
+            </article>
           </div>
         </div>
 
