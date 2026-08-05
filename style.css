@@ -660,6 +660,20 @@ body {
   border-color: rgba(4, 120, 87, 0.4);
 }
 
+.action-badge.data-link {
+  background-color: rgba(168, 85, 247, 0.12);
+  color: #a855f7;
+  border-color: rgba(168, 85, 247, 0.4);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+[data-theme="light"] .action-badge.data-link {
+  background-color: rgba(147, 51, 234, 0.15);
+  color: #7e22ce;
+  border-color: rgba(126, 34, 206, 0.4);
+}
+
 /* Responsividade Tablet (< 900px) */
 @media (max-width: 900px) {
   .top-nav-controls {
