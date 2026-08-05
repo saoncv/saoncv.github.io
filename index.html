@@ -240,6 +240,16 @@
             <input type="range" min="0" max="10" value="9" class="sim-slider" aria-labelledby="label-pic-flip" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0.9" onchange="window.scene.flipRatio = 0.1 * this.value; this.setAttribute('aria-valuenow', (0.1 * this.value).toFixed(1));">
           </div>
 
+          <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
+            <span id="label-wall-friction">Atrito Parede (&mu;)</span>
+            <input type="range" min="0" max="8" value="2" class="sim-slider" aria-labelledby="label-wall-friction" aria-valuemin="0" aria-valuemax="0.8" aria-valuenow="0.2" onchange="window.scene.wallFriction = 0.1 * this.value; this.setAttribute('aria-valuenow', (0.1 * this.value).toFixed(1));">
+          </div>
+
+          <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
+            <span id="label-restitution">Restituição (e)</span>
+            <input type="range" min="0" max="8" value="3" class="sim-slider" aria-labelledby="label-restitution" aria-valuemin="0" aria-valuemax="0.8" aria-valuenow="0.3" onchange="window.scene.wallRestitution = 0.1 * this.value; this.setAttribute('aria-valuenow', (0.1 * this.value).toFixed(1));">
+          </div>
+
           <button id="startButton" class="sim-btn" onclick="window.toggleStart()" aria-label="Pausar ou Iniciar Simulação">Stop</button>
           <button class="sim-btn" style="background-color: #f97316; color: #fff;" onclick="window.setupScene()" aria-label="Reiniciar Simulação">Reset</button>
         </div>

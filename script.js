@@ -339,24 +339,54 @@ class FlipFluid {
           const impulse = overlap * 25.0;
           totalForceX -= nx * impulse;
           totalForceY -= ny * impulse;
+
+          /*
+           * 🎓 CONCEITO FÍSICO: Colisão e Atrito de Superfície na Esfera Obstáculo (FSI)
+           * Decomposição da velocidade da partícula em componentes Normal (vn) e Tangencial (vt).
+           * Aplicação do Coeficiente de Restituição (e) e Coeficiente de Atrito Superficial (mu).
+           */
+          var vx = this.particleVel[2 * i];
+          var vy = this.particleVel[2 * i + 1];
+          var vNormal = vx * nx + vy * ny;
+          if (vNormal < 0.0) {
+            var vTangentialX = vx - vNormal * nx;
+            var vTangentialY = vy - vNormal * ny;
+            var eRest = window.scene.wallRestitution || 0.3;
+            var muFrict = window.scene.wallFriction || 0.2;
+
+            this.particleVel[2 * i] = -eRest * vNormal * nx + (1.0 - muFrict) * vTangentialX;
+            this.particleVel[2 * i + 1] = -eRest * vNormal * ny + (1.0 - muFrict) * vTangentialY;
+          }
         }
       }
 
+      /*
+       * 🎓 CONCEITO FÍSICO: Condições de Contorno de Parede com Atrito Viscoso (µ_wall) e Restituição (e)
+       * 1. Componente Normal: Refletida pelo coeficiente de restituição eWall (bouncing inelástico/elástico).
+       * 2. Componente Tangencial: Amortecida pelo atrito viscoso com a parede (1.0 - muWall).
+       */
+      var muWall = window.scene.wallFriction || 0.2;
+      var eWall = window.scene.wallRestitution || 0.3;
+
       if (x < minX) {
         x = minX;
-        this.particleVel[2 * i] = 0.0;
+        this.particleVel[2 * i] = -eWall * this.particleVel[2 * i];
+        this.particleVel[2 * i + 1] *= (1.0 - muWall);
       }
       if (x > maxX) {
         x = maxX;
-        this.particleVel[2 * i] = 0.0;
+        this.particleVel[2 * i] = -eWall * this.particleVel[2 * i];
+        this.particleVel[2 * i + 1] *= (1.0 - muWall);
       }
       if (y < minY) {
         y = minY;
-        this.particleVel[2 * i + 1] = 0.0;
+        this.particleVel[2 * i + 1] = -eWall * this.particleVel[2 * i + 1];
+        this.particleVel[2 * i] *= (1.0 - muWall);
       }
       if (y > maxY) {
         y = maxY;
-        this.particleVel[2 * i + 1] = 0.0;
+        this.particleVel[2 * i + 1] = -eWall * this.particleVel[2 * i + 1];
+        this.particleVel[2 * i] *= (1.0 - muWall);
       }
       this.particlePos[2 * i] = x;
       this.particlePos[2 * i + 1] = y;
@@ -667,6 +697,8 @@ window.scene = {
   gravity: -9.81,
   dt: 1.0 / 60.0,
   flipRatio: 0.9,
+  wallFriction: 0.2,      // Atrito viscoso com a parede (0.0 = sem atrito, 0.8 = atrito elevado)
+  wallRestitution: 0.3,   // Coeficiente de restituição (0.0 = colisão inelástica, 0.8 = quique elástico)
   numPressureIters: 50,
   numParticleIters: 2,
   frameNr: 0,
