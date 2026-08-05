@@ -1282,10 +1282,29 @@ function initTheme() {
 bindEmailButtons();
 initTheme();
 
+function initKaTeX() {
+  if (typeof renderMathInElement === 'function') {
+    try {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '\\[', right: '\\]', display: true},
+          {left: '$', right: '$', display: false},
+          {left: '\\(', right: '\\)', display: false}
+        ],
+        throwOnError: false
+      });
+    } catch(e) {
+      console.warn("KaTeX render notice:", e);
+    }
+  }
+}
+
 var isInitialized = false;
 function initApp() {
   bindEmailButtons();
   initTheme();
+  initKaTeX();
   if (canvas && gl && !isInitialized) {
     isInitialized = true;
     initCanvasSize();
@@ -1296,6 +1315,8 @@ function initApp() {
 
 if (document.readyState === 'loading') {
   window.addEventListener('DOMContentLoaded', initApp);
+  window.addEventListener('load', initKaTeX);
 } else {
   initApp();
+  window.addEventListener('load', initKaTeX);
 }
