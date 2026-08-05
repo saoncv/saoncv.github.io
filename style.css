@@ -27,13 +27,13 @@
 }
 
 [data-theme="light"] {
-  --bg-main: #f1f5f9;
+  --bg-main: #f8fafc;
   --bg-card: #ffffff;
   --text-main: #0f172a;
   --text-muted: #475569;
   --accent: #0284c7;
   --border: #cbd5e1;
-  --bg-controls: rgba(241, 245, 249, 0.85);
+  --bg-controls: #e2e8f0;
 }
 
 html {
@@ -157,6 +157,28 @@ body {
   font-size: 0.9rem;
   overflow-x: auto;
   color: var(--text-main);
+}
+
+/* 🎓 ADAPTABILIDADE DE FORMULAS KATEX & LIGHT MODE */
+.math-formula,
+.katex,
+.katex-display,
+.katex * {
+  color: var(--text-main);
+}
+
+[data-theme="light"] .math-formula {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+[data-theme="light"] .phi-quote-card {
+  background: linear-gradient(135deg, rgba(2, 132, 199, 0.08) 0%, rgba(241, 245, 249, 0.95) 100%);
+  border-color: rgba(2, 132, 199, 0.3);
+}
+
+[data-theme="light"] .phi-quote-card blockquote {
+  color: #0f172a;
 }
 
 .theme-toggle-btn {
@@ -380,7 +402,7 @@ body {
   font-size: 0.8rem;
   font-weight: 600;
   color: var(--text-main);
-  background-color: #1e293b;
+  background-color: var(--bg-controls);
   border: 1px solid var(--border);
   padding: 0.45rem 0.9rem;
   border-radius: 8px;
@@ -453,12 +475,12 @@ body {
   gap: 1rem;
   justify-content: center;
   align-items: center;
-  background-color: #0f172a;
+  background-color: var(--bg-controls);
   padding: 1rem;
   border-radius: 12px;
   border: 1px solid var(--border);
   font-size: 0.82rem;
-  color: var(--text-muted);
+  color: var(--text-main);
 }
 
 .control-label-check {

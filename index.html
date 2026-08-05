@@ -220,19 +220,19 @@
         <!-- Control Panel -->
         <div class="controls-panel" role="region" aria-label="Controles do Simulador de Fluidos">
           <label class="control-label-check">
-            <input type="checkbox" checked onclick="window.scene.showParticles = !window.scene.showParticles" aria-label="Exibir Partículas"> Particles
+            <input type="checkbox" checked onclick="window.scene.showParticles = !window.scene.showParticles" aria-label="Exibir Partículas"> Partículas
           </label>
           
           <label class="control-label-check">
-            <input type="checkbox" onclick="window.scene.showGrid = !window.scene.showGrid" aria-label="Exibir Grade da Simulação"> Grid
+            <input type="checkbox" onclick="window.scene.showGrid = !window.scene.showGrid" aria-label="Exibir Grade da Simulação"> Grade
           </label>
           
           <label class="control-label-check">
-            <input type="checkbox" checked onclick="window.scene.compensateDrift = !window.scene.compensateDrift" aria-label="Compensar Deriva"> Compensate Drift
+            <input type="checkbox" checked onclick="window.scene.compensateDrift = !window.scene.compensateDrift" aria-label="Compensar Deriva"> Compensar Deriva
           </label>
 
           <label class="control-label-check">
-            <input type="checkbox" checked onclick="window.scene.separateParticles = !window.scene.separateParticles" aria-label="Separar Partículas Intercaladas"> Separate Particles
+            <input type="checkbox" checked onclick="window.scene.separateParticles = !window.scene.separateParticles" aria-label="Separar Partículas Intercaladas"> Separar Partículas
           </label>
 
           <div style="display: inline-flex; align-items: center; gap: 0.4rem;">
@@ -250,8 +250,8 @@
             <input type="range" min="0" max="8" value="3" class="sim-slider" aria-labelledby="label-restitution" aria-valuemin="0" aria-valuemax="0.8" aria-valuenow="0.3" onchange="window.scene.wallRestitution = 0.1 * this.value; this.setAttribute('aria-valuenow', (0.1 * this.value).toFixed(1));">
           </div>
 
-          <button id="startButton" class="sim-btn" onclick="window.toggleStart()" aria-label="Pausar ou Iniciar Simulação">Stop</button>
-          <button class="sim-btn" style="background-color: #f97316; color: #fff;" onclick="window.setupScene()" aria-label="Reiniciar Simulação">Reset</button>
+          <button id="startButton" class="sim-btn" onclick="window.toggleStart()" aria-label="Pausar ou Iniciar Simulação">Pausar</button>
+          <button class="sim-btn" style="background-color: #f97316; color: #fff;" onclick="window.setupScene()" aria-label="Reiniciar Simulação">Reiniciar</button>
         </div>
       </section>
 

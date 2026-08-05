@@ -1232,6 +1232,18 @@ function stopSimulation() {
   }
 }
 
+window.toggleStart = function() {
+  var btn = document.getElementById("startButton");
+  var isEn = document.documentElement.lang === 'en';
+  if (isSimulating) {
+    stopSimulation();
+    if (btn) btn.textContent = isEn ? "Start" : "Iniciar";
+  } else {
+    startSimulation();
+    if (btn) btn.textContent = isEn ? "Stop" : "Pausar";
+  }
+};
+
 function initIntersectionObserver() {
   if (!canvas) return;
   if ('IntersectionObserver' in window) {
