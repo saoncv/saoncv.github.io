@@ -2,3 +2,11 @@
 *.log
 .DS_Store
 node_modules/
+
+# Regras e arquivos de contexto de IA / Antigravity (apenas para ambiente local)
+.agents/
+AGENTS.md
+
+# Arquivos temporários de scratch/teste
+scratch/
+*.tmp
