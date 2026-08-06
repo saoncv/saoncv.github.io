@@ -1389,11 +1389,68 @@ function initWebGLContextResilience() {
   }
 }
 
+/* ==========================================================================
+   🔍 SISTEMA INTERATIVO DE FILTRAGEM DE PUBLICAÇÕES & EXPORTAÇÃO BIBTEX
+   ========================================================================== */
+function initPublicationFilters() {
+  const filterBtns = document.querySelectorAll('.pub-filter-btn');
+  const pubArticles = document.querySelectorAll('.pub-item');
+
+  if (!filterBtns.length || !pubArticles.length) return;
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+
+      const filterCategory = this.getAttribute('data-filter');
+
+      pubArticles.forEach(article => {
+        const cat = article.getAttribute('data-category');
+        if (filterCategory === 'all' || cat === filterCategory) {
+          article.style.display = 'block';
+        } else {
+          article.style.display = 'none';
+        }
+      });
+    });
+  });
+}
+
+function toggleBibTeX(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.classList.toggle('open');
+  }
+}
+
+function copyBibTeX(id, btnEl) {
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  const textToCopy = el.textContent.replace('Copiar', '').trim();
+  navigator.clipboard.writeText(textToCopy).then(() => {
+    const originalText = btnEl.textContent;
+    btnEl.textContent = '✓ Copiado!';
+    btnEl.style.color = '#38bdf8';
+    setTimeout(() => {
+      btnEl.textContent = originalText;
+      btnEl.style.color = '';
+    }, 2000);
+  }).catch(err => {
+    console.error('Erro ao copiar BibTeX:', err);
+  });
+}
+
+window.toggleBibTeX = toggleBibTeX;
+window.copyBibTeX = copyBibTeX;
+
 var isInitialized = false;
 function initApp() {
   bindEmailButtons();
   initTheme();
   initKaTeX();
+  initPublicationFilters();
   initWebGLContextResilience();
   if (canvas && gl && !isInitialized) {
     isInitialized = true;
@@ -1410,3 +1467,4 @@ if (document.readyState === 'loading') {
   initApp();
   window.addEventListener('load', initKaTeX);
 }
+

@@ -763,3 +763,355 @@ body {
   }
 }
 
+/* ==========================================================================
+   🎓 STICKY NAVBAR & CONTROLES SUPERIORES (WCAG AA & GLASSMORPHISM)
+   ========================================================================== */
+.top-nav-controls {
+  position: sticky;
+  top: 0.8rem;
+  z-index: 1000;
+  background: rgba(21, 29, 42, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 0.6rem 1rem;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+}
+
+[data-theme="light"] .top-nav-controls {
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* ==========================================================================
+   🏷️ RESEARCH FOCUS TAGS (PERFIL PRINCIPAL)
+   ========================================================================== */
+.research-focus-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1.2rem 0 0.8rem;
+}
+
+.focus-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.3rem 0.7rem;
+  border-radius: 20px;
+  transition: all 0.2s ease;
+}
+
+.focus-chip:hover {
+  background: rgba(56, 189, 248, 0.18);
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   🎓 EDUCATION TIMELINE WIDGET (FORMAÇÃO ACADÊMICA)
+   ========================================================================== */
+.education-timeline {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.8rem;
+  margin: 1.2rem 0;
+  text-align: left;
+}
+
+.edu-item {
+  background: var(--bg-main);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 10px;
+  padding: 0.75rem 0.9rem;
+  transition: transform 0.2s ease;
+}
+
+.edu-item:hover {
+  transform: translateY(-2px);
+}
+
+.edu-degree {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: var(--accent);
+}
+
+.edu-field {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-top: 0.1rem;
+}
+
+.edu-inst {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+}
+
+/* ==========================================================================
+   🔍 FILTROS DINÂMICOS DE PUBLICAÇÕES & BIBTEX ACCORDION
+   ========================================================================== */
+.pub-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.2rem;
+  justify-content: flex-start;
+}
+
+.pub-filter-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.4rem 0.9rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pub-filter-btn:hover,
+.pub-filter-btn.active {
+  background: var(--accent);
+  color: #0f172a;
+  border-color: var(--accent);
+}
+
+.bibtex-btn {
+  background: rgba(148, 163, 184, 0.1);
+  border: 1px solid var(--border);
+  color: var(--text-main);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 0.4rem;
+  transition: all 0.2s ease;
+}
+
+.bibtex-btn:hover {
+  background: var(--accent);
+  color: #0f172a;
+}
+
+.bibtex-box {
+  display: none;
+  background: var(--bg-main);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.8rem;
+  margin-top: 0.6rem;
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  white-space: pre-wrap;
+  word-break: break-all;
+  position: relative;
+}
+
+.bibtex-box.open {
+  display: block;
+}
+
+.copy-bib-btn {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-main);
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.copy-bib-btn:hover {
+  color: var(--accent);
+}
+
+/* ==========================================================================
+   🧑‍🔬 EQUIPE DE PESQUISA & VAGAS DE RECRUTAMENTO (PHI LAB)
+   ========================================================================== */
+.setup-notice-card {
+  background: rgba(56, 189, 248, 0.05);
+  border: 1px dashed var(--accent);
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.setup-notice-badge {
+  background: var(--accent);
+  color: #0f172a;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.25rem 0.6rem;
+  border-radius: 12px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.2rem;
+}
+
+.vacancy-card {
+  background: var(--bg-main);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+}
+
+.vacancy-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.vacancy-title {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.4rem;
+}
+
+.vacancy-level {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.6rem;
+}
+
+.vacancy-desc {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+/* ==========================================================================
+   🖼️ GALERIA DE INFRAESTRUTURA & MÍDIA
+   ========================================================================== */
+.gallery-grid, .media-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.2rem;
+}
+
+.gallery-card, .media-card {
+  background: var(--bg-main);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s ease;
+}
+
+.gallery-card:hover, .media-card:hover {
+  border-color: var(--accent);
+}
+
+.gallery-placeholder-img {
+  width: 100%;
+  height: 160px;
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  gap: 0.5rem;
+}
+
+.gallery-card-body, .media-card-body {
+  padding: 1rem;
+}
+
+.gallery-card-title, .media-card-title {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.3rem;
+}
+
+.gallery-card-desc, .media-card-desc {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   📍 CONTATO & LOCALIZAÇÃO INSTITUCIONAL
+   ========================================================================== */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+@media (max-width: 768px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.contact-info-card {
+  background: var(--bg-main);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.contact-item svg {
+  color: var(--accent);
+  flex-shrink: 0;
+  margin-top: 0.2rem;
+}
+
+.contact-item strong {
+  color: var(--text-main);
+  display: block;
+  margin-bottom: 0.1rem;
+}
+
+
