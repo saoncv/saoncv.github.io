@@ -19,16 +19,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       
-      - name: Install uv
-        uses: astral-sh/setup-uv@v3
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          
+      - name: Install dependencies
+        run: pip install -r requirements.txt
         
-      - name: Run Build Script (SSG KISS via uv)
-        run: uv run build.py
+      - name: Run Build Script (SSG + OpenAlex)
+        run: python build.py
         
       - name: Commit and Push Generated HTML
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add *.html
-          git commit -m "chore(ssg): auto-rebuild site with fresh OpenAlex data via uv [skip ci]" || echo "No changes to commit"
+          git commit -m "chore(ssg): auto-rebuild site with fresh OpenAlex citations [skip ci]" || echo "No changes to commit"
           git push

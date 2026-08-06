@@ -1,71 +1,60 @@
-# /// script
-# requires-python = ">=3.10"
-# dependencies = [
-#     "beautifulsoup4",
-#     "requests",
-#     "pyyaml",
-#     "jinja2",
-# ]
-# ///
-
 import os
+import xml.etree.ElementTree as ET
 import requests
 import yaml
 from jinja2 import Environment, FileSystemLoader
-from bs4 import BeautifulSoup
-import glob
 
-print("=== Iniciando Build do Site Estático (SSG KISS) ===")
+print("=== Iniciando Build do Site Estático (SSG) ===")
 
-# 1. Ingestão do OpenAlex (Fonte da Verdade Única)
-AUTHOR_ID = "A5035610220"
-print(f"Buscando publicações do autor {AUTHOR_ID} no OpenAlex...")
-
-headers = {'User-Agent': 'mailto:saon@unicamp.br'}
-url = f"https://api.openalex.org/works?filter=author.id:{AUTHOR_ID}&sort=publication_year:desc&per-page=50"
-
+# 1. Parse do Lattes XML
+lattes_file = "data/curriculo.xml"
 papers = []
-try:
-    resp = requests.get(url, headers=headers, timeout=15)
-    if resp.status_code == 200:
-        data = resp.json()
-        for work in data.get("results", []):
-            title = work.get("title", "Sem Título")
-            year = work.get("publication_year", "")
-            doi_raw = work.get("doi")
-            doi = doi_raw.replace("https://doi.org/", "") if doi_raw else ""
-            citations = work.get("cited_by_count", 0)
+if os.path.exists(lattes_file):
+    print(f"Lendo Lattes XML: {lattes_file}")
+    tree = ET.parse(lattes_file)
+    root = tree.getroot()
+    
+    # Extrair artigos
+    artigos_node = root.find(".//ARTIGOS-PUBLICADOS")
+    if artigos_node is not None:
+        for artigo in artigos_node.findall("ARTIGO-PUBLICADO"):
+            dados = artigo.find("DADOS-BASICOS-DO-ARTIGO")
+            detalhes = artigo.find("DETALHAMENTO-DO-ARTIGO")
             
-            # Extrair nome da revista
-            journal = "Revista Desconhecida"
-            primary_location = work.get("primary_location")
-            if primary_location:
-                source = primary_location.get("source")
-                if source:
-                    journal = source.get("display_name", journal)
-                    
-            # Extrair autores
-            authors_list = []
-            for authorship in work.get("authorships", []):
-                author_name = authorship.get("author", {}).get("display_name", "")
-                authors_list.append(author_name)
-            authors_str = ", ".join(authors_list)
+            autores_list = []
+            for autor in artigo.findall("AUTORES"):
+                autores_list.append(autor.attrib.get("NOME-PARA-CITACAO", ""))
             
-            papers.append({
-                "title": title,
-                "year": year,
-                "doi": doi,
-                "journal": journal,
-                "authors": authors_str,
-                "citations": citations
-            })
-        print(f"  [OK] {len(papers)} artigos encontrados e processados.")
-    else:
-        print(f"  [FALHA] Erro na API do OpenAlex: {resp.status_code}")
-except Exception as e:
-    print(f"  [ERRO] Falha de conexão com OpenAlex: {e}")
+            paper = {
+                "title": dados.attrib.get("TITULO-DO-ARTIGO", ""),
+                "year": dados.attrib.get("ANO-DO-ARTIGO", ""),
+                "doi": dados.attrib.get("DOI", ""),
+                "journal": detalhes.attrib.get("NOME-DO-PERIODICO-OU-REVISTA", ""),
+                "authors": ", ".join(autores_list),
+                "citations": "N/A"
+            }
+            papers.append(paper)
+else:
+    print(f"ERRO: Lattes XML não encontrado em {lattes_file}")
 
-# 2. Ler Arquivos YAML auxiliares
+# 2. Ingestão do OpenAlex
+print("Buscando citações no OpenAlex...")
+headers = {'User-Agent': 'mailto:saon@unicamp.br'}
+for p in papers:
+    if p["doi"]:
+        doi_url = f"https://api.openalex.org/works/https://doi.org/{p['doi']}"
+        try:
+            resp = requests.get(doi_url, headers=headers, timeout=10)
+            if resp.status_code == 200:
+                data = resp.json()
+                p["citations"] = data.get("cited_by_count", 0)
+                print(f"  [OK] {p['doi']} -> {p['citations']} citações")
+            else:
+                print(f"  [FALHA] OpenAlex não encontrou DOI: {p['doi']}")
+        except Exception as e:
+            print(f"  [ERRO] Falha de conexão: {e}")
+
+# 3. Ler Arquivos YAML auxiliares
 def load_yaml(filename):
     if os.path.exists(f"data/{filename}"):
         with open(f"data/{filename}", "r", encoding="utf-8") as f:
@@ -76,9 +65,10 @@ noticias = load_yaml("noticias.yml")
 pesquisa = load_yaml("pesquisa.yml")
 equipe = load_yaml("equipe.yml")
 
-# 3. Configurar Jinja2 e compilar
+# 4. Configurar Jinja2 e compilar
 env = Environment(loader=FileSystemLoader("src"))
 
+# Para evitar substituir todo o HTML manualmente no Jinja, vamos injetar dinamicamente as strings de publicações no publicacoes.html!
 pub_template = """
 {% for pub in papers %}
 <article class="pub-item" data-category="journal">
@@ -86,9 +76,7 @@ pub_template = """
   <p class="pub-authors">{{ pub.authors }}</p>
   <p class="pub-journal">{{ pub.journal }}, {{ pub.year }} | <strong>Citações: {{ pub.citations }} (OpenAlex)</strong></p>
   <div class="pub-actions">
-    {% if pub.doi %}
     <a href="https://doi.org/{{ pub.doi }}" target="_blank" rel="noopener noreferrer" class="action-badge doi-link">DOI Oficial</a>
-    {% endif %}
     <span class="action-badge prestige-badge">Artigo em Periódico</span>
     <button class="bibtex-btn" onclick="toggleBibTeX('bib-{{ loop.index }}')">BibTeX</button>
   </div>
@@ -106,6 +94,11 @@ pub_template = """
 {% endfor %}
 """
 
+# Vamos renderizar os blocos em python e usar BeautifulSoup para injetar nos arquivos estáticos, mantendo a robustez.
+from bs4 import BeautifulSoup
+import glob
+
+# Renderiza a string de publicações
 from jinja2 import Template
 pubs_html = Template(pub_template).render(papers=papers)
 
