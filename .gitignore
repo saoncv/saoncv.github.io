@@ -10,3 +10,4 @@ AGENTS.md
 # Arquivos temporários de scratch/teste
 scratch/
 *.tmp
+.venv/

@@ -1,0 +1,11 @@
+eixos_pesquisa:
+  - titulo: "Escoamentos Multifásicos & Transientes"
+    icone: "🌊"
+    descricao: "Modelagem de escoamentos óleo-água-gás em tubulações offshore, focando na transição de padrões e slug flow. Incompressibilidade $\\nabla \\cdot \\mathbf{u} = 0$."
+  - titulo: "Physics-Informed Hybrid Intelligence"
+    icone: "🧠"
+    descricao: "Soft sensing combinando equações de Navier-Stokes com Deep Learning para predição de vazões virtuais em tempo real."
+projetos_industria:
+  - titulo: "P&D ANP / FINEP - Flow Assurance"
+    empresa: "Petrobras"
+    descricao: "Desenvolvimento de instrumentação virtual para garantia de escoamento no pré-sal."

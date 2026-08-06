@@ -1,0 +1,39 @@
+name: Auto-Build SSG Lattes + OpenAlex
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 3 * * 1' # Toda segunda-feira às 03:00 da manhã
+  workflow_dispatch: # Permite rodar manualmente no GitHub
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+        
+      - name: Run Build Script (SSG + OpenAlex)
+        run: python build.py
+        
+      - name: Commit and Push Generated HTML
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add *.html
+          git commit -m "chore(ssg): auto-rebuild site with fresh OpenAlex citations [skip ci]" || echo "No changes to commit"
+          git push

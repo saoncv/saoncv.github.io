@@ -1,0 +1,10 @@
+# data/noticias.yml
+noticias:
+  - data: "2026-08-01"
+    badge: "Publicação"
+    titulo: "Novo pacote de simulação open-source lançado!"
+    descricao: "Disponibilizamos no GitHub nossa nova biblioteca em Python..."
+  - data: "2026-07-20"
+    badge: "Banca"
+    titulo: "Defesa de Doutorado no CEPETRO"
+    descricao: "Participação na banca de doutorado focada em escoamentos estratificados..."
