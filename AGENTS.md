@@ -38,6 +38,7 @@ Este repositório contém o código-fonte do site acadêmico pessoal hospedado v
 - **Regra da Evidência:** Não declare uma alteração pronta apenas com palavras. Valide a renderização e o comportamento no console/DevTools antes de concluir.
 - **Checkpoints Git:** Exija a inspeção do `git diff` local antes de alterações destrutivas.
 - **Filtro de Artefatos:** Antes de qualquer `git push`, garanta que o `.gitignore` esteja blocking a subida de arquivos de ambiente (`.env`), arquivos temporários do SO (como `.DS_Store`) ou logs locais. O diretório raiz deve conter estritamente o código de distribuição e configuração do Pages.
+- **Auditoria Estrutural de HTML5:** Em modificações extensas em `index.html` e `index-en.html`, execute script de auditoria estrita (BeautifulSoup) para validar o balanceamento 1:1 de tags `<section>`, `<div>`, `<article>` e `<main>`, unicidade de IDs e segurança de links.
 
 ---
 
@@ -74,6 +75,7 @@ Este repositório contém o código-fonte do site acadêmico pessoal hospedado v
 - **Estruturação Macro-Conceitual dos Eixos de Pesquisa (Visão Macro):** A apresentação das linhas de atuação deve organizar os projetos em 4 caixas conceituais abrangentes (Escoamentos Multifásicos & Transientes; Physics-Informed Hybrid Intelligence & Soft Sensing; Interação Fluido-Estrutura - FSI; Engenharia de Petróleo & Flow Assurance), evitando fragmentações excessivamente afuniladas.
 - **Destaque Direto a Artigos com Datasets Abertos (Data Papers):** O cartão de Ciência Aberta / Open Data deve destacar explicitamente os artigos de dados específicos (ex: Faller et al., Neves et al., Oilfield Data papers) fornecendo botões de download direto para os datasets brutos disponibilizados em repositórios abertos.
 - **Minimalismo em Links de Dados & Proibição de Placeholders em Software:** Na seção de software, apresente estritamente projetos de código ativos e disponíveis (ex: Simulador FLIP em `saoncv.github.io`), sendo proibido criar cartões fictícios de "projetos em desenvolvimento". Na seção de dados abertos, havendo um DOI funcional da publicação ou repositório oficial (ex: REDU UNICAMP), não utilize botões extras de download redundantes.
+- **Estruturação Transparente para Laboratórios em Implantação (PHI Lab & Vagas Abertas):** Em seções de equipe de pesquisa, alunos, egressos (alumni) e galeria de infraestrutura de laboratórios em fase inicial de estruturação, é proibido criar membros/projetos fictícios ou omitir as seções. As seções devem utilizar cartões elegantes de *"Fase de Implantação (2026)"* apresentando chamadas ativas de recrutamento acadêmico (vagas abertas para IC, TCC, Mestrado, Doutorado e Pós-Doutorado) com acionador de e-mail institucional seguro, e aviso de comissionamento de bancadas para fotos futuras.
 
 ---
 
