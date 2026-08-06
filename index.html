@@ -1,67 +1,43 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prof. Dr. Saon Crispim Vieira | UNICAMP</title>
-  <meta name="description" content="Portal Acadêmico do Prof. Dr. Saon Crispim Vieira - Professor Doutor na Faculdade de Engenharia Mecânica da UNICAMP (Departamento de Energia). Ex-Engenheiro de Petróleo Sênior e Consultor na Petrobras.">
-
-<!-- 
-  🎓 GUIA DIDÁTICO SOCRÁTICO — INDEXAÇÃO ACADÊMICA & SEO ESTRUTURADO
-  ==========================================================================
-  PERGUNTA SOCRÁTICA PARA O ALUNO:
-  "Como buscadores acadêmicos (ex: Google Scholar, Semantic Scholar) e robôs de pesquisa
-   identificam a autoria, a instituição e a produção científica de uma página da web?"
-
-  RESPOSTA DIDÁTICA:
-  1. Meta-tags Highwire Press (ex: citation_author, citation_title): Padrão de indexação
-     utilizado por periódicos científicos e reconhecido pelo Google Scholar.
-  2. Microdados Schema.org JSON-LD: Vocabulário estruturado em JSON que define entidades
-     no grafo de conhecimento da web (Person, Organization, ScholarlyArticle).
-  ==========================================================================
--->
-
-  <!-- Indexação Acadêmica (Highwire Press / Google Scholar) -->
+  <title>Prof. Dr. Saon Crispim Vieira | UNICAMP & PHI Lab</title>
+  
+  <!-- Highwire Press Meta-tags para Indexação Acadêmica no Google Scholar & Scopus -->
   <meta name="citation_author" content="Vieira, Saon Crispim">
   <meta name="citation_author_institution" content="University of Campinas (UNICAMP)">
-  <meta name="citation_language" content="en">
+  <meta name="citation_title" content="Prof. Dr. Saon Crispim Vieira — Personal Academic Portal">
+  <meta name="citation_language" content="pt">
 
-  <link rel="canonical" href="https://saoncv.github.io/index.html">
-  <link rel="alternate" hreflang="pt-BR" href="https://saoncv.github.io/index.html">
-  <link rel="alternate" hreflang="en" href="https://saoncv.github.io/index-en.html">
-
-  <!-- Open Graph / Social Media -->
-  <meta property="og:type" content="profile">
-  <meta property="og:title" content="Prof. Dr. Saon Crispim Vieira | UNICAMP">
-  <meta property="og:description" content="Portal Acadêmico do Prof. Dr. Saon Crispim Vieira - Professor Doutor na Faculdade de Engenharia Mecânica da UNICAMP (Departamento de Energia). Ex-Engenheiro de Petróleo Sênior e Consultor na Petrobras.">
+  <!-- Meta Tags SEO & Open Graph -->
+  <meta name="description" content="Portal acadêmico oficial do Prof. Dr. Saon Crispim Vieira, Professor Doutor na Faculdade de Engenharia Mecânica (FEM / UNICAMP) e Coordenador do PHI Lab.">
+  <meta name="author" content="Saon Crispim Vieira">
+  <meta property="og:title" content="Prof. Dr. Saon Crispim Vieira | UNICAMP & PHI Lab">
+  <meta property="og:description" content="Pesquisas em Escoamentos Multifásicos, Physics-Informed Machine Learning, Interação Fluido-Estrutura (FSI) e Garantia de Escoamento.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://saoncv.github.io/">
   <meta property="og:image" content="https://saoncv.github.io/assets/FOTO_ID_LakeLouisse_Canada.jpg">
-  <meta property="og:url" content="https://saoncv.github.io/index.html">
-  <meta property="og:locale" content="pt_BR">
-
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Prof. Dr. Saon Crispim Vieira | UNICAMP">
-  <meta name="twitter:description" content="Portal Acadêmico do Prof. Dr. Saon Crispim Vieira - Professor Doutor na Faculdade de Engenharia Mecânica da UNICAMP (Departamento de Energia).">
+  <meta name="twitter:description" content="Professor Doutor I no Departamento de Energia (FEM / UNICAMP) & Head do PHI Lab.">
   <meta name="twitter:image" content="https://saoncv.github.io/assets/FOTO_ID_LakeLouisse_Canada.jpg">
 
-  <!-- Schema.org JSON-LD (Person) -->
+  <!-- Microdados Estruturados JSON-LD Schema.org -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Saon Crispim Vieira",
-    "jobTitle": "Professor Doutor",
+    "jobTitle": "Professor Doutor I",
     "worksFor": {
-      "@type": "CollegeOrUniversity",
-      "name": "Universidade Estadual de Campinas (UNICAMP)",
-      "department": "Faculdade de Engenharia Mecânica - Departamento de Energia"
+      "@type": "EducationalOrganization",
+      "name": "Universidade Estadual de Campinas",
+      "alternateName": "UNICAMP",
+      "department": "Faculdade de Engenharia Mecânica (FEM)"
     },
-    "alumniOf": [
-      {
-        "@type": "CollegeOrUniversity",
-        "name": "Universidade Estadual de Campinas (UNICAMP)"
-      }
-    ],
+    "url": "https://saoncv.github.io/",
     "sameAs": [
       "http://lattes.cnpq.br/1026695160236823",
       "https://scholar.google.com/citations?user=K18h1jEAAAAJ&hl=en",
@@ -98,7 +74,7 @@
 
   <div class="container">
     
-    <!-- Profile Card -->
+    <!-- Profile Card & Sticky Controls -->
     <header class="card" role="banner">
       <div class="top-nav-controls">
         <div class="nav-left-group">
@@ -115,35 +91,23 @@
           </div>
 
           <ul class="academic-nav" role="navigation" aria-label="Navegação Acadêmica">
-            <li><a href="#news" class="academic-nav-link">Notícias</a></li>
-            <li><a href="#research" class="academic-nav-link">Pesquisa</a></li>
-            <li><a href="#patents" class="academic-nav-link">Patentes</a></li>
-            <li><a href="#publications" class="academic-nav-link">Publicações</a></li>
-            <li><a href="#team" class="academic-nav-link">Equipe</a></li>
-            <li><a href="#media" class="academic-nav-link">Mídia</a></li>
-            <li><a href="#gallery" class="academic-nav-link">Galeria</a></li>
-            <li><a href="#contact" class="academic-nav-link">Contato</a></li>
-            <li><a href="#software" class="academic-nav-link">Software</a></li>
-            <li><a href="#partnerships" class="academic-nav-link">Parcerias</a></li>
+            <li><a href="index.html" class="academic-nav-link active-page-link">Início</a></li>
+            <li><a href="pesquisa.html" class="academic-nav-link">Pesquisa</a></li>
+            <li><a href="publicacoes.html" class="academic-nav-link">Publicações & Patentes</a></li>
+            <li><a href="equipe.html" class="academic-nav-link">Equipe & Contato</a></li>
           </ul>
         </div>
 
         <div class="right-controls">
           <div class="lang-switch">
-            <span class="nav-switch-btn active">
-              <img src="https://flagcdn.com/w20/br.png" alt="Brasil" class="flag-icon">
-              <span>PT</span>
-            </span>
+            <span class="lang-btn active" title="Português (Brasil)">PT 🇧🇷</span>
             <span class="lang-sep">|</span>
-            <a href="index-en.html" class="nav-switch-btn">
-              <img src="https://flagcdn.com/w20/us.png" alt="English" class="flag-icon">
-              <span>EN</span>
-            </a>
+            <a href="index-en.html" class="lang-btn" title="English Version">EN 🇺🇸</a>
           </div>
 
-          <button class="theme-toggle-btn" title="Alternar Tema Claro/Escuro" aria-label="Alternar Tema Claro/Escuro">
-            <span class="theme-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
-            <span class="theme-text">Escuro</span>
+          <button id="theme-toggle" class="theme-toggle-btn" aria-label="Alternar Tema" title="Alternar Tema Claro/Escuro">
+            <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
           </button>
         </div>
       </div>
@@ -153,7 +117,7 @@
       <p class="title-current">Professor Doutor | Departamento de Energia (FEM / UNICAMP) & Head do PHI Lab</p>
       <p class="title-former">Ex-Engenheiro de Petróleo Sênior & Consultor na Petrobras (2008–2026)</p>
 
-      <!-- Research Focus Chips (Item 5 Padrão Internacional Academic Web) -->
+      <!-- Research Focus Chips -->
       <div class="research-focus-tags">
         <span class="focus-chip">🌊 Escoamentos Multifásicos</span>
         <span class="focus-chip">⚡ Physics-Informed AI / Soft Sensing</span>
@@ -162,7 +126,7 @@
         <span class="focus-chip">📡 Sensores Virtuais & Múltiplos</span>
       </div>
 
-      <!-- Education Timeline Widget (Item 2 Padrão Internacional Academic Web) -->
+      <!-- Education Timeline Widget -->
       <div class="education-timeline" aria-label="Formação Acadêmica">
         <div class="edu-item">
           <div class="edu-degree">🎓 D.Sc. / Doutorado (2022)</div>
@@ -201,7 +165,6 @@
           <span>FEM / UNICAMP</span>
         </a>
         <a href="https://cepetro.unicamp.br/" target="_blank" rel="noopener noreferrer" class="btn-link" title="Centro de Estudos de Energia e Petróleo">
-          <!-- Gota de Óleo Vector -->
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
           <span>CEPETRO</span>
         </a>
@@ -222,10 +185,10 @@
           <span>Scopus</span>
         </a>
         <a href="https://orcid.org/0000-0001-8785-9237" target="_blank" rel="noopener noreferrer" class="btn-link" title="ORCID iD">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
           <span>ORCID</span>
         </a>
-        <a href="https://www.semanticscholar.org/search?q=Saon%20Crispim%20Vieira" target="_blank" rel="noopener noreferrer" class="btn-link" title="Perfil no Semantic Scholar (Busca Direta Autorritativa)">
+        <a href="https://www.semanticscholar.org/search?q=Saon%20Crispim%20Vieira" target="_blank" rel="noopener noreferrer" class="btn-link" title="Perfil no Semantic Scholar">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
           <span>Semantic Scholar</span>
         </a>
@@ -243,7 +206,7 @@
     <!-- Main Content -->
     <main role="main">
       
-      <!-- Section: Interactive FLIP Simulator (Item 2 Diretrizes - Vanilla WebGL) -->
+      <!-- Interactive FLIP Simulator -->
       <section class="simulator-card" id="simulator">
         <div class="sim-header">
           <h2 class="sim-title">Simulador de Partículas</h2>
@@ -292,7 +255,7 @@
         </div>
       </section>
 
-      <!-- Section: Latest News / Timeline de Atualizações (Item 1 Diretrizes) -->
+      <!-- Latest News -->
       <section class="section-block" id="news">
         <h2 class="section-title">Últimas Notícias & Reconhecimentos</h2>
         <ul class="news-list">
@@ -307,757 +270,54 @@
         </ul>
       </section>
 
-      <!-- Section: Research Axes (Item 7 Diretrizes) -->
-      <section class="section-block" id="research">
-        <h2 class="section-title">Eixos de Pesquisa & Linhas de Atuação</h2>
-        <div class="research-grid">
-          <article class="research-card">
-            <h3 class="research-card-title">1. Escoamentos Multifásicos, Transientes & Dinâmica Não-Linear</h3>
-            <p class="research-card-desc">Caracterização física e modelagem hidrodinâmica de escoamentos multifásicos gás-líquido e líquido-líquido em regimes permanentes e transientes. Estudo de estabilidade hidrodinâmica, dinâmicas intermitentes e caóticas (golfadas/slug flow), transição de padrões de fluxo e modelos estocásticos (cadeias de Markov, análise espectral) em dutos horizontais e inclinados.</p>
-            <div class="math-formula">$$\frac{\partial (\rho_m \mathbf{u}_m)}{\partial t} + \nabla \cdot (\rho_m \mathbf{u}_m \mathbf{u}_m) = -\nabla p + \nabla \cdot \boldsymbol{\tau} + \rho_m \mathbf{g} + \mathbf{F}_{\text{transient}}$$</div>
-          </article>
-
-          <article class="research-card">
-            <h3 class="research-card-title">2. Physics-Informed Hybrid Intelligence, Soft Sensing & Instrumentação</h3>
-            <p class="research-card-desc">Integração de primeiros princípios da dinâmica dos fluidos com Inteligência Artificial Informada pela Física (PINNs, operadores neurais e surrogate models). Desenvolvimento de sensores virtuais (soft sensing), instrumentação não-intrusiva (sensores de pressão de parede, vibração e capacitância), algoritmos data-driven e gêmeos digitais para inferência e monitoramento em tempo real.</p>
-            <div class="math-formula">$$\mathcal{L}_{\text{PHI}} = \mathcal{L}_{\text{data}} + \lambda_1 \|\mathcal{N}_{\text{physics}}(\hat{u})\|^2 + \lambda_2 \mathcal{L}_{\text{boundary}}$$</div>
-          </article>
-
-          <article class="research-card">
-            <h3 class="research-card-title">3. Interação Fluido-Estrutura (Fluid-Structure Interaction - FSI)</h3>
-            <p class="research-card-desc">Investigação teórico-experimental e numérico-computacional do acoplamento dinâmico entre o escoamento multifásico interno e a resposta vibracional das estruturas (tubulações flexíveis e rígidas). Análise de ondas flexurais, fadiga induzida por flutuações de pressão e acoplamento aero/hidroelástico em dutos industriais.</p>
-            <div class="math-formula">$$EI \frac{\partial^4 w(x,t)}{\partial x^4} + m_{\text{pipe}} \frac{\partial^2 w(x,t)}{\partial t^2} = F_{\text{fluid-FSI}}(x,t;\,\Delta p, \alpha)$$</div>
-          </article>
-
-          <article class="research-card">
-            <h3 class="research-card-title">4. Engenharia de Petróleo, Elevação Artificial & Garantia de Escoamento</h3>
-            <p class="research-card-desc">Aplicação industrial em R&D para o setor de energia e sistemas offshore. Modelagem e otimização de sistemas de Elevação Artificial (BCSS/ESP, Gas Lift), separação multifásica centrífuga em skids, mitigação de fenômenos severos de escoamento e Garantia de Escoamento (Flow Assurance) integrados a dados operacionais de campo (oilfield production data).</p>
-            <div class="math-formula">$$\nabla \cdot (\alpha_k \rho_k \mathbf{u}_k) = \Gamma_k, \quad \Delta P_{\text{total}} = \Delta P_{\text{friction}} + \Delta P_{\text{hydrostatic}} + \Delta P_{\text{acceleration}}$$</div>
-          </article>
-        </div>
-      </section>
-
-      <!-- Section: Patents & Intellectual Property -->
-      <section class="section-block" id="patents">
-        <h2 class="section-title">Patentes & Propriedade Intelectual (USPTO / INPI)</h2>
-        <div class="pub-list">
-          <article class="pub-item" style="border-left-color: #f97316;">
-            <h3 class="pub-title">Method and system for measuring the characteristics of a multiphase flow</h3>
-            <p class="pub-authors">P. H. M. C. Matos, <strong>S. C. Vieira</strong>, D. A. das Neves, J. R. Cenzi, A. T. Fabro, M. S. Castro et al.</p>
-            <p class="pub-journal">United States Patent and Trademark Office (USPTO), Carta Patente Concedida US 12,247,904 (Concessão: 2025)</p>
-          </article>
-
-          <article class="pub-item" style="border-left-color: #f97316;">
-            <h3 class="pub-title">Method and system for measuring horizontal two-phase gas-liquid flow characteristics based on signals from piezoelectric pressure sensors and structural vibration</h3>
-            <p class="pub-authors">D. A. das Neves, <strong>S. C. Vieira</strong>, A. T. Fabro, J. R. Cenzi, B. P. Foresti, M. S. Castro.</p>
-            <p class="pub-journal">United States Patent and Trademark Office (USPTO), Depósito Internacional US 18/986,774 (2025)</p>
-          </article>
-
-          <article class="pub-item" style="border-left-color: #f97316;">
-            <h3 class="pub-title">Multiphase flow characteristics measurement system, demodulation method for a multiphase flow characteristics measurement system and electronic circuit</h3>
-            <p class="pub-authors">D. A. das Neves, <strong>S. C. Vieira</strong>, J. R. Cenzi, B. R. Barbosa, B. P. Foresti, M. S. Castro, A. T. Fabro et al.</p>
-            <p class="pub-journal">United States Patent and Trademark Office (USPTO), Depósito Internacional US 18/784,617 (2025)</p>
-          </article>
-
-          <article class="pub-item" style="border-left-color: #f97316;">
-            <h3 class="pub-title">Método para Simulação de Escoamento Multifásico por Diferenciação Automática e Mídia de Armazenamento Legível por Computador</h3>
-            <p class="pub-authors"><strong>S. C. Vieira</strong> et al. [Parceria UNICAMP / CEPETRO / Petrobras]</p>
-            <p class="pub-journal">Instituto Nacional da Propriedade Industrial (INPI), Pedido BR 10 2025 012887-0 (Depósito: 23/06/2025) | Prêmio Inventor Petrobras 2026</p>
-          </article>
-
-          <article class="pub-item" style="border-left-color: #f97316;">
-            <h3 class="pub-title">Método para Classificação de Risco de Bloqueio por Hidratos</h3>
-            <p class="pub-authors"><strong>S. C. Vieira</strong> et al. [Parceria UNICAMP / CEPETRO / Petrobras]</p>
-            <p class="pub-journal">Instituto Nacional da Propriedade Industrial (INPI), Pedido BR 10 2025 015412-9 (Depósito: 24/07/2025) | Prêmio Inventor Petrobras 2026</p>
-          </article>
-
-          <article class="pub-item" style="border-left-color: #f97316;">
-            <h3 class="pub-title">Método e sistema de medição de características de escoamentos bifásicos gás-líquido horizontais baseada em sinais de sensores de pressão piezoelétricos e vibração estrutural</h3>
-            <p class="pub-authors">D. A. das Neves, <strong>S. C. Vieira</strong>, A. T. Fabro, J. R. Cenzi, B. P. Foresti, M. S. Castro.</p>
-            <p class="pub-journal">Instituto Nacional da Propriedade Industrial (INPI), Registro BR1020230272495 (2023)</p>
-          </article>
-
-          <article class="pub-item" style="border-left-color: #f97316;">
-            <h3 class="pub-title">Sistema de medição de características de escoamentos multifásicos, método de demodulação para um sistema de medição de características de escoamentos multifásicos e circuito eletrônico</h3>
-            <p class="pub-authors">D. A. das Neves, <strong>S. C. Vieira</strong>, J. R. Cenzi, B. R. Barbosa, B. P. Foresti, M. S. Castro, A. T. Fabro.</p>
-            <p class="pub-journal">Instituto Nacional da Propriedade Industrial (INPI), Registro BR1020230197337 (2023)</p>
-          </article>
-        </div>
-      </section>
-
-      <!-- Section: Academic Publications (Item 7 Diretrizes - Tríade de Publicação) -->
-      <section class="section-block" id="publications">
-        <h2 class="section-title">Artigos Principais em Periódicos (Índice-h = 9 no Google Scholar)</h2>
-        
-        <div class="open-science-card">
-          <div class="open-science-header">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-            <h3 class="open-science-title">Manifesto de Ciência Aberta & Acesso Livre (Open Access & Open Source)</h3>
-          </div>
-          <p class="open-science-desc">
-            Alinhado aos princípios de transparência e reprodutibilidade científica, todas as pesquisas do <strong>PHI Lab</strong> disponibilizam a <strong>Tríade de Publicação</strong> sempre que aplicável:
-          </p>
-          <div class="open-science-triad">
-            <span class="triad-badge">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-              1. DOI & Portal Oficial
-            </span>
-            <span class="triad-badge">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-              2. Preprint / e-Print Gratuito
-            </span>
-            <span class="triad-badge">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-              3. Repositórios de Dados Brutos & Código
-            </span>
-          </div>
-        </div>
-
-        <!-- Card Dedicado: Artigos de Dados & Repositórios Públicos (Open Data) -->
-        <div class="open-science-card" style="border-color: #a855f7; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.08);">
-          <div class="open-science-header" style="color: #a855f7;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></svg>
-            <h3 class="open-science-title">Artigos com Datasets Abertos (Open Data Papers & Repositories)</h3>
-          </div>
-          <p class="open-science-desc">
-            Em conformidade com as políticas internacionais de Ciência Aberta, o acesso aos conjuntos de dados brutos e instruções de reprodutibilidade é fornecido diretamente através das publicações e repositórios oficiais:
-          </p>
-          
-          <div class="pub-list" style="margin-top: 1rem;">
-            <article class="pub-item" style="border-left-color: #a855f7; background: rgba(168, 85, 247, 0.03);">
-              <h3 class="pub-title" style="font-size: 0.95rem;">Frontiers Open Datasets & Field Application Studies</h3>
-              <p class="pub-authors">Faller et al., <strong>S. C. Vieira</strong>, et al.</p>
-              <p class="pub-journal">Frontiers in Energy Research / Open Access Repository</p>
-              <div class="pub-actions">
-                <a href="https://www.frontiersin.org/" target="_blank" rel="noopener noreferrer" class="action-badge doi-link">Artigo Frontiers (Open Access)</a>
-              </div>
-            </article>
-
-            <article class="pub-item" style="border-left-color: #a855f7; background: rgba(168, 85, 247, 0.03);">
-              <h3 class="pub-title" style="font-size: 0.95rem;">Experimental Multiphase Flow & FSI Signal Datasets</h3>
-              <p class="pub-authors">D. A. das Neves, <strong>S. C. Vieira</strong>, J. R. Cenzi, A. S. de Paula, M. S. Castro, A. T. Fabro.</p>
-              <p class="pub-journal">Experimental Thermal and Fluid Science / Mendeley Data</p>
-              <div class="pub-actions">
-                <a href="https://doi.org/10.1016/j.expthermflusci.2024.111141" target="_blank" rel="noopener noreferrer" class="action-badge doi-link">DOI Artigo ETFS</a>
-              </div>
-            </article>
-
-            <article class="pub-item" style="border-left-color: #a855f7; background: rgba(168, 85, 247, 0.03);">
-              <h3 class="pub-title" style="font-size: 0.95rem;">Brazilian Offshore Oilfield Data</h3>
-              <p class="pub-authors">H. T. Honório, B. P. Foresti, <strong>S. C. Vieira</strong>, C. van der Geest, M. S. Castro, A. T. Fabro.</p>
-              <p class="pub-journal">REDU @ UNICAMP — Repositório de Dados de Pesquisa da UNICAMP (2022)</p>
-              <div class="pub-actions">
-                <a href="https://doi.org/10.25824/redu/XMFTIC" target="_blank" rel="noopener noreferrer" class="action-badge doi-link">REDU @ UNICAMP (Data Lake)</a>
-              </div>
-            </article>
-          </div>
-        </div>
-
-        <div class="pub-list">
-          <article class="pub-item">
-            <h3 class="pub-title">Development and dynamic characterisation of a conductance-based void meter array</h3>
-            <p class="pub-authors">D. A. das Neves, <strong>S. C. Vieira</strong>, J. R. Cenzi, B. R. Barbosa, M. S. Castro, A. T. Fabro.</p>
-            <p class="pub-journal">Measurement, v. 242, p. 115923 (2025)</p>
-            <div class="pub-actions">
-              <a href="https://doi.org/10.1016/j.measurement.2024.115923" target="_blank" rel="noopener noreferrer" class="action-badge doi-link">DOI 10.1016/j.measurement.2024.115923</a>
-              <span class="action-badge prestige-badge">Measurement (Qualis A1 - Elsevier)</span>
-              <span class="action-badge">[Sensores de Condutância / Medidor de Vazio]</span>
-            </div>
-          </article>
-
-          <article class="pub-item">
-            <h3 class="pub-title">Dataset of two-phase flow in a horizontal pipe: synchronized measurements of acceleration, pressure, void fraction and high-velocity camera</h3>
-            <p class="pub-authors">D. A. das Neves, <strong>S. C. Vieira</strong>, J. R. Cenzi, A. T. Fabro, B. P. Foresti, M. S. Castro.</p>
-            <p class="pub-journal">Data in Brief, v. 58, p. 112117 (2025)</p>
-            <div class="pub-actions">
-              <a href="https://doi.org/10.1016/j.dib.2025.112117" target="_blank" rel="noopener noreferrer" class="action-badge doi-link">DOI 10.1016/j.dib.2025.112117</a>
-              <span class="action-badge prestige-badge">Data in Brief (Data Paper - Elsevier)</span>
-              <span class="action-badge">[Dataset Sincronizado / Câmera Rápida]</span>
-            </div>
-          </article>
-
-          <article class="pub-item">
-            <h3 class="pub-title">Fluid–Structure Coupling in Intermittent Two-Phase Flows: Vibration Amplification and Its Potential for Flow Characterization</h3>
-            <p class="pub-authors">M. S. Castro, J. R. Cenzi, A. T. Fabro, <strong>S. C. Vieira</strong>, D. A. das Neves.</p>
-            <p class="pub-journal">Lecture Notes in Mechanical Engineering, Springer Nature Switzerland, p. 31-39 (2025)</p>
-            <div class="pub-actions">
-              <span class="action-badge prestige-badge">Springer Nature (Capítulo de Livro)</span>
-              <span class="action-badge">[Acoplamento Fluido-Estrutura / FSI]</span>
-            </div>
-          </article>
-
-          <article class="pub-item">
-            <h3 class="pub-title">Artigos em Congressos Internacionais (28th International Congress of Mechanical Engineering — COBEM 2025 / ABCM)</h3>
-            <p class="pub-authors">Equipe PHI Lab / CEPETRO / UNICAMP & Colaboradores.</p>
-            <p class="pub-journal">Proceedings of COBEM 2025, Associação Brasileira de Engenharia e Ciências Mecânicas (ABCM)</p>
-            <ul style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin-top: 0.5rem; padding-left: 1.2rem;">
-              <li><em>Offshore Wells Anomaly Detection and Classification Based on Distance Metrics</em> (Donatoni, Bezerra, Foresti, Vieira, Rodriguez, Oliveira).</li>
-              <li><em>Advanced Anomaly Detection in Industrial Time Series Using LSTM-Based Deep Learning Architectures</em> (Pagliarini, Bezerra, Cely, Diaz, Bochio, Rodriguez, Foresti, Vieira).</li>
-              <li><em>Advancing Anomaly Detection in Two-Phase Flow Systems Using ResNet Neural Networks for Enhanced Sustainability</em> (Bezerra, Pagliarini, Foresti, Vieira, Bochio, Rodriguez, Cely).</li>
-              <li><em>Bridging Natural Language Processing (NLP) and Time Series Analysis: Employing Pre-Trained Transformer Models for Anomaly Detection in the Offshore Sector</em> (Siqueira, Bezerra, Foresti, Vieira, Bochio, Rodriguez, Cely).</li>
-            </ul>
-          </article>
-
-          <article class="pub-item">
-            <h3 class="pub-title">Intermittent slug flow identification and characterization from pressure signature</h3>
-            <p class="pub-authors"><strong>S. C. Vieira</strong>, C. van der Geest, A. T. Fabro, M. S. Castro, A. C. Bannwart.</p>
-            <p class="pub-journal">Mechanical Systems and Signal Processing, v. 148, p. 107148 (2021) | Citações: 14</p>
-            <div class="pub-actions">
-              <a href="https://doi.org/10.1016/j.ymssp.2020.107148" target="_blank" rel="noopener noreferrer" class="action-badge doi-link">DOI Oficial</a>
-              <span class="action-badge prestige-badge">MSSP (Qualis A1 | Impacto 7.9)</span>
-              <span class="action-badge">[Assinatura de Pressão]</span>
-            </div>
-          </article>
-
-          <article class="pub-item" data-category="journal">
-            <h3 class="pub-title">Analytical and experimental investigation of flexural waves in horizontal pipes conveying two-phase periodic intermittent flow</h3>
-            <p class="pub-authors">P. H. M. C. Matos, D. A. das Neves, <strong>S. C. Vieira</strong>, C. van der Geest, D. M. Iceri, M. S. Castro, A. T. Fabro.</p>
-            <p class="pub-journal">Applied Acoustics, v. 192, p. 108714 (2022) | Citações: 13</p>
-            <div class="pub-actions">
-              <a href="https://doi.org/10.1016/j.apacoust.2022.108714" target="_blank" rel="noopener noreferrer" class="action-badge doi-link">DOI Oficial</a>
-              <span class="action-badge prestige-badge">Applied Acoustics (Qualis A1)</span>
-              <span class="action-badge">[Ondas Flexurais & Acústica]</span>
-              <button class="bibtex-btn" onclick="toggleBibTeX('bib-apacoust2022')">BibTeX</button>
-            </div>
-            <div class="bibtex-box" id="bib-apacoust2022">
-              <button class="copy-bib-btn" onclick="copyBibTeX('bib-apacoust2022', this)">Copiar</button>
-@article{matos2022analytical,
-  author = {Matos, P. H. M. C. and das Neves, D. A. and Vieira, S. C. and van der Geest, C. and Iceri, D. M. and Castro, M. S. and Fabro, A. T.},
-  title = {Analytical and experimental investigation of flexural waves in horizontal pipes conveying two-phase periodic intermittent flow},
-  journal = {Applied Acoustics},
-  volume = {192},
-  pages = {108714},
-  year = {2022},
-  doi = {10.1016/j.apacoust.2022.108714}
-}
-            </div>
-          </article>
-
-          <article class="pub-item" data-category="journal">
-            <h3 class="pub-title">Experimental investigation of gas-liquid separation for two-phase flow within annular duct of an ESP skid</h3>
-            <p class="pub-authors"><strong>S. C. Vieira</strong>, D. A. S. Custódio, W. Monte Verde, J. L. Biazussi, M. S. Castro, A. C. Bannwart.</p>
-            <p class="pub-journal">Journal of Petroleum Science and Engineering, v. 198, p. 108130 (2021) | Citações: 11</p>
-            <div class="pub-actions">
-              <a href="https://doi.org/10.1016/j.petrol.2020.108130" target="_blank" rel="noopener noreferrer" class="action-badge doi-link">DOI Oficial</a>
-              <span class="action-badge prestige-badge">JPSE (Qualis A1)</span>
-              <span class="action-badge">[Separação Gás-Líquido / BCSS]</span>
-              <button class="bibtex-btn" onclick="toggleBibTeX('bib-jpse2021')">BibTeX</button>
-            </div>
-            <div class="bibtex-box" id="bib-jpse2021">
-              <button class="copy-bib-btn" onclick="copyBibTeX('bib-jpse2021', this)">Copiar</button>
-@article{vieira2021experimental,
-  author = {Vieira, S. C. and Cust\'odio, D. A. S. and Monte Verde, W. and Biazussi, J. L. and Castro, M. S. and Bannwart, A. C.},
-  title = {Experimental investigation of gas-liquid separation for two-phase flow within annular duct of an ESP skid},
-  journal = {Journal of Petroleum Science and Engineering},
-  volume = {198},
-  pages = {108130},
-  year = {2021},
-  doi = {10.1016/j.petrol.2020.108130}
-}
-            </div>
-          </article>
-
-
-            <article class="pub-item" data-category="datapaper" style="border-left-color: #a855f7; background: rgba(168, 85, 247, 0.03);">
-              <h3 class="pub-title" style="font-size: 0.95rem;">Open Data Article — Intermittent Slug Flow Dataset in Annular Pipes (2025)</h3>
-              <p class="pub-authors"><strong>S. C. Vieira</strong>, C. van der Geest, A. T. Fabro, M. S. Castro, A. C. Bannwart.</p>
-              <p class="pub-journal">Data in Brief, v. 58, p. 112117 (2025)</p>
-              <div class="pub-actions">
-                <a href="https://doi.org/10.1016/j.dib.2025.112117" target="_blank" rel="noopener noreferrer" class="action-badge doi-link">DOI Data in Brief</a>
-                <span class="action-badge prestige-badge" style="background: rgba(168, 85, 247, 0.15); color: #c084fc;">Data Article 2025</span>
-                <button class="bibtex-btn" onclick="toggleBibTeX('bib-dib2025')">BibTeX</button>
-              </div>
-              <div class="bibtex-box" id="bib-dib2025">
-                <button class="copy-bib-btn" onclick="copyBibTeX('bib-dib2025', this)">Copiar</button>
-@article{vieira2025dib,
-  author = {Vieira, S. C. and van der Geest, C. and Fabro, A. T. and Castro, M. S. and Bannwart, A. C.},
-  title = {Dataset on intermittent slug flow in inclined annular pipelines},
-  journal = {Data in Brief},
-  volume = {58},
-  pages = {112117},
-  year = {2025},
-  doi = {10.1016/j.dib.2025.112117}
-}
-              </div>
-            </article>
-
-          <article class="pub-item" data-category="journal">
-            <h3 class="pub-title">Data-Driven Machine Learning Framework for Two-Phase Flow Rate Estimation in Horizontal Pipes</h3>
-            <p class="pub-authors">F. F. Faller, D. A. das Neves, <strong>S. C. Vieira</strong>, J. R. Cenzi, B. P. Foresti, M. S. Castro, A. T. Fabro.</p>
-            <p class="pub-journal">Measurement, v. 242, p. 115789 (2025)</p>
-            <div class="pub-actions">
-              <a href="https://doi.org/10.1016/j.measurement.2024.115789" target="_blank" rel="noopener noreferrer" class="action-badge doi-link">DOI Oficial</a>
-              <span class="action-badge prestige-badge">Measurement (Qualis A1 | Impacto 5.2)</span>
-              <span class="action-badge">[Machine Learning / Soft Sensing]</span>
-              <button class="bibtex-btn" onclick="toggleBibTeX('bib-meas2025')">BibTeX</button>
-            </div>
-            <div class="bibtex-box" id="bib-meas2025">
-              <button class="copy-bib-btn" onclick="copyBibTeX('bib-meas2025', this)">Copiar</button>
-@article{faller2025measurement,
-  author = {Faller, F. F. and das Neves, D. A. and Vieira, S. C. and Cenzi, J. R. and Foresti, B. P. and Castro, M. S. and Fabro, A. T.},
-  title = {Data-Driven Machine Learning Framework for Two-Phase Flow Rate Estimation in Horizontal Pipes},
-  journal = {Measurement},
-  volume = {242},
-  pages = {115789},
-  year = {2025},
-  doi = {10.1016/j.measurement.2024.115789}
-}
-            </div>
-          </article>
-
-          <article class="pub-item" data-category="journal">
-            <h3 class="pub-title">Modeling two-phase flow in ESPs under gas-entrainment conditions</h3>
-            <p class="pub-authors">M. R. M. Penteado, <strong>S. C. Vieira</strong>, M. S. Castro, A. C. Bannwart.</p>
-            <p class="pub-journal">Journal of Petroleum Science and Engineering, v. 208, p. 109280 (2022) | Citações: 14</p>
-            <div class="pub-actions">
-              <a href="https://doi.org/10.1016/j.petrol.2021.109280" target="_blank" rel="noopener noreferrer" class="action-badge doi-link">DOI Oficial</a>
-              <span class="action-badge prestige-badge">JPSE (Qualis A1 - Top-Tier Petróleo)</span>
-              <span class="action-badge">[BCS / Elevação Artificial]</span>
-              <button class="bibtex-btn" onclick="toggleBibTeX('bib-jpse2022')">BibTeX</button>
-            </div>
-            <div class="bibtex-box" id="bib-jpse2022">
-              <button class="copy-bib-btn" onclick="copyBibTeX('bib-jpse2022', this)">Copiar</button>
-@article{penteado2022modeling,
-  author = {Penteado, M. R. M. and Vieira, S. C. and Castro, M. S. and Bannwart, A. C.},
-  title = {Modeling two-phase flow in ESPs under gas-entrainment conditions},
-  journal = {Journal of Petroleum Science and Engineering},
-  volume = {208},
-  pages = {109280},
-  year = {2022},
-  doi = {10.1016/j.petrol.2021.109280}
-}
-            </div>
-          </article>
-
-          <article class="pub-item" data-category="journal">
-            <h3 class="pub-title">Experimental study and modelling of developing intermittent slug flow in inclined annular pipelines</h3>
-            <p class="pub-authors"><strong>S. C. Vieira</strong>, C. van der Geest, A. T. Fabro, M. S. Castro, A. C. Bannwart.</p>
-            <p class="pub-journal">Journal of Petroleum Science and Engineering, v. 192, p. 107204 (2020) | Citações: 11</p>
-            <div class="pub-actions">
-              <a href="https://doi.org/10.1016/j.petrol.2020.107204" target="_blank" rel="noopener noreferrer" class="action-badge doi-link">DOI Oficial</a>
-              <span class="action-badge prestige-badge">JPSE (Qualis A1)</span>
-              <span class="action-badge">[Dutos Inclinados]</span>
-              <button class="bibtex-btn" onclick="toggleBibTeX('bib-jpse2020')">BibTeX</button>
-            </div>
-            <div class="bibtex-box" id="bib-jpse2020">
-              <button class="copy-bib-btn" onclick="copyBibTeX('bib-jpse2020', this)">Copiar</button>
-@article{vieira2020experimental,
-  author = {Vieira, S. C. and van der Geest, C. and Fabro, A. T. and Castro, M. S. and Bannwart, A. C.},
-  title = {Experimental study and modelling of developing intermittent slug flow in inclined annular pipelines},
-  journal = {Journal of Petroleum Science and Engineering},
-  volume = {192},
-  pages = {107204},
-  year = {2020},
-  doi = {10.1016/j.petrol.2020.107204}
-}
-            </div>
-          </article>
-
-          <article class="pub-item" data-category="journal">
-            <h3 class="pub-title">A two-state Markov chain model for slug flow in horizontal ducts</h3>
-            <p class="pub-authors"><strong>S. C. Vieira</strong>, A. T. Fabro, R. L. P. Rodrigues, M. J. da Silva, R. E. Morales, M. S. Castro.</p>
-            <p class="pub-journal">Flow Measurement and Instrumentation, v. 90, p. 102335 (2023) | Citações: 8</p>
-            <div class="pub-actions">
-              <a href="https://doi.org/10.1016/j.flowmeasinst.2023.102335" target="_blank" rel="noopener noreferrer" class="action-badge doi-link">DOI Oficial</a>
-              <span class="action-badge prestige-badge">Flow Meas. Inst. (Qualis A1)</span>
-              <span class="action-badge">[Cadeias de Markov / Slug Flow]</span>
-              <button class="bibtex-btn" onclick="toggleBibTeX('bib-flow2023')">BibTeX</button>
-            </div>
-            <div class="bibtex-box" id="bib-flow2023">
-              <button class="copy-bib-btn" onclick="copyBibTeX('bib-flow2023', this)">Copiar</button>
-@article{vieira2023markov,
-  author = {Vieira, S. C. and Fabro, A. T. and Rodrigues, R. L. P. and da Silva, M. J. and Morales, R. E. and Castro, M. S.},
-  title = {A two-state Markov chain model for slug flow in horizontal ducts},
-  journal = {Flow Measurement and Instrumentation},
-  volume = {90},
-  pages = {102335},
-  year = {2023},
-  doi = {10.1016/j.flowmeasinst.2023.102335}
-}
-            </div>
-          </article>
-
-          <article class="pub-item" data-category="journal">
-            <h3 class="pub-title">Identification of the flow pattern from the experimental pressure signal in horizontal pipes carrying two-phase flows</h3>
-            <p class="pub-authors">D. A. das Neves, <strong>S. C. Vieira</strong>, J. R. Cenzi, A. S. de Paula, M. S. Castro, A. T. Fabro.</p>
-            <p class="pub-journal">Experimental Thermal and Fluid Science, v. 154, p. 111141 (2024) | Citações: 8</p>
-            <div class="pub-actions">
-              <a href="https://doi.org/10.1016/j.expthermflusci.2024.111141" target="_blank" rel="noopener noreferrer" class="action-badge doi-link">DOI Oficial</a>
-              <span class="action-badge prestige-badge">ETFS (Qualis A1 - Referência Termociências)</span>
-              <span class="action-badge">[Sinais de Pressão / Padrões]</span>
-              <button class="bibtex-btn" onclick="toggleBibTeX('bib-etfs2024')">BibTeX</button>
-            </div>
-            <div class="bibtex-box" id="bib-etfs2024">
-              <button class="copy-bib-btn" onclick="copyBibTeX('bib-etfs2024', this)">Copiar</button>
-@article{neves2024identification,
-  author = {das Neves, D. A. and Vieira, S. C. and Cenzi, J. R. and de Paula, A. S. and Castro, M. S. and Fabro, A. T.},
-  title = {Identification of the flow pattern from the experimental pressure signal in horizontal pipes carrying two-phase flows},
-  journal = {Experimental Thermal and Fluid Science},
-  volume = {154},
-  pages = {111141},
-  year = {2024},
-  doi = {10.1016/j.expthermflusci.2024.111141}
-}
-            </div>
-          </article>
-
-          <article class="pub-item" data-category="journal">
-            <h3 class="pub-title">An experimental investigation on the fluid-structure coupling in horizontal pipes conveying two-phase intermittent flow</h3>
-            <p class="pub-authors">D. A. das Neves, A. T. Fabro, <strong>S. C. Vieira</strong>, J. R. Cenzi, M. S. Castro.</p>
-            <p class="pub-journal">International Journal of Multiphase Flow, v. 176, p. 104825 (2024) | Citações: 7</p>
-            <div class="pub-actions">
-              <a href="https://doi.org/10.1016/j.ijmultiphaseflow.2024.104825" target="_blank" rel="noopener noreferrer" class="action-badge doi-link">DOI Oficial</a>
-              <span class="action-badge prestige-badge">IJMF (Qualis A1 - Top-Tier Escoamento Multifásico)</span>
-              <span class="action-badge">[FSI / Escoamento Intermitente]</span>
-              <button class="bibtex-btn" onclick="toggleBibTeX('bib-ijmf2024')">BibTeX</button>
-            </div>
-            <div class="bibtex-box" id="bib-ijmf2024">
-              <button class="copy-bib-btn" onclick="copyBibTeX('bib-ijmf2024', this)">Copiar</button>
-@article{neves2024experimental,
-  author = {das Neves, D. A. and Fabro, A. T. and Vieira, S. C. and Cenzi, J. R. and Castro, M. S.},
-  title = {An experimental investigation on the fluid-structure coupling in horizontal pipes conveying two-phase intermittent flow},
-  journal = {International Journal of Multiphase Flow},
-  volume = {176},
-  pages = {104825},
-  year = {2024},
-  doi = {10.1016/j.ijmultiphaseflow.2024.104825}
-}
-            </div>
-          </article>
-
-          <article class="pub-item" data-category="journal">
-            <h3 class="pub-title">A wave-based approach for estimating void fraction in horizontal pipes conveying two-phase flow</h3>
-            <p class="pub-authors">P. H. M. C. Matos, D. A. das Neves, <strong>S. C. Vieira</strong>, C. van der Geest, J. R. Cenzi, D. M. Iceri, M. S. Castro, A. T. Fabro.</p>
-            <p class="pub-journal">Journal of Petroleum Science and Engineering, v. 216, p. 110766 (2022) | Citações: 6</p>
-            <div class="pub-actions">
-              <a href="https://doi.org/10.1016/j.petrol.2022.110766" target="_blank" rel="noopener noreferrer" class="action-badge doi-link">DOI Oficial</a>
-              <span class="action-badge prestige-badge">JPSE (Qualis A1)</span>
-              <span class="action-badge">[Fração de Vazio]</span>
-              <button class="bibtex-btn" onclick="toggleBibTeX('bib-jpse2022b')">BibTeX</button>
-            </div>
-            <div class="bibtex-box" id="bib-jpse2022b">
-              <button class="copy-bib-btn" onclick="copyBibTeX('bib-jpse2022b', this)">Copiar</button>
-@article{matos2022wave,
-  author = {Matos, P. H. M. C. and das Neves, D. A. and Vieira, S. C. and van der Geest, C. and Cenzi, J. R. and Iceri, D. M. and Castro, M. S. and Fabro, A. T.},
-  title = {A wave-based approach for estimating void fraction in horizontal pipes conveying two-phase flow},
-  journal = {Journal of Petroleum Science and Engineering},
-  volume = {216},
-  pages = {110766},
-  year = {2022},
-  doi = {10.1016/j.petrol.2022.110766}
-}
-            </div>
-          </article>
-
-          <article class="pub-item" data-category="journal">
-            <h3 class="pub-title">Drift‐flux model for gas–liquid flow subjected to centrifugal fields</h3>
-            <p class="pub-authors">M. R. M. Penteado, <strong>S. C. Vieira</strong>, M. S. Castro, A. C. Bannwart.</p>
-            <p class="pub-journal">AIChE Journal, v. 68, p. e17448 (2022) | Citações: 4</p>
-            <div class="pub-actions">
-              <a href="https://doi.org/10.1002/aic.17448" target="_blank" rel="noopener noreferrer" class="action-badge doi-link">DOI Oficial</a>
-              <span class="action-badge prestige-badge">AIChE J (Qualis A1 - Flagship AIChE)</span>
-              <span class="action-badge">[Campos Centrífugos / Drift-Flux]</span>
-              <button class="bibtex-btn" onclick="toggleBibTeX('bib-aiche2022')">BibTeX</button>
-            </div>
-            <div class="bibtex-box" id="bib-aiche2022">
-              <button class="copy-bib-btn" onclick="copyBibTeX('bib-aiche2022', this)">Copiar</button>
-@article{penteado2022driftflux,
-  author = {Penteado, M. R. M. and Vieira, S. C. and Castro, M. S. and Bannwart, A. C.},
-  title = {Drift-flux model for gas-liquid flow subjected to centrifugal fields},
-  journal = {AIChE Journal},
-  volume = {68},
-  pages = {e17448},
-  year = {2022},
-  doi = {10.1002/aic.17448}
-}
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <!-- Section: Conference Publications (COBEM, ENCIT, etc.) -->
-      <section class="section-block" id="conferences">
-        <h2 class="section-title">Artigos em Anais de Eventos & Conferências Internacionais</h2>
-        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">
-          Publicações em anais de congressos científicos de destaque em engenharia mecânica e térmica (COBEM / ABCM):
-        </p>
-        <div class="pub-list">
-          <article class="pub-item" data-category="conference">
-            <h3 class="pub-title">Data-driven estimation of gas and liquid flow rates in horizontal slug flows via pipeline dynamic pressure and vibration signals</h3>
-            <p class="pub-authors">F. F. Faller, D. A. das Neves, <strong>S. C. Vieira</strong>, J. R. Cenzi, B. P. Foresti, M. S. Castro, A. T. Fabro.</p>
-            <p class="pub-journal">28th International Congress of Mechanical Engineering (COBEM 2025), São Paulo - SP (2025)</p>
-            <div class="pub-actions">
-              <a href="https://doi.org/10.26678/ABCM.COBEM2025.COB2025-0543" target="_blank" rel="noopener noreferrer" class="action-badge doi-link">DOI COBEM 2025</a>
-              <span class="action-badge">[Data-Driven / Vibration]</span>
-              <button class="bibtex-btn" onclick="toggleBibTeX('bib-cobem1')">BibTeX</button>
-            </div>
-            <div class="bibtex-box" id="bib-cobem1">
-              <button class="copy-bib-btn" onclick="copyBibTeX('bib-cobem1', this)">Copiar</button>
-@inproceedings{faller2025datadriven,
-  author = {Faller, F. F. and das Neves, D. A. and Vieira, S. C. and Cenzi, J. R. and Foresti, B. P. and Castro, M. S. and Fabro, A. T.},
-  title = {Data-driven estimation of gas and liquid flow rates in horizontal slug flows via pipeline dynamic pressure and vibration signals},
-  booktitle = {Proceedings of the 28th International Congress of Mechanical Engineering (COBEM 2025)},
-  year = {2025},
-  publisher = {ABCM},
-  doi = {10.26678/ABCM.COBEM2025.COB2025-0543}
-}
-            </div>
-          </article>
-
-          <article class="pub-item" data-category="conference">
-            <h3 class="pub-title">Void fraction measurement in two-phase slug flow using non-invasive structural acceleration signals and physics-informed models</h3>
-            <p class="pub-authors">D. A. das Neves, <strong>S. C. Vieira</strong>, A. T. Fabro, J. R. Cenzi, M. S. Castro.</p>
-            <p class="pub-journal">28th International Congress of Mechanical Engineering (COBEM 2025), São Paulo - SP (2025)</p>
-            <div class="pub-actions">
-              <a href="https://doi.org/10.26678/ABCM.COBEM2025.COB2025-0412" target="_blank" rel="noopener noreferrer" class="action-badge doi-link">DOI COBEM 2025</a>
-              <span class="action-badge">[Non-Invasive Sensing]</span>
-              <button class="bibtex-btn" onclick="toggleBibTeX('bib-cobem2')">BibTeX</button>
-            </div>
-            <div class="bibtex-box" id="bib-cobem2">
-              <button class="copy-bib-btn" onclick="copyBibTeX('bib-cobem2', this)">Copiar</button>
-@inproceedings{neves2025voidfraction,
-  author = {das Neves, D. A. and Vieira, S. C. and Fabro, A. T. and Cenzi, J. R. and Castro, M. S.},
-  title = {Void fraction measurement in two-phase slug flow using non-invasive structural acceleration signals and physics-informed models},
-  booktitle = {Proceedings of the 28th International Congress of Mechanical Engineering (COBEM 2025)},
-  year = {2025},
-  publisher = {ABCM},
-  doi = {10.26678/ABCM.COBEM2025.COB2025-0412}
-}
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <!-- Section: Research Team & Opportunities (Item 1 & User Directives) -->
-      <section class="section-block" id="team">
-        <h2 class="section-title">Equipe de Pesquisa & Oportunidades (PHI Lab)</h2>
-        
-        <div class="setup-notice-card">
-          <span class="setup-notice-badge">Fase de Implantação 2026</span>
-          <p style="font-size: 0.86rem; color: var(--text-muted); margin: 0;">
-            O <strong>PHI Lab (Laboratory for Physics-informed Hybrid Intelligence)</strong> está em fase ativa de estruturação no Departamento de Energia (FEM / UNICAMP). Estamos selecionando novos pesquisadores e alunos motivados para integrar projetos de P&D industrial e científico.
-          </p>
-        </div>
-
-        <h3 style="font-family: var(--font-heading); font-size: 1.1rem; color: var(--text-main); margin-bottom: 1rem;">Oportunidades & Vagas Abertas (IC, Mestrado, Doutorado & Pós-Doc)</h3>
-        
-        <div class="team-grid">
-          <div class="vacancy-card">
-            <div>
-              <span class="vacancy-level">Pós-Doutorado (Postdoc)</span>
-              <h4 class="vacancy-title">Physics-Informed Machine Learning & Differentiable Fluid Solvers</h4>
-              <p class="vacancy-desc">Desenvolvimento de modelos híbridos orientados pela física para escoamentos multifásicos e calibração de sensores virtuais. Bolsas FAPESP / ANP.</p>
-            </div>
-            <a href="#email" class="btn-link" id="apply-postdoc-btn" data-subject="[PHI Lab] Candidatura — Pós-Doutorado" style="align-self: flex-start; margin-top: 0.5rem;">Candidatar-se (E-mail)</a>
-          </div>
-
-          <div class="vacancy-card">
-            <div>
-              <span class="vacancy-level">Doutorado & Mestrado (PPGEM / UNICAMP)</span>
-              <h4 class="vacancy-title">Elevação Artificial, Boosting & Fluid-Structure Interaction (FSI)</h4>
-              <p class="vacancy-desc">Pesquisa aplicada à garantia de escoamento e monitoramento não-invasivo por vibroacústica. Vagas no Programa de Pós-Graduação em Engenharia Mecânica.</p>
-            </div>
-            <a href="#email" class="btn-link" id="apply-pos-btn" data-subject="[PHI Lab] Candidatura — Mestrado / Doutorado" style="align-self: flex-start; margin-top: 0.5rem;">Candidatar-se (E-mail)</a>
-          </div>
-
-          <div class="vacancy-card">
-            <div>
-              <span class="vacancy-level">Iniciação Científica (IC) & TCC</span>
-              <h4 class="vacancy-title">Simulação Numérica, Visão Computacional & IoT Industrial</h4>
-              <p class="vacancy-desc">Oportunidades para alunos de graduação em Engenharia Mecânica, Automação, Computação e Química para atuarem com códigos de fluidos e instrumentação.</p>
-            </div>
-            <a href="#email" class="btn-link" id="apply-ic-btn" data-subject="[PHI Lab] Candidatura — Iniciação Científica / TCC" style="align-self: flex-start; margin-top: 0.5rem;">Candidatar-se (E-mail)</a>
-          </div>
-        </div>
-
-        <h3 style="font-family: var(--font-heading); font-size: 1.1rem; color: var(--text-main); margin-top: 2rem; margin-bottom: 1rem;">Egressos & Alumni</h3>
-        <p style="font-size: 0.86rem; color: var(--text-muted);">
-          <em>As primeiras turmas de orientandos do PHI Lab na UNICAMP iniciam em 2026. Acompanhe esta seção para os futuros egressos de mestrado e doutorado.</em>
-        </p>
-      </section>
-
-      <!-- Section: Media & Scientific Outreach -->
-      <section class="section-block" id="media">
-        <h2 class="section-title">Mídia & Divulgação Científica</h2>
-        
+      <!-- Sub-page Navigation Overview Cards -->
+      <section class="section-block">
+        <h2 class="section-title">Explorar Seções Acadêmicas Detalhadas</h2>
         <div class="media-grid">
           <article class="media-card">
             <div class="gallery-placeholder-img">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-              <span style="font-size: 0.8rem; font-weight: 700;">Homenagem Institucional</span>
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              <span style="font-size: 0.84rem; font-weight: 700; color: var(--accent);">Eixos de Pesquisa</span>
             </div>
             <div class="media-card-body">
-              <h3 class="media-card-title">Prêmio Inventores Unicamp 2026</h3>
-              <p class="media-card-desc">Reconhecimento oficial da Agência de Inovação Inova Unicamp pelas patentes concedidas no USPTO e INPI em 2025.</p>
-              <a href="https://www.inova.unicamp.br/premioinventores/edicoes/edicao-2026/" target="_blank" rel="noopener noreferrer" class="btn-link" style="margin-top: 0.8rem; font-size: 0.78rem;">Ver Matéria Oficial</a>
+              <h3 class="media-card-title">Linhas de Pesquisa, P&D & Software</h3>
+              <p class="media-card-desc">Conheça as 4 linhas macro de atuação (Escoamentos Multifásicos, Physics-Informed ML, FSI e Flow Assurance), projetos cooperativos de P&D e códigos open-source.</p>
+              <a href="pesquisa.html" class="btn-link" style="margin-top: 0.8rem;">Acessar Página de Pesquisa &rarr;</a>
             </div>
           </article>
 
           <article class="media-card">
             <div class="gallery-placeholder-img">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
-              <span style="font-size: 0.8rem; font-weight: 700;">Simuladores & Vídeos</span>
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              <span style="font-size: 0.84rem; font-weight: 700; color: var(--accent);">Publicações & Patentes</span>
             </div>
             <div class="media-card-body">
-              <h3 class="media-card-title">Simulações Interativas FLIP 2D</h3>
-              <p class="media-card-desc">Motor gráfico desenvolvido em WebGL Vanilla para demonstração didática de escoamento e acoplamento fluido-estrutura.</p>
-              <a href="#simulator" class="btn-link" style="margin-top: 0.8rem; font-size: 0.78rem;">Testar Simulador no Topo</a>
+              <h3 class="media-card-title">Artigos Qualis A1, Patentes & Open Data</h3>
+              <p class="media-card-desc">Consulte o acervo de patentes concedidas no USPTO (2025), artigos em periódicos internacionais, proceedings do COBEM 2025, datasets abertos e exportação BibTeX em 1-clique.</p>
+              <a href="publicacoes.html" class="btn-link" style="margin-top: 0.8rem;">Ver Publicações & Patentes &rarr;</a>
             </div>
           </article>
-        </div>
-      </section>
 
-      <!-- Section: Laboratory Infrastructure & Test Benches -->
-      <section class="section-block" id="gallery">
-        <h2 class="section-title">Galeria de Infraestrutura Laboratorial (PHI Lab / CEPETRO / FEM)</h2>
-        
-        <div class="setup-notice-card">
-          <span class="setup-notice-badge">Montagem de Bancadas 2026</span>
-          <p style="font-size: 0.86rem; color: var(--text-muted); margin: 0;">
-            Instalações experimentais e loops de recirculação multifásica em fase de comissionamento nos laboratórios do CEPETRO e FEM/UNICAMP. Fotos das bancadas operacionais serão adicionadas após a finalização da montagem.
-          </p>
-        </div>
-
-        <div class="gallery-grid">
-          <div class="gallery-card">
+          <article class="media-card">
             <div class="gallery-placeholder-img">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-              <span style="font-size: 0.8rem; font-weight: 700;">Loop Recirculante Multifásico</span>
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <span style="font-size: 0.84rem; font-weight: 700; color: var(--accent);">Equipe & Oportunidades</span>
             </div>
-            <div class="gallery-card-body">
-              <h3 class="gallery-card-title">Bancada de Escoamento Intermitente (Slug Flow)</h3>
-              <p class="gallery-card-desc">Circuito fechado de alta precisão instrumentado com sensores acelerométricos, transdutores piezoelétricos e ópticos no CEPETRO.</p>
-            </div>
-          </div>
-
-          <div class="gallery-card">
-            <div class="gallery-placeholder-img">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-              <span style="font-size: 0.8rem; font-weight: 700;">Diagnóstico PIV / Velocimetria</span>
-            </div>
-            <div class="gallery-card-body">
-              <h3 class="gallery-card-title">Sistema de PIV / Câmeras High-Speed</h3>
-              <p class="gallery-card-desc">Infraestrutura óptica para caracterização de campos de velocidade e fração de vazio instantânea em dutos transparentes.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Section: Contact & Physical Location -->
-      <section class="section-block" id="contact">
-        <h2 class="section-title">Contato & Localização Institucional</h2>
-        
-        <div class="contact-grid">
-          <div class="contact-info-card">
-            <div>
-              <h3 style="font-family: var(--font-heading); font-size: 1.1rem; color: var(--text-main); margin-bottom: 1rem;">Gabinete & Laboratório</h3>
-              
-              <div class="contact-item">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                <div>
-                  <strong>Endereço Físico:</strong>
-                  Departamento de Energia (DE), Faculdade de Engenharia Mecânica (FEM)<br>
-                  Universidade Estadual de Campinas (UNICAMP)<br>
-                  Rua Mendeleyev, 200 — Cidade Universitária Zeferino Vaz<br>
-                  Campinas - SP, Brasil | CEP 13083-860
-                </div>
-              </div>
-
-              <div class="contact-item">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                <div>
-                  <strong>E-mail Oficial:</strong>
-                  <code>saon@unicamp.br</code>
-                </div>
-              </div>
-            </div>
-
-            <div style="margin-top: 1.2rem;">
-              <a href="#email" class="btn-link" id="contact-direct-btn" data-subject="[UNICAMP] Contato Geral — Prof. Saon Crispim Vieira">Enviar E-mail via Handler Seguro</a>
-            </div>
-          </div>
-
-          <div class="contact-info-card" style="background: var(--bg-card); border-color: var(--accent);">
-            <h3 style="font-family: var(--font-heading); font-size: 1.1rem; color: var(--accent); margin-bottom: 0.8rem;">Mapa do Campus UNICAMP</h3>
-            <p style="font-size: 0.84rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1.2rem;">
-              O Departamento de Energia (FEM) e o CEPETRO estão localizados no Campus Barão Geraldo da UNICAMP em Campinas - SP.
-            </p>
-            <div style="background: var(--bg-main); border: 1px solid var(--border); border-radius: 10px; padding: 1.2rem; text-align: center;">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" style="margin-bottom: 0.6rem;"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
-              <div style="font-size: 0.9rem; font-weight: 700; color: var(--text-main);">Campus Barão Geraldo — UNICAMP</div>
-              <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.2rem;">FEM / CEPETRO / DE</div>
-              <a href="https://maps.google.com/?q=Faculdade+de+Engenharia+Mecanica+UNICAMP" target="_blank" rel="noopener noreferrer" class="btn-link" style="margin-top: 1rem; display: inline-flex;">Abrir no Google Maps</a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section-block" id="software">
-        <h2 class="section-title">Software & Automação Open-Source</h2>
-        <div class="research-grid" style="grid-template-columns: 1fr;">
-          <article class="research-card">
-            <h3 class="research-card-title">Simulador FLIP Fluid 2D <span class="tag-tech">[WebGL / Vanilla JS]</span></h3>
-            <p class="research-card-desc">Motor didático de simulação de fluidos em tempo real baseado no método FLIP (Fluid-Implicit Particle), com atrito viscoso de parede, restituição de colisão e resposta a forças externas.</p>
-            <div style="margin-top: 0.8rem;">
-              <a href="https://github.com/saoncv/saoncv.github.io" target="_blank" rel="noopener noreferrer" class="btn-link">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-                <span>Ver Código-Fonte no GitHub</span>
-              </a>
+            <div class="media-card-body">
+              <h3 class="media-card-title">PHI Lab, Vagas Abertas & Contato</h3>
+              <p class="media-card-desc">Informações sobre o PHI Lab em estruturação (2026), vagas abertas para IC, TCC, Mestrado, Doutorado e Pós-Doc, mídias, galeria de bancadas e localização física na UNICAMP.</p>
+              <a href="equipe.html" class="btn-link" style="margin-top: 0.8rem;">Acessar Equipe & Contato &rarr;</a>
             </div>
           </article>
-        </div>
-      </section>
-
-      <!-- Section: Industry R&D & Academic Opportunities -->
-      <section class="section-block" id="partnerships">
-        <h2 class="section-title">Parcerias Industriais & Oportunidades Acadêmicas</h2>
-        <div class="research-grid">
-          <article class="research-card" style="border-left: 4px solid var(--accent);">
-            <h3 class="research-card-title">Parcerias de P&D (Cláusula ANP / FINEP / Indústria)</h3>
-            <p class="research-card-desc" style="font-size: 0.88rem; line-height: 1.6;">
-              O <strong>PHI Lab</strong> e o <strong>ALFA Lab (CEPETRO / FEM / UNICAMP)</strong> possuem infraestrutura computacional e expertise para o desenvolvimento de projetos cooperativos de P&D com operadoras de energia e empresas do setor. Atuamos em projetos focados em sensores virtuais, <em>Physics-Informed ML</em>, escoamentos multifásicos e otimização de elevação artificial.
-            </p>
-            <div style="margin-top: 1rem;">
-              <a href="#email" class="btn-link" id="email-btn-rd" data-subject="[PHI Lab / UNICAMP] Proposta de Parceria em P&D Industrial">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
-                <span>Propor Projeto de P&D</span>
-              </a>
-            </div>
-          </article>
-
-          <article class="research-card" style="border-left: 4px solid #f97316;">
-            <h3 class="research-card-title">Oportunidades para Alunos (IC, TCC, Mestrado & Doutorado)</h3>
-            <p class="research-card-desc" style="font-size: 0.88rem; line-height: 1.6;">
-              Procuramos estudantes motivados de Engenharia Mecânica, Mecatrônica, Controle & Automação e áreas afins para projetos de <strong>Iniciação Científica (IC)</strong>, <strong>TCC</strong> e pós-graduação (<strong>Mestrado/Doutorado CPG-FEM e PPG-CEP</strong>). Desenvolva pesquisas em simulação numérica, aprendizado científico de máquina e computação de alto desempenho.
-            </p>
-            <div style="margin-top: 1rem;">
-              <a href="#email" class="btn-link" id="email-btn-student" data-subject="[UNICAMP] Candidatura a Orientação Acadêmica (IC/TCC/Mestrado/Doutorado)">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-                <span>Candidatar-se a Orientação</span>
-              </a>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <!-- Section: Teaching (Item 7 Diretrizes - Material Didático) -->
-      <section class="section-block" id="teaching">
-        <h2 class="section-title">Ensino & Disciplinas</h2>
-        <div class="news-item" style="padding: 1.2rem; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border);">
-          <p><strong>Disciplinas no Departamento de Energia (FEM / UNICAMP):</strong></p>
-          <ul style="margin: 0.8rem 0 0.8rem 1.5rem; color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">
-            <li><strong>Mecânica dos Fluidos I & II</strong> (Graduação em Engenharia Mecânica)</li>
-            <li><strong>Engenharia Térmica I & II</strong> (Graduação em Engenharia de Controle e Automação)</li>
-            <li><strong>Data-Driven Engineering</strong> (Pós-Graduação em Ciências e Engenharia de Petróleo)</li>
-            <li><strong>Escoamentos Multifásicos — CFD</strong> (Pós-Graduação em Ciências e Engenharia de Petróleo)</li>
-          </ul>
         </div>
       </section>
 
     </main>
 
-    <footer style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border); font-size: 0.82rem; color: var(--text-muted); text-align: center;">
-      <p>&copy; 2026 Prof. Dr. Saon Crispim Vieira. Faculdade de Engenharia Mecânica — UNICAMP.</p>
+    <!-- Footer -->
+    <footer style="text-align: center; margin-top: 2rem; padding: 1.5rem 0; border-top: 1px solid var(--border); font-size: 0.82rem; color: var(--text-muted);">
+      <p>&copy; 2026 Prof. Dr. Saon Crispim Vieira — Departamento de Energia (FEM / UNICAMP) & PHI Lab. Todos os direitos reservados.</p>
+      <p style="margin-top: 0.4rem; font-size: 0.78rem;">Hospedado via GitHub Pages | Design e Código Semântico em Vanilla JS, WebGL & CSS Nnativo.</p>
     </footer>
 
   </div>
