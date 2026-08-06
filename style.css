@@ -96,7 +96,7 @@ body {
   margin-bottom: 1.8rem;
   width: 100%;
   gap: 0.8rem;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
 }
 
 .nav-left-group {
