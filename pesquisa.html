@@ -103,7 +103,6 @@
 </a>
 </div>
 </article>
-
 </div>
 </section>
 <!-- Software Open-Source -->
@@ -120,6 +119,43 @@
 </a>
 </div>
 </article>
+</div>
+</section><section class="simulator-card" id="simulator">
+<div class="sim-header">
+<h2 class="sim-title">Simulador de Partículas</h2>
+<p class="sim-subtitle">Clique e arraste o logo do PHI Lab para interagir com o fluido em tempo real!</p>
+</div>
+<div class="canvas-wrapper">
+<canvas aria-label="Simulador Didático Interativo 2D de Escoamento de Fluidos FLIP" id="myCanvas" role="img"></canvas>
+</div>
+<!-- Control Panel -->
+<div aria-label="Controles do Simulador de Fluidos" class="controls-panel" role="region">
+<label class="control-label-check">
+<input aria-label="Exibir Partículas" checked="" onclick="window.scene.showParticles = !window.scene.showParticles" type="checkbox"/> Partículas
+          </label>
+<label class="control-label-check">
+<input aria-label="Exibir Grade da Simulação" onclick="window.scene.showGrid = !window.scene.showGrid" type="checkbox"/> Grade
+          </label>
+<label class="control-label-check">
+<input aria-label="Compensar Deriva" checked="" onclick="window.scene.compensateDrift = !window.scene.compensateDrift" type="checkbox"/> Compensar Deriva
+          </label>
+<label class="control-label-check">
+<input aria-label="Separar Partículas Intercaladas" checked="" onclick="window.scene.separateParticles = !window.scene.separateParticles" type="checkbox"/> Separar Partículas
+          </label>
+<div style="display: inline-flex; align-items: center; gap: 0.4rem;">
+<span id="label-pic-flip">Proporção PIC / FLIP</span>
+<input aria-labelledby="label-pic-flip" aria-valuemax="1" aria-valuemin="0" aria-valuenow="0.9" class="sim-slider" max="10" min="0" onchange="window.scene.flipRatio = 0.1 * this.value; this.setAttribute('aria-valuenow', (0.1 * this.value).toFixed(1));" type="range" value="9"/>
+</div>
+<div style="display: inline-flex; align-items: center; gap: 0.4rem;">
+<span id="label-wall-friction">Atrito Parede (μ)</span>
+<input aria-labelledby="label-wall-friction" aria-valuemax="0.8" aria-valuemin="0" aria-valuenow="0.2" class="sim-slider" max="8" min="0" onchange="window.scene.wallFriction = 0.1 * this.value; this.setAttribute('aria-valuenow', (0.1 * this.value).toFixed(1));" type="range" value="2"/>
+</div>
+<div style="display: inline-flex; align-items: center; gap: 0.4rem;">
+<span id="label-restitution">Restituição (e)</span>
+<input aria-labelledby="label-restitution" aria-valuemax="0.8" aria-valuemin="0" aria-valuenow="0.3" class="sim-slider" max="8" min="0" onchange="window.scene.wallRestitution = 0.1 * this.value; this.setAttribute('aria-valuenow', (0.1 * this.value).toFixed(1));" type="range" value="3"/>
+</div>
+<button aria-label="Pausar ou Iniciar Simulação" class="sim-btn" id="startButton" onclick="window.toggleStart()">Pausar</button>
+<button aria-label="Reiniciar Simulação" class="sim-btn" onclick="window.setupScene()" style="background-color: #f97316; color: #fff;">Reiniciar</button>
 </div>
 </section>
 </main>
