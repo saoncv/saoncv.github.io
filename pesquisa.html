@@ -28,8 +28,7 @@
 <header class="card" role="banner">
 <div class="top-nav-controls">
 <div class="nav-left-group">
-
-<ul aria-label="Navegação Acadêmica" class="academic-nav" role="navigation"><li><a class="academic-nav-link" href="index.html">Início</a></li><li><a class="academic-nav-link active-page-link" href="pesquisa.html">Pesquisa</a></li><li><a class="academic-nav-link" href="publicacoes.html">Publicações</a></li><li><a class="academic-nav-link" href="patentes.html">Patentes</a></li><li><a class="academic-nav-link" href="phi-lab.html">PHI Lab</a></li></ul>
+<ul aria-label="Navegação Acadêmica" class="academic-nav" role="navigation"><li><a class="academic-nav-link" href="index.html">Início</a></li><li><a class="academic-nav-link active-page-link" href="pesquisa.html">Pesquisa</a></li><li><a class="academic-nav-link" href="publicacoes.html">Publicações</a></li><li><a class="academic-nav-link" href="patentes.html">Patentes</a></li><li><a class="academic-nav-link" href="software.html">Software</a></li><li><a class="academic-nav-link" href="phi-lab.html">PHI Lab</a></li></ul>
 </div>
 <div class="right-controls">
 <div class="lang-switch">
@@ -92,58 +91,6 @@
 </div>
 </section>
 <!-- Software Open-Source -->
-<section class="section-block" id="software">
-<h2 class="section-title">Software &amp; Automação Open-Source</h2>
-<div class="research-grid" style="grid-template-columns: 1fr;">
-<article class="research-card">
-<h3 class="research-card-title">Simulador Didático FLIP Fluid 2D <span class="tag-tech">[WebGL / Vanilla JS]</span></h3>
-<p class="research-card-desc">Motor didático de simulação de fluidos em tempo real baseado no método FLIP (Fluid-Implicit Particle), com atrito viscoso de parede, restituição de colisão e resposta a forças externas. Desenvolvido para mentoria de estudantes em mecânica dos fluidos computacional.</p>
-<div style="margin-top: 0.8rem;">
-<a class="btn-link" href="https://github.com/saoncv/saoncv.github.io" rel="noopener noreferrer" target="_blank">
-<svg fill="none" height="15" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="15"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-<span>Ver Código-Fonte no GitHub</span>
-</a>
-</div>
-</article>
-</div>
-</section><section class="simulator-card" id="simulator">
-<div class="sim-header">
-<h2 class="sim-title">Simulador de Partículas</h2>
-<p class="sim-subtitle">Clique e arraste o logo do PHI Lab para interagir com o fluido em tempo real!</p>
-</div>
-<div class="canvas-wrapper">
-<canvas aria-label="Simulador Didático Interativo 2D de Escoamento de Fluidos FLIP" id="myCanvas" role="img"></canvas>
-</div>
-<!-- Control Panel -->
-<div aria-label="Controles do Simulador de Fluidos" class="controls-panel" role="region">
-<label class="control-label-check">
-<input aria-label="Exibir Partículas" checked="" onclick="window.scene.showParticles = !window.scene.showParticles" type="checkbox"/> Partículas
-          </label>
-<label class="control-label-check">
-<input aria-label="Exibir Grade da Simulação" onclick="window.scene.showGrid = !window.scene.showGrid" type="checkbox"/> Grade
-          </label>
-<label class="control-label-check">
-<input aria-label="Compensar Deriva" checked="" onclick="window.scene.compensateDrift = !window.scene.compensateDrift" type="checkbox"/> Compensar Deriva
-          </label>
-<label class="control-label-check">
-<input aria-label="Separar Partículas Intercaladas" checked="" onclick="window.scene.separateParticles = !window.scene.separateParticles" type="checkbox"/> Separar Partículas
-          </label>
-<div style="display: inline-flex; align-items: center; gap: 0.4rem;">
-<span id="label-pic-flip">Proporção PIC / FLIP</span>
-<input aria-labelledby="label-pic-flip" aria-valuemax="1" aria-valuemin="0" aria-valuenow="0.9" class="sim-slider" max="10" min="0" onchange="window.scene.flipRatio = 0.1 * this.value; this.setAttribute('aria-valuenow', (0.1 * this.value).toFixed(1));" type="range" value="9"/>
-</div>
-<div style="display: inline-flex; align-items: center; gap: 0.4rem;">
-<span id="label-wall-friction">Atrito Parede (μ)</span>
-<input aria-labelledby="label-wall-friction" aria-valuemax="0.8" aria-valuemin="0" aria-valuenow="0.2" class="sim-slider" max="8" min="0" onchange="window.scene.wallFriction = 0.1 * this.value; this.setAttribute('aria-valuenow', (0.1 * this.value).toFixed(1));" type="range" value="2"/>
-</div>
-<div style="display: inline-flex; align-items: center; gap: 0.4rem;">
-<span id="label-restitution">Restituição (e)</span>
-<input aria-labelledby="label-restitution" aria-valuemax="0.8" aria-valuemin="0" aria-valuenow="0.3" class="sim-slider" max="8" min="0" onchange="window.scene.wallRestitution = 0.1 * this.value; this.setAttribute('aria-valuenow', (0.1 * this.value).toFixed(1));" type="range" value="3"/>
-</div>
-<button aria-label="Pausar ou Iniciar Simulação" class="sim-btn" id="startButton" onclick="window.toggleStart()">Pausar</button>
-<button aria-label="Reiniciar Simulação" class="sim-btn" onclick="window.setupScene()" style="background-color: #f97316; color: #fff;">Reiniciar</button>
-</div>
-</section>
 </main>
 <!-- Footer -->
 <footer style="text-align: center; margin-top: 2rem; padding: 1.5rem 0; border-top: 1px solid var(--border); font-size: 0.82rem; color: var(--text-muted);">
