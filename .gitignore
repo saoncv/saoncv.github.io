@@ -2,6 +2,7 @@
 *.log
 .DS_Store
 node_modules/
+.venv/
 
 # Regras e arquivos de contexto de IA / Antigravity (apenas para ambiente local)
 .agents/
